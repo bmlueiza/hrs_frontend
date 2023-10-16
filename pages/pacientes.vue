@@ -2,7 +2,7 @@
   <div>
     <Navbar />
     <div class="table-responsive">
-      <table class="table table-bordered">
+      <table class="table table-light table-striped table-bordered">
         <thead>
           <tr>
             <th class="header" scope="col">#</th>

@@ -38,7 +38,7 @@
                 </p>
 
                 <button class="btn btn-outline-light btn-lg px-5" type="submit">
-                  <a href="/pacientes">Iniciar sesión</a>
+                  <a href="/recomendaciones">Iniciar sesión</a>
                 </button>
 
                 <div

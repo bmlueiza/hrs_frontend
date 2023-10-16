@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">HRS</a>
       <button
@@ -16,15 +16,18 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#"
-              >Recomendaciones</a
+            <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pacientes">Lista de pacientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Diagnosticos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ingresarPaciente" aria-disabled="true"
+              >Ingresar paciente</a
             >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pacientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Enfermedades</a>
           </li>
         </ul>
         <form class="d-flex" role="search">
@@ -34,8 +37,15 @@
             placeholder="Búsqueda"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
+          <button class="btn btn-outline-light" type="submit">Buscar</button>
         </form>
+        <ul class="navbar-nav me-2">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/"
+              >Cerrar sesión</a
+            >
+          </li>
+        </ul>
       </div>
     </div>
   </nav>

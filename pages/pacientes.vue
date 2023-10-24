@@ -7,8 +7,8 @@
           <tr>
             <th class="header" scope="col">#</th>
             <th class="header" scope="col">Nombres</th>
-            <th class="header" scope="col">1° Apellido</th>
-            <th class="header" scope="col">2° Apellido</th>
+            <th class="header" scope="col">Primer apellido</th>
+            <th class="header" scope="col">Segundo apellido</th>
             <th class="header" scope="col">RUT</th>
             <th class="header" scope="col">Teléfono</th>
             <th class="header" scope="col">Dirección</th>
@@ -18,22 +18,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
+          <tr v-for="paciente in todosLosPacientes" :key="paciente.id">
+            <th scope="row">{{ paciente.id }}</th>
+            <td>{{ paciente.nombres }}</td>
+            <td>{{ paciente.primer_apellido }}</td>
+            <td>{{ paciente.segundo_apellido }}</td>
+            <td>{{ paciente.rut }}</td>
+            <td>{{ paciente.telefono }}</td>
+            <td>{{ paciente.direccion }}</td>
+            <td>{{ paciente.riesgo }}</td>
+            <td>{{ paciente.diagnostico }}</td>
+            <td>{{ paciente.direccion }}</td>
           </tr>
         </tbody>
       </table>
@@ -41,7 +36,22 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      todosLosPacientes: [],
+    }
+  },
+  mounted() {
+    axios.get('http://localhost:8000/hrsapp/api/pacientes').then((response) => {
+      this.todosLosPacientes = response.data
+    })
+  },
+}
+</script>
 
 <style>
 .header {

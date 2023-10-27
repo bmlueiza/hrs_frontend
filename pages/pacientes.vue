@@ -3,6 +3,7 @@
     <Navbar />
     <div class="table-responsive">
       <table class="table table-light table-striped table-bordered">
+        <!--Cabecera de la tabla Pacientes-->
         <thead>
           <tr>
             <th class="header" scope="col">#</th>
@@ -16,6 +17,7 @@
             <th class="header" scope="col">Dirección</th>
           </tr>
         </thead>
+        <!--Contenido de la tabla Pacientes-->
         <tbody>
           <tr v-for="paciente in todosLosPacientes" :key="paciente.id">
             <th scope="row">{{ paciente.id }}</th>

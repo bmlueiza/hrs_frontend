@@ -22,12 +22,21 @@
             <a class="nav-link" href="/pacientes">Lista de pacientes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Diagnosticos</a>
+            <a class="nav-link" href="/diagnosticos">Diagnósticos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/ingresarPaciente" aria-disabled="true"
               >Ingresar paciente</a
             >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/medicamentos">Medicamentos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/medicos">Médicos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/gestores">Gestores</a>
           </li>
         </ul>
         <form class="d-flex" role="search">
@@ -41,9 +50,7 @@
         </form>
         <ul class="navbar-nav me-2">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/"
-              >Cerrar sesión</a
-            >
+            <a class="nav-link" href="/">Cerrar sesión</a>
           </li>
         </ul>
       </div>

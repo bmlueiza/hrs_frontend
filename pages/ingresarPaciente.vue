@@ -63,15 +63,24 @@
         <!-- Input Diagnóstico -->
         <div class="form-outline mb-4">
           <multiselect
+            id="selectDiagnosticos"
             v-model="selectedDiagnosticos"
             :options="diagnosticos"
-            filter
+            :multiple="true"
+            :searchable="true"
+            :filter="true"
             track-by="id"
             label="codigo"
             placeholder="Seleccione los diagnósticos de este paciente"
+            :select-label="'Seleccionar'"
+            :deselect-label="'Eliminar selección'"
+            :selected-label="'Seleccionado'"
+            :no-result="'No se encontraron diagnósticos'"
             :maxSelected="4"
+            :close-on-select="false"
+            :preselect-first="true"
             display="chip"
-            class="w-full md:w-20rem"
+            class="md:w-20rem"
           >
           </multiselect>
         </div>
@@ -102,7 +111,7 @@ export default {
   data() {
     return {
       diagnosticos: [],
-      selectedDiagnostico: [],
+      selectedDiagnosticos: [],
     }
   },
   mounted() {

@@ -179,6 +179,9 @@
         <button type="submit" class="btn btn-primary btn-block mb-10">
           Ingresar paciente
         </button>
+        <button type="submit" class="btn btn-primary btn-block mb-10">
+          Cancelar
+        </button>
       </form>
     </div>
   </div>
@@ -249,10 +252,9 @@ export default {
   justify-content: center;
   margin-top: 2%;
   margin-bottom: 2%;
-  color: aliceblue;
-  border-color: black;
-  border-radius: 5%;
-  background-color: #112d4e;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #dbe2ef;
 }
 .form {
   color: aliceblue;
@@ -260,10 +262,10 @@ export default {
 }
 .form-title {
   text-align: center;
-  color: aliceblue;
 }
 
 .btn {
   margin: 2%;
+  align-items: center;
 }
 </style>

@@ -36,7 +36,7 @@
             <a class="nav-link" href="/medicos">Médicos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/gestores">Gestores</a>
+            <a class="nav-link" href="/admin/gestores">Gestores</a>
           </li>
         </ul>
         <form class="d-flex" role="search">

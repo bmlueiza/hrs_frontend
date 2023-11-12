@@ -41,6 +41,7 @@
         </ul>
         <form class="d-flex" role="search">
           <input
+            id="busqueda"
             class="form-control me-2"
             type="search"
             placeholder="Búsqueda"

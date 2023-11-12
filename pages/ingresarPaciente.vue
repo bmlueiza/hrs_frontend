@@ -2,9 +2,7 @@
   <div>
     <Navbar />
     <div class="container">
-      <div class="form-title">
-        <h1>Ingresar paciente</h1>
-      </div>
+      <h2>Ingresar paciente</h2>
       <form>
         <!-- 2 column grid layout with text inputs for the first and last names -->
         <div class="row mb-4">
@@ -179,7 +177,7 @@
         <button type="submit" class="btn btn-primary btn-block mb-10">
           Ingresar paciente
         </button>
-        <button type="submit" class="btn btn-primary btn-block mb-10">
+        <button type="reset" class="btn btn-primary btn-block mb-10">
           Cancelar
         </button>
       </form>
@@ -255,15 +253,15 @@ export default {
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #dbe2ef;
+  padding: 20px;
 }
 .form {
   color: aliceblue;
   align-self: center;
 }
-.form-title {
+.container h2 {
   text-align: center;
 }
-
 .btn {
   margin: 2%;
   align-items: center;

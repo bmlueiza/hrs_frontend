@@ -2,11 +2,11 @@
   <div>
     <Navbar />
     <div class="container">
-      <h2>Ingresar paciente</h2>
+      <h2 class="text-center">Ingresar paciente</h2>
       <form>
-        <!-- 2 column grid layout with text inputs for the first and last names -->
+        <!-- Primera fila -->
         <div class="row mb-4">
-          <!-- Columna Nombres-->
+          <!-- Primera columna - nombres-->
           <div class="col">
             <div class="form-outline">
               <input
@@ -18,7 +18,7 @@
               <label class="form-label" for="nombres">Nombres</label>
             </div>
           </div>
-          <!-- Columna Primer apellido-->
+          <!-- Segunda columna - primer apellido-->
           <div class="col">
             <div class="form-outline">
               <input
@@ -32,7 +32,7 @@
               >
             </div>
           </div>
-          <!-- Columna Segundo apellido-->
+          <!-- Tercera columna - segundo apellido-->
           <div class="col">
             <div class="form-outline">
               <input
@@ -47,16 +47,23 @@
             </div>
           </div>
         </div>
+        <!-- Segunda fila -->
         <div class="row mb-4">
-          <!-- Input RUT -->
+          <!-- Primera columna - RUT -->
           <div class="col">
             <div class="form-outline">
-              <input type="text" id="rut" name="rut" class="form-control" />
+              <input
+                type="text"
+                id="rut"
+                name="rut"
+                class="form-control"
+                placeholder="Ej: 12345678-9"
+              />
               <label class="form-label" for="rut">RUT</label>
             </div>
           </div>
 
-          <!-- Input Sexo -->
+          <!-- Segunda columna - sexo -->
           <div class="col">
             <div class="form-outline">
               <multiselect
@@ -76,7 +83,7 @@
             </div>
           </div>
 
-          <!-- Input Fecha de nacimiento -->
+          <!-- Tercera columna - fecha de nacimiento -->
           <div class="col">
             <div class="form-date">
               <input
@@ -91,7 +98,7 @@
             </div>
           </div>
 
-          <!-- Input Teléfono -->
+          <!-- Cuarta columna - teléfono -->
           <div class="col">
             <div class="form-outline">
               <input
@@ -99,12 +106,13 @@
                 id="telefono"
                 name="telefono"
                 class="form-control"
+                placeholder="Ej: +56912345678"
               />
               <label class="form-label" for="telefono">Teléfono</label>
             </div>
           </div>
 
-          <!-- Input Dirección -->
+          <!-- Quinta columna - dirección -->
           <div class="col">
             <div class="form-outline">
               <input
@@ -169,23 +177,35 @@
             id="observaciones"
             name="observaciones"
             rows="4"
+            placeholder="Si no tiene observaciones iniciales, no es necesario llenar este campo"
           ></textarea>
           <label class="form-label" for="observaciones">Observaciones</label>
         </div>
 
         <!-- Botón Ingresar paciente -->
-        <button type="submit" class="btn btn-primary btn-block mb-10">
-          Ingresar paciente
-        </button>
-        <button type="reset" class="btn btn-primary btn-block mb-10">
-          Cancelar
-        </button>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            @click.prevent="crearPaciente"
+          >
+            Ingresar paciente
+          </button>
+          <button
+            type="reset"
+            class="btn btn-primary"
+            @click.prevent="cancelar"
+          >
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import Navbar from '../components/Navbar.vue'
 import axios from 'axios'
 import Multiselect from 'vue-multiselect'
 
@@ -196,10 +216,21 @@ export default {
   data() {
     return {
       diagnosticos: [],
-      selectedDiagnosticos: [],
-      sexo: '',
       sexos: ['M', 'F'],
-      gestorId: 1,
+      paciente: {
+        nombres: '',
+        primer_apellido: '',
+        segundo_apellido: '',
+        rut: '',
+        sexo: '',
+        fecha_nacimiento: '',
+        telefono: '',
+        direccion: '',
+        observaciones: '',
+        alergias: '',
+        selectedDiagnosticos: [],
+        gestor: 1,
+      },
     }
   },
   mounted() {
@@ -241,29 +272,32 @@ export default {
         console.log('Error al crear el paciente:', error)
       }
     },
+    cancelar() {
+      const confirmacion = window.confirm(
+        '¿Estás seguro que deseas cancelar el ingreso de este paciente?'
+      )
+      if (confirmacion) {
+        this.form = {
+          nombres: '',
+          primer_apellido: '',
+          segundo_apellido: '',
+          rut: '',
+          sexo: '',
+          fechaNacimiento: '',
+          telefono: '',
+          direccion: '',
+          alergias: '',
+          selectedDiagnosticos: [],
+          observaciones: '',
+        }
+        console.log(
+          'El usuario confirmó la cancelación y los campos fueron reseteados'
+        )
+      } else {
+        // Aquí puedes agregar lógica adicional si el usuario decide no cancelar
+        console.log('El usuario decidió no cancelar')
+      }
+    },
   },
 }
 </script>
-
-<style>
-.container {
-  justify-content: center;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #dbe2ef;
-  padding: 20px;
-}
-.form {
-  color: aliceblue;
-  align-self: center;
-}
-.container h2 {
-  text-align: center;
-}
-.btn {
-  margin: 2%;
-  align-items: center;
-}
-</style>

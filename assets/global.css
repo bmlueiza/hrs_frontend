@@ -40,3 +40,20 @@ body {
 .table {
   background-color: #eeeeee;
 }
+
+/*Contenedor*/
+.container {
+  background-color: #dbe2ef;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px auto;
+  padding: 20px;
+}
+
+/*Form-control y Multiselect*/
+.container .form-control,
+.multiselect {
+  align-self: center;
+  border: 1px solid #112d4e;
+  border-radius: 8px;
+}

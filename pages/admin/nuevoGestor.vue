@@ -16,6 +16,7 @@
                 class="form-control"
                 placeholder="Ej: 12345678-9"
                 autocomplete="off"
+                v-model="nuevoGestor.rut"
               />
               <label class="form-label" for="rut">RUT</label>
             </div>
@@ -29,6 +30,7 @@
                 name="nombre"
                 class="form-control"
                 autocomplete="off"
+                v-model="nuevoGestor.nombre"
               />
               <label class="form-label" for="nombre">Nombre</label>
             </div>
@@ -42,6 +44,7 @@
                 name="apellido"
                 class="form-control"
                 autocomplete="off"
+                v-model="nuevoGestor.apellido"
               />
               <label class="form-label" for="apellido">Apellido</label>
             </div>
@@ -49,7 +52,22 @@
         </div>
         <!-- Segunda fila -->
         <div class="row">
-          <!-- Primera columna - correo -->
+          <!-- Primera columna - teléfono -->
+          <div class="col">
+            <div class="form-outline">
+              <input
+                type="text"
+                id="telefono"
+                name="telefono"
+                class="form-control"
+                autocomplete="off"
+                placeholder="Ej: +56912345678"
+                v-model="nuevoGestor.telefono"
+              />
+              <label class="form-label" for="telefono">Teléfono</label>
+            </div>
+          </div>
+          <!-- Segunda columna - correo -->
           <div class="col">
             <div class="form-outline">
               <input
@@ -58,11 +76,12 @@
                 name="email"
                 class="form-control"
                 autocomplete="off"
+                v-model="nuevoGestor.email"
               />
               <label class="form-label" for="email">Correo</label>
             </div>
           </div>
-          <!-- Segunda columna - contraseña -->
+          <!-- Tercera columna - contraseña -->
           <div class="col">
             <div class="form-outline">
               <input
@@ -71,6 +90,7 @@
                 name="password"
                 class="form-control"
                 autocomplete="off"
+                v-model="nuevoGestor.password"
               />
               <label class="form-label" for="password">Contraseña</label>
             </div>
@@ -114,6 +134,7 @@ export default {
         rut: '',
         nombre: '',
         apellido: '',
+        telefono: '',
         email: '',
         password: '',
       },
@@ -122,24 +143,32 @@ export default {
     }
   },
   methods: {
-    crearGestor() {
-      axios
-        .post(
-          'http://localhost:8000/hrsapp/api/gestores/create',
-          this.nuevoGestor
+    async crearGestor() {
+      try {
+        console.log('Nuevo gestor:', this.nuevoGestor)
+        const response = await axios.post(
+          this.$axios.defaults.baseURL + 'gestores/create',
+          this.nuevoGestor,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
         )
-        .then((response) => {
-          console.log(response)
-          this.gestorAgregado = true
-        })
-        .catch((error) => {
-          console.log('Error al añadir nuevo paciente', error)
-          this.errorAlAgregar = true
-        })
+        console.log('Nuevo gestor añadido:', response.data)
+        this.gestorAgregado = true
+      } catch (error) {
+        console.error('Error al añadir nuevo gestor', error)
+        this.errorAlAgregar = true
+        if (error.response) {
+          console.error('Respuesta de error del servidor:', error.response.data)
+        }
+      }
     },
-    limpiarFormulario() {
+    async limpiarFormulario() {
       this.nuevoGestor.rut = ''
       this.nuevoGestor.nombre = ''
+      this.nuevoGestor.telefono = ''
       this.nuevoGestor.apellido = ''
       this.nuevoGestor.email = ''
       this.nuevoGestor.password = ''

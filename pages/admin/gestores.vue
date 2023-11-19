@@ -6,32 +6,11 @@
       <!--Primera fila-->
       <div class="row">
         <!--Primera columna-->
-        <div class="col">
-          <div class="table-responsive">
-            <table class="table table-light table-striped table-bordered">
-              <!--Cabecera de la tabla Gestores-->
-              <thead>
-                <tr>
-                  <th>RUT</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Correo</th>
-                </tr>
-              </thead>
-              <!--Contenido de la tabla Gestores-->
-              <tbody>
-                <tr v-for="gestor in todosLosGestores" :key="gestor.id">
-                  <td>{{ gestor.rut }}</td>
-                  <td>{{ gestor.nombre }}</td>
-                  <td>{{ gestor.apellido }}</td>
-                  <td>{{ gestor.email }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="col-md-auto">
+          <TablaGestores />
         </div>
         <!--Segunda columna - botones -->
-        <div class="buttons-container d-grid gap-2 col mx-auto">
+        <div class="buttons-container gap-2 col-md-auto mx-auto">
           <button @click="irANuevoGestor" type="button" class="btn btn-primary">
             Añadir gestor
           </button>
@@ -48,6 +27,7 @@
 <script>
 import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
+import TablaGestores from '@/components/TablaGestores.vue'
 
 export default {
   data() {

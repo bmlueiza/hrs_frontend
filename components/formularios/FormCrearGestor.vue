@@ -121,6 +121,7 @@
 import axios from 'axios'
 
 export default {
+  name: 'FormCrearGestor',
   data() {
     return {
       nuevoGestor: {

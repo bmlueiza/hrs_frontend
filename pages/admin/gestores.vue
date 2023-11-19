@@ -27,9 +27,13 @@
 <script>
 import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
-import TablaGestores from '@/components/TablaGestores.vue'
+import TablaGestores from '@/components/tablas/TablaGestores.vue'
 
 export default {
+  components: {
+    Navbar,
+    TablaGestores,
+  },
   data() {
     return {
       todosLosGestores: [],

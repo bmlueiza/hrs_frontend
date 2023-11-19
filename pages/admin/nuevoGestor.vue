@@ -3,19 +3,19 @@
     <Navbar />
     <div class="container">
       <h2 class="text-center">Añadir nuevo gestor</h2>
-      <FormNuevoGestor />
+      <FormCrearGestor />
     </div>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
-import FormNuevoGestor from '@/components/FormNuevoGestor.vue'
+import FormCrearGestor from '@/components/formularios/FormCrearGestor.vue'
 
 export default {
   components: {
     Navbar,
-    FormNuevoGestor,
+    FormCrearGestor,
   },
 }
 </script>

@@ -21,7 +21,7 @@
         <tbody>
           <tr v-for="paciente in todosLosPacientes" :key="paciente.id">
             <th scope="row">{{ paciente.id }}</th>
-            <td>{{ paciente.nombre }}</td>
+            <td>{{ paciente.nombres }}</td>
             <td>{{ paciente.apellido1 }}</td>
             <td>{{ paciente.apellido2 }}</td>
             <td>{{ paciente.rut }}</td>

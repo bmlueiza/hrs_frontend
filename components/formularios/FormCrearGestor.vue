@@ -11,9 +11,11 @@
               id="rut"
               name="rut"
               class="form-control"
-              placeholder="Ej: 12345678-9"
+              placeholder="Ej: 12.345.678-9"
               autocomplete="off"
               v-model="nuevoGestor.rut"
+              @input="formatRut"
+              maxlength="12"
             />
             <label class="form-label" for="rut">RUT</label>
           </div>
@@ -28,6 +30,8 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoGestor.nombre"
+              @input="formatoNombre('nombre')"
+              maxlength="12"
             />
             <label class="form-label" for="nombre">Nombre</label>
           </div>
@@ -42,6 +46,8 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoGestor.apellido"
+              @input="formatoNombre('apellido')"
+              maxlength="12"
             />
             <label class="form-label" for="apellido">Apellido</label>
           </div>
@@ -60,6 +66,8 @@
               autocomplete="off"
               placeholder="Ej: +56912345678"
               v-model="nuevoGestor.telefono"
+              @input="filtrarLetras"
+              maxlength="12"
             />
             <label class="form-label" for="telefono">Teléfono</label>
           </div>
@@ -74,6 +82,7 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoGestor.email"
+              maxlength="12"
             />
             <label class="form-label" for="email">Correo</label>
           </div>
@@ -88,6 +97,7 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoGestor.password"
+              maxlength="12"
             />
             <label class="form-label" for="password">Contraseña</label>
           </div>
@@ -119,9 +129,13 @@
 
 <script>
 import axios from 'axios'
+import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'FormCrearGestor',
+  components: {
+    Navbar,
+  },
   data() {
     return {
       nuevoGestor: {
@@ -137,6 +151,54 @@ export default {
     }
   },
   methods: {
+    formatoNombre(campo) {
+      if (campo === 'nombre') {
+        this.nuevoGestor.nombre = this.nuevoGestor.nombre.replace(/[0-9]/g, '')
+        this.nuevoGestor.nombre =
+          this.nuevoGestor.nombre.charAt(0).toUpperCase() +
+          this.nuevoGestor.nombre.slice(1)
+        this.nuevoGestor.nombre = this.nuevoGestor.nombre.replace(/\s/g, '') // Eliminar espacios
+      } else if (campo === 'apellido') {
+        this.nuevoGestor.apellido = this.nuevoGestor.apellido.replace(
+          /[0-9]/g,
+          ''
+        )
+        this.nuevoGestor.apellido =
+          this.nuevoGestor.apellido.charAt(0).toUpperCase() +
+          this.nuevoGestor.apellido.slice(1)
+        this.nuevoGestor.apellido = this.nuevoGestor.apellido.replace(/\s/g, '') // Eliminar espacios
+      }
+    },
+    filtrarLetras() {
+      this.nuevoGestor.telefono = this.nuevoGestor.telefono.replace(
+        /[a-zA-Z]/g,
+        ''
+      )
+    },
+    formatRut() {
+      // Eliminar caracteres no numéricos en el cuerpo del RUT, excepto el último dígito después del guion
+      let cleanedRut = this.nuevoGestor.rut.replace(/[^0-9kK]/g, '')
+
+      // Separar el RUT en dos partes: cuerpo y dígito verificador
+      let rutBody = cleanedRut.slice(0, -1)
+      let rutVerifier = cleanedRut.slice(-1).toLowerCase() // Convertir a minúscula
+
+      // Aplicar formato al cuerpo del RUT permitiendo solo números
+      if (rutBody.length <= 8) {
+        this.nuevoGestor.rut = rutBody.replace(
+          /^(\d{0,2})(\d{0,3})(\d{0,3})/,
+          (_, p1, p2, p3) => {
+            let formatted = p1 ? p1 + '.' : ''
+            formatted += p2 ? p2 + '.' : ''
+            formatted += p3 ? p3 + '-' : ''
+            return formatted
+          }
+        )
+      }
+
+      // Agregar el dígito verificador
+      this.nuevoGestor.rut += rutVerifier
+    },
     async crearGestor() {
       try {
         console.log('Nuevo gestor:', this.nuevoGestor)

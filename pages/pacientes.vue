@@ -1,71 +1,54 @@
 <template>
   <div>
     <Navbar />
-    <div class="table-responsive">
-      <table class="table table-light table-striped table-bordered">
-        <!--Cabecera de la tabla Pacientes-->
-        <thead>
-          <tr>
-            <th class="header" scope="col">#</th>
-            <th class="header" scope="col">Nombres</th>
-            <th class="header" scope="col">Primer apellido</th>
-            <th class="header" scope="col">Segundo apellido</th>
-            <th class="header" scope="col">RUT</th>
-            <th class="header" scope="col">Teléfono</th>
-            <th class="header" scope="col">Riesgo</th>
-            <th class="header" scope="col">Diagnóstico</th>
-            <th class="header" scope="col">Dirección</th>
-          </tr>
-        </thead>
-        <!--Contenido de la tabla Pacientes-->
-        <tbody>
-          <tr v-for="paciente in todosLosPacientes" :key="paciente.id">
-            <th scope="row">{{ paciente.id }}</th>
-            <td>{{ paciente.nombres }}</td>
-            <td>{{ paciente.apellido1 }}</td>
-            <td>{{ paciente.apellido2 }}</td>
-            <td>{{ paciente.rut }}</td>
-            <td>{{ paciente.telefono }}</td>
-            <td>{{ paciente.riesgo }}</td>
-            <td>{{ formatDiagnostico(paciente.diagnosticos) }}</td>
-            <td>{{ paciente.direccion }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="container">
+      <section class="content-header">
+        <div class="row">
+          <div class="col-xs-12 col-md-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por nombre"
+              id="buscarPaciente"
+            />
+          </div>
+          <div class="col-xs-12 col-md-9 d-flex justify-content-end">
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-secondary">
+                Añadir paciente
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /.content-header -->
+      <!-- Listado de Pacientes-->
+      <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="box-header with-border">
+                <h4 class="box-title">Listado de Pacientes</h4>
+              </div>
+              <div class="box-body">
+                <TablaPacientes />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import Navbar from '@/components/Navbar.vue'
+import TablaPacientes from '@/components/tablas/TablaPacientes.vue'
 
 export default {
-  data() {
-    return {
-      todosLosPacientes: [],
-    }
-  },
-  mounted() {
-    axios
-      .get('http://localhost:8000/hrsapp/api/pacientes')
-      .then((response) => {
-        this.todosLosPacientes = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  },
-  methods: {
-    formatDiagnostico(diagnosticos) {
-      return diagnosticos.join(', ')
-    },
+  components: {
+    Navbar,
+    TablaPacientes,
   },
 }
 </script>
-
-<style>
-.header {
-  position: sticky;
-  top: 0;
-}
-</style>

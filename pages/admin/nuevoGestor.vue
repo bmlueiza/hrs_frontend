@@ -2,8 +2,17 @@
   <div>
     <Navbar />
     <div class="container">
-      <h2 class="text-center">Añadir nuevo gestor</h2>
-      <FormCrearGestor />
+      <section class="content">
+        <h4><span>Añadir nuevo gestor</span></h4>
+        <div class="box">
+          <div class="box-header with-border">
+            <h5 class="box-title">Datos del gestor</h5>
+          </div>
+          <div class="box-body">
+            <FormCrearGestor />
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -19,3 +28,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.content span {
+  font-size: 30px;
+  font-style: italic;
+}
+</style>

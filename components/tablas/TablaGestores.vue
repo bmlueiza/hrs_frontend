@@ -1,14 +1,15 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-light table-striped table-bordered">
+    <table class="table table-condensed table-hover table-striped">
       <!--Cabecera de la tabla Gestores-->
-      <thead>
+      <thead class="table-light">
         <tr>
           <th>RUT</th>
           <th>Nombre</th>
           <th>Teléfono</th>
           <th>Apellido</th>
           <th>Correo</th>
+          <th></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Gestores-->
@@ -19,6 +20,23 @@
           <td>{{ gestor.telefono }}</td>
           <td>{{ gestor.apellido }}</td>
           <td>{{ gestor.email }}</td>
+          <td>
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-default dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Acciones
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Editar</a></li>
+                <li><a class="dropdown-item" href="#">Eliminar</a></li>
+              </ul>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

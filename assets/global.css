@@ -1,4 +1,4 @@
-/*Fondo*/
+/*FONDO-LOGIN*/
 .gradient-custom {
   /* fallback for old browsers */
   background: #3f72af;
@@ -10,7 +10,7 @@
   background: linear-gradient(to right, #112d4e, #3f72af);
 }
 
-/*Navbar*/
+/*NAVBAR*/
 nav {
   background-color: #3f72af;
   color: #f9f7f7;
@@ -24,7 +24,7 @@ nav {
   color: #f9f7f7;
 }
 
-/*Contenido*/
+/*BODY-FONDO*/
 body {
   /* fallback for old browsers */
   background: #3f72af;
@@ -36,24 +36,87 @@ body {
   background: linear-gradient(to right, #112d4e, #3f72af);
 }
 
-/*Tabla*/
+/*TABLAS*/
 .table {
-  background-color: #eeeeee;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
 }
 
-/*Contenedor*/
+.table-responsive {
+  min-height: 0.01%;
+  overflow-x: auto;
+}
+.table .header {
+  position: sticky;
+  top: 0;
+}
+
+/*CONTENEDOR*/
 .container {
-  background-color: #dbe2ef;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  position: relative;
+  border-radius: 3px;
+  background: #dbe2ef;
+  border-top: 3px solid #d2d6de;
   margin: 10px auto;
+  width: 100%;
   padding: 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-/*Form-control y Multiselect*/
+/*FORM CONTROL Y MULTISELECT*/
 .container .form-control,
 .multiselect {
   align-self: center;
   border: 1px solid #112d4e;
   border-radius: 8px;
+}
+
+/*DROPDOWN-MENU*/
+.dropdown-menu > li > a {
+  color: #777;
+}
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
+/*BOX*/
+.box {
+  position: relative;
+  border-radius: 3px;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+  margin-bottom: 20px;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.box-header {
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+}
+.box-header.with-border {
+  border-bottom: 1px solid #f4f4f4;
+}
+.box-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 10px;
+}
+.content {
+  min-height: 250px;
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }

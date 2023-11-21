@@ -2,30 +2,50 @@
   <div class="Gestores">
     <Navbar />
     <div class="container">
-      <h2 class="text-center">Gestores</h2>
-      <!--Primera fila-->
-      <div class="row">
-        <!--Primera columna-->
-        <div class="col-md-auto">
-          <TablaGestores />
+      <section class="content-header">
+        <div class="row">
+          <div class="col-xs-12 col-md-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar por nombre"
+              id="buscarGestor"
+            />
+          </div>
+          <div class="col-xs-12 col-md-9 d-flex justify-content-end">
+            <div class="btn-group pull-right">
+              <button
+                @click="irANuevoGestor"
+                type="button"
+                class="btn btn-secondary"
+              >
+                Añadir gestor
+              </button>
+            </div>
+          </div>
         </div>
-        <!--Segunda columna - botones -->
-        <div class="buttons-container gap-2 col-md-auto mx-auto">
-          <button @click="irANuevoGestor" type="button" class="btn btn-primary">
-            Añadir gestor
-          </button>
-          <button type="button" class="btn btn-primary">
-            Actualizar gestor
-          </button>
-          <button type="button" class="btn btn-primary">Eliminar gestor</button>
+      </section>
+      <section class="content">
+        <!--Primera fila-->
+        <div class="row">
+          <!--Primera columna-->
+          <div class="col-md-12">
+            <div class="box">
+              <div class="box-header with-border">
+                <h4 class="box-title">Listado de Gestores</h4>
+              </div>
+              <div class="box-body">
+                <TablaGestores />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
 import TablaGestores from '@/components/tablas/TablaGestores.vue'
 
@@ -39,16 +59,6 @@ export default {
       todosLosGestores: [],
     }
   },
-  mounted() {
-    axios
-      .get('http://localhost:8000/hrsapp/api/gestores/')
-      .then((response) => {
-        this.todosLosGestores = response.data
-      })
-      .catch((error) => {
-        console.log('Error al obtener los datos de gestores de casos:', error)
-      })
-  },
   methods: {
     irANuevoGestor() {
       this.$router.push('/admin/nuevoGestor')
@@ -56,4 +66,3 @@ export default {
   },
 }
 </script>
-<style></style>

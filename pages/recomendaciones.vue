@@ -1,37 +1,33 @@
 <template>
-  <div>
+  <div class="Recomendaciones">
     <Navbar />
-    <div class="table-responsive">
-      <table class="table table-bordered table-light table-striped">
-        <thead>
-          <tr>
-            <th class="header" scope="col">Recomendación</th>
-            <th class="header" scope="col">Paciente</th>
-            <th class="header" scope="col">Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Agendar hora Sala Era</td>
-            <td>Silvia Alejandra Torres Murga</td>
-            <td>28/09/2023</td>
-          </tr>
-          <tr>
-            <td>Agendar hora EMPAM</td>
-            <td>Antonio Cesar Villega Castro</td>
-            <td>20/09/2023</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="container">
+      <section class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="box-header with-border">
+                <h4 class="box-title">Listado de Recomendaciones</h4>
+              </div>
+              <div class="box-body">
+                <TablaRecomendaciones />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
-<script></script>
+<script>
+import Navbar from '@/components/Navbar.vue'
+import TablaRecomendaciones from '@/components/tablas/TablaRecomendaciones.vue'
 
-<style>
-.header {
-  position: sticky;
-  top: 0;
+export default {
+  components: {
+    Navbar,
+    TablaRecomendaciones,
+  },
 }
-</style>
+</script>

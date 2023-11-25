@@ -8,22 +8,25 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese los nombres o apellidos"
+              placeholder="Ingrese el nombre, apellido o rut"
               id="buscarPaciente"
               autocomplete="off"
               v-model="terminoBusqueda"
+              @input="manejarInput"
             />
             <button
               @click="buscarPacientes"
-              class="btn btn-secondary"
+              class="btn btn-primary"
               type="button"
+              :disabled="terminoBusqueda.trim() === ''"
             >
               Buscar
             </button>
             <button
               @click="limpiarBusqueda"
-              class="btn btn-secondary"
+              class="btn btn-primary"
               type="button"
+              :disabled="terminoBusqueda.trim() === ''"
             >
               Cancelar
             </button>
@@ -85,6 +88,14 @@ export default {
   methods: {
     irIngresarPaciente() {
       this.$router.push('/ingresarPaciente')
+    },
+    manejarInput() {
+      // Verificar si el campo está vacío y actualizar la tabla en ese caso
+      if (this.terminoBusqueda.trim() === '') {
+        this.$nextTick(() => {
+          this.$refs.tablaPacientes.actualizarTabla()
+        })
+      }
     },
     buscarPacientes() {
       this.$nextTick(() => {

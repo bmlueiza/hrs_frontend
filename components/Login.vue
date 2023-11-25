@@ -60,20 +60,20 @@ export default {
 
 <style scoped>
 .card {
-  width: 50%;
+  width: 30%;
   margin: 0 auto;
   margin-top: 10%;
-  border: 1px solid #112d4e;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #000000;
+  border-top: 2px solid #3f72af;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   background-color: #112d4e;
 }
 .card-header {
   background-color: #112d4e;
-  color: white;
+  color: #f9f7f7;
 }
 .card-body {
-  background-color: white;
+  background-color: #f9f7f7;
 }
 .form-control {
   align-self: center;
@@ -84,8 +84,11 @@ export default {
   background-color: #112d4e;
   color: white;
 }
+.form-label {
+  font-weight: bold;
+}
 
-@media (max-width: 576px) {
+@media (max-width: 600px) {
   .card {
     width: 90%;
     margin-left: auto;

@@ -42,7 +42,6 @@ body {
   max-width: 100%;
   margin-bottom: 20px;
 }
-
 .table-responsive {
   min-height: 0.01%;
   overflow-x: auto;
@@ -65,12 +64,12 @@ body {
 }
 
 /*FORM CONTROL Y MULTISELECT*/
-.container .form-control,
+/*.container .form-control,
 .multiselect {
   align-self: center;
   border: 1px solid #112d4e;
   border-radius: 8px;
-}
+}*/
 
 /*DROPDOWN-MENU*/
 .dropdown-menu > li > a {
@@ -90,9 +89,8 @@ body {
 .box {
   position: relative;
   border-radius: 3px;
-  background: #ffffff;
+  background: #f9f7f7;
   border-top: 3px solid #d2d6de;
-  margin-bottom: 20px;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -102,14 +100,15 @@ body {
   padding: 10px;
   position: relative;
 }
+.box-title {
+  margin-bottom: 0;
+}
 .box-header.with-border {
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #3f72af;
 }
 .box-body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
   padding: 10px;
 }
 .content {

@@ -20,7 +20,7 @@
       </thead>
       <!--Contenido de la tabla Pacientes-->
       <tbody>
-        <tr v-for="paciente in todosLosPacientes" :key="paciente.id">
+        <tr v-for="paciente in pacientes" :key="paciente.id">
           <th scope="row">{{ paciente.id }}</th>
           <td @click="seleccionarPaciente(paciente.id)">
             {{ paciente.nombres }}
@@ -58,16 +58,23 @@
 import axios from 'axios'
 
 export default {
+  props: ['terminoBusqueda'],
+  watch: {
+    terminoBusqueda(newTermino, oldTermino) {
+      console.log('terminoBusqueda ha cambiado:', newTermino)
+      // Realiza acciones adicionales si es necesario
+    },
+  },
   data() {
     return {
-      todosLosPacientes: [],
+      pacientes: [],
     }
   },
   mounted() {
     axios
       .get(this.$axios.defaults.baseURL + `pacientes`)
       .then((response) => {
-        this.todosLosPacientes = response.data
+        this.pacientes = response.data
       })
       .catch((error) => {
         console.error('Error al obtener los pacientes: ', error)
@@ -79,6 +86,21 @@ export default {
     },
     seleccionarPaciente(pacienteID) {
       this.$router.push({ name: 'paciente', params: { id: pacienteID } })
+    },
+    actualizarTabla() {
+      console.log('Evento actualizarTabla emitido desde TablaPacientes.vue')
+      axios
+        .get(
+          this.$axios.defaults.baseURL +
+            `pacientes?termino=${this.terminoBusqueda}`
+        )
+        .then((response) => {
+          this.pacientes = response.data
+          this.$emit('actualizarTabla')
+        })
+        .catch((error) => {
+          console.error('Error al obtener los pacientes: ', error)
+        })
     },
   },
 }

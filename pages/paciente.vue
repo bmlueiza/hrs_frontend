@@ -1,17 +1,31 @@
 <template>
   <div>
     <Navbar />
-    <div class="container px-4">
-      <h2 class="text-center">Nombre del paciente</h2>
+    <div class="container">
+      <h2 class="text-center">
+        Paciente {{ paciente.nombres }} {{ paciente.apellido1 }}
+        {{ paciente.apellido2 }}
+      </h2>
       <!--Primera fila-->
       <div class="row">
         <!--Primera columna-->
         <div class="col">
           <div class="datos-paciente">
             <h4>Datos del paciente</h4>
-            <p>Nombre:</p>
-            <p>RUT:</p>
-            <p>Fecha de nacimiento:</p>
+            <p><strong>RUT:</strong> {{ paciente.rut }}</p>
+            <p><strong>Nombres:</strong> {{ paciente.nombres }}</p>
+            <p>
+              <strong>Apellidos:</strong> {{ paciente.apellido1 }}
+              {{ paciente.apellido2 }}
+            </p>
+            <p><strong>Sexo:</strong> {{ paciente.sexo }}</p>
+            <p>
+              <strong>Fecha de nacimiento:</strong>
+              {{ paciente.fecha_nacimiento }}
+            </p>
+            <p><strong>Riesgo:</strong>: {{ paciente.riesgo }}</p>
+            <p><strong>Dirección:</strong> {{ paciente.direccion }}</p>
+            <p><strong>Teléfono:</strong> {{ paciente.telefono }}</p>
           </div>
         </div>
         <!--Segunda columna-->
@@ -33,6 +47,12 @@
         <div class="col mr-4">
           <div class="diagnosticos">
             <h4>Diagnósticos</h4>
+            <!-- Verificar si paciente.diagnosticos está definido antes de llamar a formatDiagnostico -->
+            <p v-if="paciente.diagnosticos">
+              {{ formatDiagnostico(paciente.diagnosticos) }}
+            </p>
+            <!-- Mostrar un mensaje alternativo si paciente.diagnosticos no está definido -->
+            <p v-else>No hay diagnósticos disponibles.</p>
           </div>
         </div>
         <!--Segunda columna-->
@@ -77,14 +97,38 @@
   </div>
 </template>
 
-<style>
-.container {
-  background-color: #dbe2ef;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 10px auto;
-  padding: 20px;
+<script>
+import axios from 'axios'
+import Navbar from '@/components/Navbar.vue'
+
+export default {
+  name: 'DetallePaciente',
+  components: {
+    Navbar,
+  },
+  data() {
+    return {
+      pacienteID: this.$route.params.id,
+      paciente: {},
+    }
+  },
+  mounted() {
+    const pacienteID = this.$route.params.id
+    axios
+      .get(this.$axios.defaults.baseURL + `pacientes/${this.pacienteID}/`)
+      .then((response) => {
+        this.paciente = response.data
+      })
+  },
+  methods: {
+    formatDiagnostico(diagnosticos) {
+      return diagnosticos.join(', ')
+    },
+  },
 }
+</script>
+
+<style>
 .col-sm-6,
 .col {
   background: #f9f7f7;

@@ -4,15 +4,36 @@
     <div class="container">
       <section class="content-header">
         <div class="row">
-          <div class="col-xs-12 col-md-3">
+          <div class="col-lg-6 col-md-12 d-flex">
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar por nombre"
+              placeholder="Ingrese el rut, nombre o apellido"
               id="buscarGestor"
+              autocomplete="off"
+              v-model="terminoBusqueda"
+              @input="manejarInput"
             />
+            <button
+              @click="buscarGestores"
+              class="btn btn-primary"
+              type="button"
+              :disabled="terminoBusqueda.trim() === ''"
+            >
+              Buscar
+            </button>
+            <button
+              @click="limpiarBusqueda"
+              class="btn btn-primary"
+              type="button"
+              :disabled="terminoBusqueda.trim() === ''"
+            >
+              Cancelar
+            </button>
           </div>
-          <div class="col-xs-12 col-md-9 d-flex justify-content-end">
+          <div
+            class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
+          >
             <div class="btn-group pull-right">
               <button
                 @click="irANuevoGestor"
@@ -35,7 +56,11 @@
                 <h4 class="box-title">Listado de Gestores</h4>
               </div>
               <div class="box-body">
-                <TablaGestores />
+                <TablaGestores
+                  ref="tablaGestores"
+                  @actualizarTabla="actualizarTabla"
+                  :terminoBusqueda="terminoBusqueda"
+                />
               </div>
             </div>
           </div>
@@ -56,6 +81,7 @@ export default {
   },
   data() {
     return {
+      terminoBusqueda: '',
       todosLosGestores: [],
     }
   },
@@ -63,6 +89,37 @@ export default {
     irANuevoGestor() {
       this.$router.push('/admin/nuevoGestor')
     },
+    manejarInput() {
+      // Verificar si el campo está vacío y actualizar la tabla en ese caso
+      if (this.terminoBusqueda.trim() === '') {
+        this.$nextTick(() => {
+          this.$refs.tablaGestores.actualizarTabla()
+        })
+      }
+    },
+    buscarGestores() {
+      this.$nextTick(() => {
+        this.$refs.tablaGestores.actualizarTabla()
+      })
+    },
+    actualizarTabla() {
+      this.tablaActualizada = true
+      this.$nextTick(() => {
+        this.tablaActualizada = false
+      })
+    },
+    limpiarBusqueda() {
+      this.terminoBusqueda = ''
+      this.$nextTick(() => {
+        this.$refs.tablaGestores.actualizarTabla()
+      })
+    },
   },
 }
 </script>
+<style scoped>
+.form-control {
+  height: fit-content !important;
+  align-self: center;
+}
+</style>

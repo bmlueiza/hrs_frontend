@@ -6,19 +6,19 @@
         <tr>
           <th>RUT</th>
           <th>Nombre</th>
-          <th>Teléfono</th>
           <th>Apellido</th>
+          <th>Teléfono</th>
           <th>Correo</th>
           <th></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Gestores-->
       <tbody>
-        <tr v-for="gestor in todosLosGestores" :key="gestor.id">
+        <tr v-for="gestor in gestores" :key="gestor.id">
           <td>{{ gestor.rut }}</td>
           <td>{{ gestor.nombre }}</td>
-          <td>{{ gestor.telefono }}</td>
           <td>{{ gestor.apellido }}</td>
+          <td>{{ gestor.telefono }}</td>
           <td>{{ gestor.email }}</td>
           <td>
             <div class="btn-group">
@@ -40,6 +40,12 @@
         </tr>
       </tbody>
     </table>
+    <div class="text-center mt-3">
+      <p v-if="gestores.length > 0">
+        Mostrando {{ gestores.length }} de {{ totalGestores }} gestores.
+      </p>
+      <p v-else>No hay gestores para mostrar.</p>
+    </div>
   </div>
 </template>
 
@@ -48,20 +54,41 @@ import axios from 'axios'
 
 export default {
   name: 'TablaGestores',
+  props: ['terminoBusqueda'],
   data() {
     return {
-      todosLosGestores: [],
+      gestores: [],
+      totalGestores: 0,
     }
   },
   mounted() {
     axios
-      .get('http://localhost:8000/hrsapp/api/gestores/')
+      .get(this.$axios.defaults.baseURL + 'gestores')
       .then((response) => {
-        this.todosLosGestores = response.data
+        this.gestores = response.data
+        this.totalGestores = this.gestores.length
       })
       .catch((error) => {
         console.log('Error al obtener los datos de gestores de casos:', error)
       })
+    this.actualizarTabla()
+  },
+  methods: {
+    actualizarTabla() {
+      try {
+        axios
+          .get(
+            this.$axios.defaults.baseURL +
+              `gestores/?termino=${this.terminoBusqueda}`
+          )
+          .then((response) => {
+            this.gestores = response.data
+            this.$emit('actualizarTabla')
+          })
+      } catch (error) {
+        console.log('Error al actualizar la tabla de gestores:', error)
+      }
+    },
   },
 }
 </script>

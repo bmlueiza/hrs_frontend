@@ -6,6 +6,7 @@
         <!-- Primera columna - RUT -->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="rut">RUT</label>
             <input
               type="text"
               id="rut"
@@ -16,13 +17,14 @@
               v-model="nuevoGestor.rut"
               @input="formatRut"
               maxlength="12"
+              required
             />
-            <label class="form-label" for="rut">RUT</label>
           </div>
         </div>
         <!-- Segunda columna - nombre-->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -32,13 +34,14 @@
               v-model="nuevoGestor.nombre"
               @input="formatoNombre('nombre')"
               maxlength="12"
+              required
             />
-            <label class="form-label" for="nombre">Nombre</label>
           </div>
         </div>
         <!-- Tercera columna - apellido-->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="apellido">Apellido</label>
             <input
               type="text"
               id="apellido"
@@ -48,8 +51,8 @@
               v-model="nuevoGestor.apellido"
               @input="formatoNombre('apellido')"
               maxlength="12"
+              required
             />
-            <label class="form-label" for="apellido">Apellido</label>
           </div>
         </div>
       </div>
@@ -58,6 +61,7 @@
         <!-- Primera columna - teléfono -->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="telefono">Teléfono</label>
             <input
               type="text"
               id="telefono"
@@ -69,12 +73,12 @@
               @input="filtrarLetras"
               maxlength="12"
             />
-            <label class="form-label" for="telefono">Teléfono</label>
           </div>
         </div>
         <!-- Segunda columna - correo -->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="email">Correo</label>
             <input
               type="email"
               id="email"
@@ -83,13 +87,14 @@
               autocomplete="off"
               v-model="nuevoGestor.email"
               maxlength="12"
+              required
             />
-            <label class="form-label" for="email">Correo</label>
           </div>
         </div>
         <!-- Tercera columna - contraseña -->
         <div class="col">
           <div class="form-outline">
+            <label class="form-label" for="password">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -98,8 +103,8 @@
               autocomplete="off"
               v-model="nuevoGestor.password"
               maxlength="12"
+              required
             />
-            <label class="form-label" for="password">Contraseña</label>
           </div>
         </div>
       </div>
@@ -129,13 +134,9 @@
 
 <script>
 import axios from 'axios'
-import Navbar from '@/components/Navbar.vue'
 
 export default {
   name: 'FormCrearGestor',
-  components: {
-    Navbar,
-  },
   data() {
     return {
       nuevoGestor: {
@@ -240,7 +241,13 @@ export default {
 </script>
 
 <style scoped>
-div .botones {
-  margin-bottom: 20px;
+.row {
+  margin-bottom: 10px;
+}
+.btn {
+  margin: 5px;
+}
+.form-label {
+  font-weight: bold;
 }
 </style>

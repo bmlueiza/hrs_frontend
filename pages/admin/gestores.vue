@@ -36,13 +36,20 @@
           >
             <div class="btn-group pull-right">
               <button
-                @click="irANuevoGestor"
                 type="button"
                 class="btn btn-secondary"
+                data-bs-toggle="modal"
+                :data-bs-target="`#${modalCrearGestor}`"
               >
                 Añadir gestor
               </button>
             </div>
+            <ModalCrearGestor
+              ref="modalCrearGestor"
+              :mostrarModal="mostrarModal"
+              @cerrarModal="cerrarModal"
+              :modalId="modalCrearGestor"
+            />
           </div>
         </div>
       </section>
@@ -73,21 +80,29 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import TablaGestores from '@/components/tablas/TablaGestores.vue'
+import ModalCrearGestor from '@/components/modales/ModalCrearGestor.vue'
 
 export default {
   components: {
     Navbar,
     TablaGestores,
+    ModalCrearGestor,
   },
   data() {
     return {
       terminoBusqueda: '',
       todosLosGestores: [],
+      mostrarModal: false,
+      modalCrearGestor: 'modalCrearGestor',
     }
   },
   methods: {
-    irANuevoGestor() {
-      this.$router.push('/admin/nuevoGestor')
+    abrirModal() {
+      console.log('abrir modal')
+      this.mostrarModal = true
+    },
+    cerrarModal() {
+      this.mostrarModal = false
     },
     manejarInput() {
       // Verificar si el campo está vacío y actualizar la tabla en ese caso

@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el nombre, apellido o rut"
+              placeholder="Ingrese el rut, nombre o apellido"
               id="buscarPaciente"
               autocomplete="off"
               v-model="terminoBusqueda"
@@ -40,7 +40,7 @@
                 type="button"
                 class="btn btn-secondary"
               >
-                Añadir paciente
+                Ingresar paciente
               </button>
             </div>
           </div>
@@ -117,3 +117,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.form-control {
+  height: fit-content !important;
+  align-self: center;
+}
+</style>

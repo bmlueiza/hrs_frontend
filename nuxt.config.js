@@ -24,6 +24,7 @@ export default {
     'bootstrap/dist/css/bootstrap.css',
     '@/assets/global.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
+    '@/node_modules/bootstrap-icons/font/bootstrap-icons.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -61,4 +62,14 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  router: {
+    routes: [
+      {
+        name: 'paciente',
+        path: '/paciente/:id',
+        component: 'pages/paciente.vue',
+      },
+    ],
+  },
 }

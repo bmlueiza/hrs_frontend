@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- Aviso de gestor agregado correctamente -->
+    <div class="avisos text-center">
+      <div v-if="mensajeAviso" class="alert alert-success" role="alert">
+        {{ mensajeAviso }}
+      </div>
+      <!-- Aviso de error al agregar gestor -->
+      <div v-if="mensajeError" class="alert alert-danger" role="alert">
+        {{ mensajeError }}
+      </div>
+    </div>
     <form>
       <!-- Primera fila -->
       <div class="row">
@@ -33,7 +43,7 @@
               autocomplete="off"
               v-model="nuevoGestor.nombre"
               @input="formatoNombre('nombre')"
-              maxlength="12"
+              maxlength="25"
               required
             />
           </div>
@@ -50,7 +60,7 @@
               autocomplete="off"
               v-model="nuevoGestor.apellido"
               @input="formatoNombre('apellido')"
-              maxlength="12"
+              maxlength="25"
               required
             />
           </div>
@@ -72,6 +82,8 @@
               v-model="nuevoGestor.telefono"
               @input="filtrarLetras"
               maxlength="12"
+              minlength="11"
+              required
             />
           </div>
         </div>
@@ -86,7 +98,7 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoGestor.email"
-              maxlength="12"
+              maxlength="50"
               required
             />
           </div>
@@ -119,16 +131,6 @@
         Cancelar
       </button>
     </div>
-    <!-- Aviso de gestor agregado correctamente -->
-    <div class="avisos text-center">
-      <div v-if="gestorAgregado" class="alert alert-success" role="alert">
-        Gestor agregado correctamente
-      </div>
-      <!-- Aviso de error al agregar gestor -->
-      <div v-if="errorAlAgregar" class="alert alert-danger" role="alert">
-        Error al agregar gestor. Por favor, inténtalo de nuevo.
-      </div>
-    </div>
   </div>
 </template>
 
@@ -147,8 +149,8 @@ export default {
         email: '',
         password: '',
       },
-      gestorAgregado: false,
-      errorAlAgregar: false,
+      mensajeError: '',
+      mensajeAviso: '',
     }
   },
   methods: {
@@ -201,29 +203,54 @@ export default {
       this.nuevoGestor.rut += rutVerifier
     },
     async crearGestor() {
-      try {
-        console.log('Nuevo gestor:', this.nuevoGestor)
-        const response = await axios.post(
-          this.$axios.defaults.baseURL + 'gestores/create',
-          this.nuevoGestor,
-          {
+      if (validarFormulario()) {
+        axios
+          .post(this.$axios.defaults.baseURL + 'gestores/', this.nuevoGestor, {
             headers: {
               'Content-Type': 'application/json',
             },
-          }
-        )
-        console.log('Nuevo gestor añadido:', response.data)
-        this.gestorAgregado = true
-        this.errorAlAgregar = false
-        this.limpiarFormulario()
-      } catch (error) {
-        console.error('Error al añadir nuevo gestor', error)
-        this.errorAlAgregar = true
-        this.gestorAgregado = false
-        if (error.response) {
-          console.error('Respuesta de error del servidor:', error.response.data)
-        }
+          })
+          .then((response) => {
+            console.log('Nuevo gestor agregado:', response.data)
+            this.limpiarFormulario()
+            this.mensajeAviso = 'Gestor agregado correctamente.'
+          })
+          .catch((error) => {
+            console.log('Error:', error.response.data)
+            this.mensajeError =
+              error.response.data.rut[0] ||
+              error.response.data.email[0] ||
+              'Error al agregar gestor.'
+            this.mensajeAviso = ''
+          })
       }
+    },
+    validarFormulario() {
+      if (this.nuevoGestor.rut.trim() === '') {
+        this.mensajeError = 'Debe ingresar un RUT.'
+        return false
+      }
+      if (this.nuevoGestor.nombre.trim() === '') {
+        this.mensajeError = 'Debe ingresar un nombre.'
+        return false
+      }
+      if (this.nuevoGestor.apellido.trim() === '') {
+        this.mensajeError = 'Debe ingresar un apellido.'
+        return false
+      }
+      if (this.nuevoGestor.telefono.trim() === '') {
+        this.mensajeError = 'Debe ingresar un teléfono.'
+        return false
+      }
+      if (this.nuevoGestor.email.trim() === '') {
+        this.mensajeError = 'Debe ingresar un correo.'
+        return false
+      }
+      if (this.nuevoGestor.password.trim() === '') {
+        this.mensajeError = 'Debe ingresar una contraseña.'
+        return false
+      }
+      return true
     },
     async limpiarFormulario() {
       this.nuevoGestor.rut = ''
@@ -233,8 +260,8 @@ export default {
       this.nuevoGestor.email = ''
       this.nuevoGestor.password = ''
 
-      this.gestorAgregado = false
-      this.errorAlAgregar = false
+      this.mensajeAviso = ''
+      this.mensajeError = ''
     },
   },
 }

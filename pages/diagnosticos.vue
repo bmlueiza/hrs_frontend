@@ -4,23 +4,56 @@
     <div class="container">
       <section class="content-header">
         <div class="row">
-          <div class="col-xs-12 col-md-3">
+          <div class="col-lg-6 col-md-12 d-flex">
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar por nombre"
+              placeholder="Buscar por nombre o código"
               id="buscarDiagnostico"
+              v-model="terminoBusqueda"
+              @input="manejarInput"
             />
+            <button
+              @click="buscarDiagnosticos"
+              class="btn btn-primary"
+              type="button"
+              :disabled="terminoBusqueda.trim() === ''"
+            >
+              Buscar
+            </button>
+            <button
+              @click="limpiarBusqueda"
+              class="btn btn-primary"
+              type="button"
+              :disabled="terminoBusqueda.trim() === ''"
+            >
+              Cancelar
+            </button>
           </div>
-          <div class="col-xs-12 col-md-9 d-flex justify-content-end">
+          <div
+            class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
+          >
             <div class="btn-group pull-right">
-              <button type="button" class="btn btn-secondary">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                :data-bs-target="`#${modalId}`"
+              >
                 Añadir diagnóstico
               </button>
             </div>
+            <Modal
+              ref="modal"
+              :modalId="modalId"
+              :modalTitle="modalTitle"
+              :componenteFormulario="componenteFormulario"
+              :mostrarModal="mostrarModal"
+            />
           </div>
         </div>
       </section>
+      <!-- Listado de Diagnósticos-->
       <section class="content">
         <!--Primera fila-->
         <div class="row">
@@ -31,7 +64,11 @@
                 <h4 class="box-title">Listado de Diagnósticos</h4>
               </div>
               <div class="box-body">
-                <TablaDiagnosticos />
+                <TablaDiagnosticos
+                  ref="tablaDiagnosticos"
+                  @actualizarTabla="actualizarTabla"
+                  :terminoBusqueda="terminoBusqueda"
+                />
               </div>
             </div>
           </div>
@@ -43,12 +80,58 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import Modal from '@/components/modales/Modal.vue'
 import TablaDiagnosticos from '@/components/tablas/TablaDiagnosticos.vue'
+import FormCrearDiagnostico from '@/components/formularios/crear/FormCrearDiagnostico.vue'
 
 export default {
   components: {
     Navbar,
+    Modal,
     TablaDiagnosticos,
+    FormCrearDiagnostico,
+  },
+  data() {
+    return {
+      terminoBusqueda: '',
+      mostrarModal: false,
+      modalId: 'modalId',
+      modalTitle: 'Añadir nuevo diagnóstico',
+      componenteFormulario: FormCrearDiagnostico,
+    }
+  },
+  methods: {
+    async buscarDiagnosticos() {
+      this.$nextTick(() => {
+        this.$refs.tablaDiagnosticos.actualizarTabla()
+      })
+    },
+    actualizarTabla() {
+      this.tablaActualizada = true
+      this.$nextTick(() => {
+        this.tablaActualizada = false
+      })
+    },
+    async limpiarBusqueda() {
+      this.terminoBusqueda = ''
+      this.$nextTick(() => {
+        this.$refs.tablaDiagnosticos.actualizarTabla()
+      })
+    },
+    async manejarInput() {
+      // Verificar si el campo está vacío y actualizar la tabla en ese caso
+      if (this.terminoBusqueda.trim() === '') {
+        this.$nextTick(() => {
+          this.$refs.tablaDiagnosticos.actualizarTabla()
+        })
+      }
+    },
   },
 }
 </script>
+<style scoped>
+.form-control {
+  height: fit-content !important;
+  align-self: center;
+}
+</style>

@@ -39,16 +39,17 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-toggle="modal"
-                :data-bs-target="`#${modalCrearGestor}`"
+                :data-bs-target="`#${modalId}`"
               >
                 Añadir gestor
               </button>
             </div>
-            <ModalCrearGestor
-              ref="modalCrearGestor"
+            <Modal
+              ref="modal"
+              :modalId="modalId"
+              :modalTitle="modalTitle"
+              :componenteFormulario="componenteFormulario"
               :mostrarModal="mostrarModal"
-              @cerrarModal="cerrarModal"
-              :modalId="modalCrearGestor"
             />
           </div>
         </div>
@@ -80,31 +81,28 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import TablaGestores from '@/components/tablas/TablaGestores.vue'
-import ModalCrearGestor from '@/components/modales/ModalCrearGestor.vue'
+import Modal from '@/components/modales/Modal.vue'
+import FormCrearGestor from '@/components/formularios/FormCrearGestor.vue'
 
 export default {
   components: {
     Navbar,
     TablaGestores,
-    ModalCrearGestor,
+    Modal,
+    FormCrearGestor,
   },
   data() {
     return {
       terminoBusqueda: '',
       todosLosGestores: [],
       mostrarModal: false,
-      modalCrearGestor: 'modalCrearGestor',
+      modalId: 'modalId',
+      modalTitle: 'Añadir nuevo gestor',
+      componenteFormulario: FormCrearGestor,
     }
   },
   methods: {
-    abrirModal() {
-      console.log('abrir modal')
-      this.mostrarModal = true
-    },
-    cerrarModal() {
-      this.mostrarModal = false
-    },
-    manejarInput() {
+    async manejarInput() {
       // Verificar si el campo está vacío y actualizar la tabla en ese caso
       if (this.terminoBusqueda.trim() === '') {
         this.$nextTick(() => {
@@ -112,7 +110,7 @@ export default {
         })
       }
     },
-    buscarGestores() {
+    async buscarGestores() {
       this.$nextTick(() => {
         this.$refs.tablaGestores.actualizarTabla()
       })
@@ -123,7 +121,7 @@ export default {
         this.tablaActualizada = false
       })
     },
-    limpiarBusqueda() {
+    async limpiarBusqueda() {
       this.terminoBusqueda = ''
       this.$nextTick(() => {
         this.$refs.tablaGestores.actualizarTabla()

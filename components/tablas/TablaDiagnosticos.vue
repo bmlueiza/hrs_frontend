@@ -13,7 +13,7 @@
       </thead>
       <!--Contenido de la tabla Diagnósticos-->
       <tbody>
-        <tr v-for="diagnostico in todosLosDiagnosticos" :key="diagnostico.id">
+        <tr v-for="diagnostico in diagnosticos" :key="diagnostico.id">
           <th scope="row">{{ diagnostico.id }}</th>
           <td>{{ diagnostico.codigo }}</td>
           <td>{{ diagnostico.nombre }}</td>
@@ -43,22 +43,52 @@
 
 <script>
 import axios from 'axios'
+import Modal from '@/components/modales/Modal.vue'
 
 export default {
+  name: 'TablaDiagnosticos',
+  components: {
+    Modal,
+  },
+  props: ['terminoBusqueda'],
   data() {
     return {
-      todosLosDiagnosticos: [],
+      diagnosticos: [],
     }
   },
   mounted() {
     axios
-      .get('http://localhost:8000/hrsapp/api/diagnosticos')
+      .get(this.$axios.defaults.baseURL + 'diagnosticos/')
       .then((response) => {
-        this.todosLosDiagnosticos = response.data
+        this.diagnosticos = response.data
       })
       .catch((error) => {
         console.log(error)
       })
+    this.actualizarTabla()
+  },
+  methods: {
+    actualizarTabla() {
+      try {
+        axios
+          .get(
+            this.$axios.defaults.baseURL +
+              `diagnosticos/?termino=${this.terminoBusqueda}`
+          )
+          .then((response) => {
+            this.diagnosticos = response.data
+            this.$emit('actualizarTabla')
+          })
+      } catch (error) {
+        console.log('Error al actualizar la tabla de diagnosticos:', error)
+      }
+    },
   },
 }
 </script>
+<style scoped>
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
+</style>

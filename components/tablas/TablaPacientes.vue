@@ -106,6 +106,10 @@ export default {
 }
 </script>
 <style scoped>
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
 .table th:first-child,
 .table td:first-child {
   border-left: none;

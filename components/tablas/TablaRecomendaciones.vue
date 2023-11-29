@@ -5,6 +5,7 @@
         <tr>
           <th class="header" scope="col">Recomendación</th>
           <th class="header" scope="col">Paciente</th>
+          <th class="header" scope="col">Motivo</th>
           <th class="header" scope="col">Fecha</th>
         </tr>
       </thead>
@@ -12,11 +13,13 @@
         <tr>
           <td>Agendar hora Sala Era</td>
           <td>Silvia Alejandra Torres Murga</td>
+          <td>Asma</td>
           <td>28/09/2023</td>
         </tr>
         <tr>
-          <td>Agendar hora EMPAM</td>
+          <td>Agendar hora</td>
           <td>Antonio Cesar Villega Castro</td>
+          <td>EMPAM</td>
           <td>20/09/2023</td>
         </tr>
       </tbody>

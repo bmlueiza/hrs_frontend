@@ -4,12 +4,12 @@
       <!--Cabecera de la tabla Gestores-->
       <thead class="table-light">
         <tr>
-          <th>RUT</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Teléfono</th>
-          <th>Correo</th>
-          <th></th>
+          <th class="header" scope="col">RUT</th>
+          <th class="header" scope="col">Nombre</th>
+          <th class="header" scope="col">Apellido</th>
+          <th class="header" scope="col">Teléfono</th>
+          <th class="header" scope="col">Correo</th>
+          <th class="header" scope="col"></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Gestores-->
@@ -32,7 +32,25 @@
                 Acciones
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Editar</a></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    data-bs-toggle="modal"
+                    :data-bs-target="`#${modalId}`"
+                    @click.prevent="cargarDatos(gestor.id)"
+                  >
+                    Editar
+                  </a>
+                </li>
+                <Modal
+                  ref="modal"
+                  :modalId="modalId"
+                  :modalTitle="modalTitle"
+                  :componenteFormulario="componenteFormulario"
+                  :mostrarModal="mostrarModal"
+                  :gestorId="gestorId"
+                />
                 <li><a class="dropdown-item" href="#">Eliminar</a></li>
               </ul>
             </div>
@@ -51,14 +69,25 @@
 
 <script>
 import axios from 'axios'
+import Modal from '@/components/modales/Modal.vue'
+import FormEditarGestor from '@/components/formularios/FormEditarGestor.vue'
 
 export default {
   name: 'TablaGestores',
+  components: {
+    Modal,
+    FormEditarGestor,
+  },
   props: ['terminoBusqueda'],
   data() {
     return {
       gestores: [],
       totalGestores: 0,
+      mostrarModal: false,
+      modalId: 'modalId',
+      modalTitle: 'Editar información gestor',
+      componenteFormulario: FormEditarGestor,
+      gestorId: null,
     }
   },
   mounted() {
@@ -74,6 +103,9 @@ export default {
     this.actualizarTabla()
   },
   methods: {
+    cargarDatos(id) {
+      gestorId = this.gestorId
+    },
     actualizarTabla() {
       try {
         axios
@@ -92,3 +124,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
+</style>

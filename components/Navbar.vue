@@ -25,9 +25,7 @@
             <a class="nav-link" href="/diagnosticos">Diagnósticos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/ingresarPaciente" aria-disabled="true"
-              >Ingresar paciente</a
-            >
+            <a class="nav-link" href="/ingresarPaciente">Ingresar paciente</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/medicamentos">Medicamentos</a>
@@ -39,22 +37,36 @@
             <a class="nav-link" href="/admin/gestores">Gestores</a>
           </li>
         </ul>
-        <form class="d-flex" role="search">
+        <div class="d-flex">
           <input
-            id="busqueda"
-            class="form-control me-2"
+            id="busquedaDirecta"
+            class="form-control"
             type="search"
-            placeholder="Búsqueda"
-            aria-label="Search"
+            placeholder="Buscar paciente"
           />
-          <button class="btn btn-outline-light" type="submit">Buscar</button>
-        </form>
+          <button class="btn btn-outline-light" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
         <ul class="navbar-nav me-2">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Cerrar sesión</a>
-          </li>
+          <a class="nav-link" href="/">
+            <button class="btn btn-outline-dark" type="submit">
+              <i class="bi bi-box-arrow-right"></i>
+            </button>
+          </a>
         </ul>
       </div>
     </div>
   </nav>
 </template>
+<style scoped>
+.form-control {
+  height: fit-content !important;
+  align-self: center;
+}
+@media (min-width: 991px) {
+  nav {
+    height: 58px;
+  }
+}
+</style>

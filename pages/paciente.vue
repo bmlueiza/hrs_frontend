@@ -2,10 +2,10 @@
   <div>
     <Navbar />
     <div class="container">
-      <h2 class="text-center">
+      <h4 class="text-center">
         Paciente {{ paciente.nombres }} {{ paciente.apellido1 }}
         {{ paciente.apellido2 }}
-      </h2>
+      </h4>
       <!--Primera fila-->
       <div class="row">
         <!--Primera columna-->
@@ -13,17 +13,16 @@
           <div class="datos-paciente">
             <h4>Datos del paciente</h4>
             <p><strong>RUT:</strong> {{ paciente.rut }}</p>
-            <p><strong>Nombres:</strong> {{ paciente.nombres }}</p>
             <p>
-              <strong>Apellidos:</strong> {{ paciente.apellido1 }}
-              {{ paciente.apellido2 }}
+              <strong>Nombre:</strong> {{ paciente.nombres }}
+              {{ paciente.apellido1 }} {{ paciente.apellido2 }}
             </p>
             <p><strong>Sexo:</strong> {{ paciente.sexo }}</p>
             <p>
               <strong>Fecha de nacimiento:</strong>
               {{ paciente.fecha_nacimiento }}
             </p>
-            <p><strong>Riesgo:</strong>: {{ paciente.riesgo }}</p>
+            <p><strong>Riesgo:</strong> {{ paciente.riesgo }}</p>
             <p><strong>Dirección:</strong> {{ paciente.direccion }}</p>
             <p><strong>Teléfono:</strong> {{ paciente.telefono }}</p>
           </div>
@@ -78,18 +77,7 @@
         <div class="col">
           <div class="observaciones">
             <h4>Observaciones</h4>
-            <div class="table-responsive">
-              <table class="table table-light table-striped table-bordered">
-                <!--Cabecera de la tabla Observaciones-->
-                <thead>
-                  <tr>
-                    <th class="header" scope="col">Observacion</th>
-                    <th class="header" scope="col">Fecha</th>
-                    <th class="header" scope="col">Gestor</th>
-                  </tr>
-                </thead>
-              </table>
-            </div>
+            <TablaObservacionesPaciente />
           </div>
         </div>
       </div>
@@ -100,11 +88,13 @@
 <script>
 import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
+import TablaObservacionesPaciente from '@/components/tablas/TablaObservacionesPaciente.vue'
 
 export default {
   name: 'DetallePaciente',
   components: {
     Navbar,
+    TablaObservacionesPaciente,
   },
   data() {
     return {
@@ -146,5 +136,9 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+h4 {
+  font-size: 30px;
+  font-style: italic;
 }
 </style>

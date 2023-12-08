@@ -77,7 +77,7 @@
         <div class="col">
           <div class="observaciones">
             <h4>Observaciones</h4>
-            <TablaObservacionesPaciente />
+            <TablaObservaciones />
           </div>
         </div>
       </div>
@@ -88,13 +88,13 @@
 <script>
 import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
-import TablaObservacionesPaciente from '@/components/tablas/TablaObservacionesPaciente.vue'
+import TablaObservaciones from '@/components/tablas/TablaObservaciones.vue'
 
 export default {
   name: 'DetallePaciente',
   components: {
     Navbar,
-    TablaObservacionesPaciente,
+    TablaObservaciones,
   },
   data() {
     return {

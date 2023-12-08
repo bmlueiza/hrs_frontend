@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="container">
+    <div class="container-fluid">
       <section class="content-header">
         <div class="row">
           <div class="col-lg-6 col-md-12 d-flex">
@@ -50,7 +50,7 @@
       <!-- Listado de Pacientes-->
       <section class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-12">
             <div class="box">
               <div class="box-header with-border">
                 <h4 class="box-title">Listado de Pacientes</h4>
@@ -121,5 +121,15 @@ export default {
 .form-control {
   height: fit-content !important;
   align-self: center;
+}
+.container-fluid {
+  position: relative;
+  border-radius: 3px;
+  background: #dbe2ef;
+  border-top: 3px solid #d2d6de;
+  margin: 10px auto;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 </style>

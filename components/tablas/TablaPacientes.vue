@@ -5,6 +5,7 @@
         <!--Cabecera de la tabla Pacientes-->
         <thead class="table-light">
           <tr>
+            <th class="header" scope="col"></th>
             <th class="header" scope="col">RUT</th>
             <th class="header" scope="col">Nombres</th>
             <th class="header" scope="col">Primer apellido</th>
@@ -19,10 +20,11 @@
         <!--Contenido de la tabla Pacientes-->
         <tbody>
           <tr v-for="paciente in pacientes" :key="paciente.id">
-            <td>{{ paciente.rut }}</td>
             <td @click="seleccionarPaciente(paciente.id)">
-              {{ paciente.nombres }}
+              <button type="button" class="btn btn-primary btn-sm">Ver</button>
             </td>
+            <td>{{ paciente.rut }}</td>
+            <td>{{ paciente.nombres }}</td>
             <td>{{ paciente.apellido1 }}</td>
             <td>{{ paciente.apellido2 }}</td>
             <td>{{ paciente.riesgo }}</td>
@@ -86,7 +88,7 @@ export default {
       return diagnosticos.join(', ')
     },
     seleccionarPaciente(pacienteID) {
-      this.$router.push({ name: 'paciente', params: { id: pacienteID } })
+      this.$router.push('/paciente/' + pacienteID)
     },
     actualizarTabla() {
       axios

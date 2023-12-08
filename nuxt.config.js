@@ -64,12 +64,12 @@ export default {
   build: {},
 
   router: {
-    routes: [
-      {
-        name: 'paciente',
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'perfil-paciente',
         path: '/paciente/:id',
-        component: 'pages/paciente.vue',
-      },
-    ],
+        component: resolve(__dirname, 'pages/paciente.vue'), // Ajusta la ruta de tu componente
+      })
+    },
   },
 }

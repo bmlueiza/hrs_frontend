@@ -4,15 +4,15 @@
       <!--Cabecera de la tabla Observaciones-->
       <thead class="table-light">
         <tr>
-          <th class="header" scope="col">Observacion</th>
+          <th class="header" scope="col">Observación</th>
           <th class="header" scope="col">Fecha</th>
           <th class="header" scope="col">Gestor</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="observacion in observaciones" :key="observacion.id">
-          <td>{{ observacion.observacion }}</td>
-          <td>{{ observacion.fecha }}</td>
+          <td>{{ observacion.contenido }}</td>
+          <td>{{ observacion.fecha_generacion }}</td>
           <td>{{ observacion.gestor }}</td>
         </tr>
       </tbody>
@@ -30,6 +30,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.pacienteID)
     axios
       .get(
         this.$axios.defaults.baseURL +

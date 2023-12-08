@@ -77,7 +77,7 @@
         <div class="col">
           <div class="observaciones">
             <h4>Observaciones</h4>
-            <TablaObservaciones />
+            <TablaObservaciones :pacienteID="pacienteID" />
           </div>
         </div>
       </div>

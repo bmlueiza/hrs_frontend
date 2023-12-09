@@ -22,7 +22,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <component :is="componenteFormulario" />
+            <component v-if="componenteFormulario" :is="componenteFormulario" />
           </div>
         </div>
       </div>
@@ -33,10 +33,6 @@
 <script>
 export default {
   props: {
-    modalId: {
-      type: String,
-      required: true,
-    },
     modalTitle: {
       type: String,
       required: true,

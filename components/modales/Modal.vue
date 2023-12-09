@@ -44,3 +44,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.modal-header {
+  background-color: #3f72af;
+  color: white;
+}
+</style>

@@ -15,26 +15,44 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item custom-hover2">
             <a class="nav-link" href="/recomendaciones">Recomendaciones</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item custom-hover2">
             <a class="nav-link" href="/pacientes">Lista de pacientes</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/diagnosticos">Diagnósticos</a>
-          </li>
-          <li class="nav-item">
+          <li class="nav-item custom-hover2">
             <a class="nav-link" href="/ingresarPaciente">Ingresar paciente</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item custom-hover2">
+            <a class="nav-link" href="/diagnosticos">Diagnósticos</a>
+          </li>
+          <li class="nav-item custom-hover2">
             <a class="nav-link" href="/medicamentos">Medicamentos</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item custom-hover2">
             <a class="nav-link" href="/medicos">Médicos</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/gestores">Gestores</a>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              id="adminDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Administración
+            </a>
+            <div class="dropdown-menu">
+              <!-- Enlaces dentro del desplegable -->
+              <a class="dropdown-item custom-hover" href="/admin/gestores"
+                >Gestores</a
+              >
+              <a class="dropdown-item custom-hover" href="/admin/administracion"
+                >Panel de administracion</a
+              >
+            </div>
           </li>
         </ul>
         <div class="d-flex">
@@ -63,6 +81,31 @@
 .form-control {
   height: fit-content !important;
   align-self: center;
+}
+nav {
+  background-color: #3f72af;
+  color: #f9f7f7;
+}
+
+.navbar-brand {
+  color: #f9f7f7;
+}
+
+.nav-link {
+  color: #f9f7f7;
+}
+.dropdown-menu {
+  background-color: #3f72af;
+}
+.dropdown-item {
+  color: #f9f7f7;
+}
+.custom-hover:hover {
+  background-color: rgba(17, 45, 78, 1) !important;
+}
+.custom-hover2:hover {
+  background-color: rgba(17, 45, 78, 0.5) !important;
+  border-radius: 10px;
 }
 @media (min-width: 991px) {
   nav {

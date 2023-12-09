@@ -98,7 +98,7 @@ export default {
           axios
             .put(
               this.$axios.defaults.baseURL +
-                '/acciones_gestor/' +
+                'acciones_gestor/' +
                 this.nuevaAccion.id,
               this.nuevaAccion
             )
@@ -114,7 +114,7 @@ export default {
         } else {
           axios
             .post(
-              this.$axios.defaults.baseURL + '/acciones_gestor',
+              this.$axios.defaults.baseURL + 'acciones_gestor/',
               this.nuevaAccion
             )
             .then((response) => {

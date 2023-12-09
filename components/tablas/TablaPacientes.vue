@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive">
-      <table class="table table-condensed table-hover table-striped">
+      <table class="table table-sm table-hover table-striped table-bordered">
         <!--Cabecera de la tabla Pacientes-->
         <thead class="table-light">
           <tr>
@@ -112,16 +112,17 @@ export default {
   max-height: 400px;
   overflow-y: auto;
 }
-.table th:first-child,
+/*.table th:first-child,
 .table td:first-child {
   border-left: none;
 }
 .table th:last-child,
 .table td:last-child {
   border-right: none;
-}
-.table td:nth-child(5),
-.table td:nth-child(6) {
+}*/
+.table td:nth-child(2),
+.table td:nth-child(7),
+.table td:nth-child(8) {
   white-space: nowrap;
 }
 </style>

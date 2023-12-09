@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-condensed table-hover table-striped">
+    <table class="table table-sm table-hover table-striped">
       <!--Cabecera de la tabla Gestores-->
       <thead class="table-light">
         <tr>

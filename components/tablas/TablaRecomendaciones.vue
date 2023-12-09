@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-bordered table-light table-striped">
+    <table class="table table-hover table-light table-striped">
       <thead>
         <tr>
           <th class="header" scope="col">Recomendación</th>

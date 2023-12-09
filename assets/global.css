@@ -44,7 +44,6 @@ body {
 }
 .table-responsive {
   min-height: 0.01%;
-  overflow-x: auto;
 }
 .table .header {
   position: sticky;

@@ -9,7 +9,7 @@
           <th class="header" scope="col">Nombre</th>
           <th class="header" scope="col">Apellido</th>
           <th class="header" scope="col">Especialidad</th>
-          <th></th>
+          <th class="header" scope="col"></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Médicos-->

@@ -22,7 +22,11 @@
             ></button>
           </div>
           <div class="modal-body">
-            <component v-if="componenteFormulario" :is="componenteFormulario" />
+            <component
+              v-if="componenteFormulario"
+              :is="componenteFormulario"
+              :datosFormulario="datosFormulario"
+            />
           </div>
         </div>
       </div>
@@ -41,6 +45,10 @@ export default {
       type: Object,
       required: true,
     },
+    datosFormulario: {
+      type: Object,
+      required: false,
+    },
   },
 }
 </script>
@@ -48,5 +56,8 @@ export default {
 .modal-header {
   background-color: #3f72af;
   color: white;
+}
+.modal-body {
+  background-color: #dbe2ef;
 }
 </style>

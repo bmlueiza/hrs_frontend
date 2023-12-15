@@ -23,7 +23,7 @@
                       data-bs-toggle="modal"
                       :data-bs-target="`#${modalId}`"
                       @click="
-                        abrilModal(
+                        abrirModal(
                           'FormResultadoContacto',
                           'Añadir resultado de contacto'
                         )
@@ -55,7 +55,7 @@
                       data-bs-toggle="modal"
                       :data-bs-target="`#${modalId}`"
                       @click="
-                        abrilModal(
+                        abrirModal(
                           'FormAccionGestor',
                           'Añadir acción del gestor'
                         )
@@ -91,7 +91,7 @@
                       data-bs-toggle="modal"
                       :data-bs-target="`#${modalId}`"
                       @click="
-                        abrilModal(
+                        abrirModal(
                           'FormResultadoContacto',
                           'Añadir actividad médica'
                         )
@@ -147,7 +147,7 @@ export default {
     }
   },
   methods: {
-    abrilModal(componente, titulo) {
+    abrirModal(componente, titulo) {
       switch (componente) {
         case 'FormResultadoContacto':
           this.currentComponent = FormResultadoContacto

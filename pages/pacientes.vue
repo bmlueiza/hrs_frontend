@@ -31,9 +31,17 @@
               Cancelar
             </button>
           </div>
-          <div
-            class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
-          >
+          <div class="col ms-auto">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Filtrar por riesgo</option>
+            </select>
+          </div>
+          <div class="col ms-auto">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Filtrar por diagnóstico</option>
+            </select>
+          </div>
+          <div class="col-auto ms-auto">
             <div class="btn-group pull-right">
               <button
                 @click="irIngresarPaciente"
@@ -118,6 +126,7 @@ export default {
 }
 </script>
 <style scoped>
+.select,
 .form-control {
   height: fit-content !important;
   align-self: center;

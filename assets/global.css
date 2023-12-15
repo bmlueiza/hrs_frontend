@@ -48,13 +48,14 @@ body {
 .table .header {
   position: sticky;
   top: 0;
+  background-color: #d2d6de;
 }
 
 /*CONTENEDOR*/
 .container {
   position: relative;
   border-radius: 3px;
-  background: #dbe2ef;
+  background-color: #dbe2ef;
   border-top: 3px solid #d2d6de;
   margin: 10px auto;
   width: 100%;
@@ -63,12 +64,11 @@ body {
 }
 
 /*FORM CONTROL Y MULTISELECT*/
-/*.container .form-control,
+.form-control,
+.select,
 .multiselect {
-  align-self: center;
-  border: 1px solid #112d4e;
-  border-radius: 8px;
-}*/
+  background-color: #fff;
+}
 
 /*DROPDOWN-MENU*/
 .dropdown-menu > li > a {
@@ -88,7 +88,7 @@ body {
 .box {
   position: relative;
   border-radius: 3px;
-  background: #f9f7f7;
+  background-color: #f9f7f7;
   border-top: 3px solid #d2d6de;
   width: 100%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);

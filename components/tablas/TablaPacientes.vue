@@ -72,15 +72,7 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + `pacientes`)
-      .then((response) => {
-        this.pacientes = response.data
-        this.totalPacientes = this.pacientes.length
-      })
-      .catch((error) => {
-        console.error('Error al obtener los pacientes: ', error)
-      })
+    this.getCantidadPacientes()
     this.actualizarTabla()
   },
   methods: {
@@ -90,14 +82,29 @@ export default {
     seleccionarPaciente(pacienteID) {
       this.$router.push('/paciente/' + pacienteID)
     },
+    //Obtener cantidad de pacientes
+    async getCantidadPacientes() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'pacientes'
+        )
+        this.totalPacientes = response.data.length
+      } catch (error) {
+        console.error('Error al obtener la cantidad de pacientes: ', error)
+      }
+    },
+    //Actualizar tabla
     actualizarTabla() {
       axios
-        .get(
-          this.$axios.defaults.baseURL +
-            `pacientes/?termino=${this.terminoBusqueda}`
-        )
+        .get(this.$axios.defaults.baseURL + 'pacientes', {
+          params: {
+            termino: this.terminoBusqueda,
+          },
+        })
         .then((response) => {
-          this.pacientes = response.data
+          this.pacientes = response.data.sort((a, b) =>
+            a.apellido1.localeCompare(b.apellido1)
+          )
           this.$emit('actualizarTabla')
         })
         .catch((error) => {

@@ -2,10 +2,10 @@
   <div>
     <Navbar />
     <div class="container">
-      <h4 class="titulo text-center">
+      <!--<h4 class="titulo text-center">
         Paciente {{ paciente.nombres }} {{ paciente.apellido1 }}
         {{ paciente.apellido2 }}
-      </h4>
+      </h4>-->
       <!--Primera fila - Botones-->
       <div class="row">
         <div class="col buttons-container text-center">
@@ -31,10 +31,32 @@
           >
             Añadir observación
           </button>
-          <button type="button" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            :data-bs-target="`#${modalId}`"
+            @click="
+              abrirModal(
+                'FormAsignarActividad',
+                'Asignar actividad al paciente'
+              )
+            "
+          >
             Asignar actividad
           </button>
-          <button type="button" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            :data-bs-target="`#${modalId}`"
+            @click="
+              abrirModal(
+                'FormAgregarDiagnosticos',
+                'Agregar diagnosticos al paciente'
+              )
+            "
+          >
             Añadir diagnóstico
           </button>
           <button type="button" class="btn btn-primary">
@@ -51,15 +73,19 @@
             <div class="col">
               <div class="box">
                 <div class="box-header with-border">
-                  <h5 class="box-title">Datos del paciente</h5>
+                  <h5 class="box-title">
+                    {{ paciente.nombres }} {{ paciente.apellido1 }}
+                    {{ paciente.apellido2 }}
+                  </h5>
                 </div>
                 <div class="box-body">
                   <div class="datos-paciente">
-                    <p><strong>RUT:</strong> {{ paciente.rut }}</p>
                     <p>
                       <strong>Nombre:</strong> {{ paciente.nombres }}
                       {{ paciente.apellido1 }} {{ paciente.apellido2 }}
                     </p>
+                    <p><strong>RUT:</strong> {{ paciente.rut }}</p>
+
                     <p><strong>Sexo:</strong> {{ paciente.sexo }}</p>
                     <p>
                       <strong>Fecha de nacimiento:</strong>
@@ -85,7 +111,7 @@
                   <div class="diagnosticos">
                     <!-- Verificar si paciente.diagnosticos está definido antes de llamar a formatDiagnostico -->
                     <p v-if="paciente.diagnosticos">
-                      {{ formatDiagnostico(paciente.diagnosticos) }}
+                      {{ formatoDiagnosticos(paciente.diagnosticos) }}
                     </p>
                     <!-- Mostrar un mensaje alternativo si paciente.diagnosticos no está definido -->
                     <p v-else>No hay diagnósticos disponibles.</p>
@@ -199,6 +225,8 @@ import TablaObservaciones from '@/components/tablas/paciente/TablaObservaciones.
 //Formularios
 import FormObservacion from '@/components/formularios/paciente/FormObservacion.vue'
 import FormContacto from '@/components/formularios/paciente/FormContacto.vue'
+import FormAsignarActividad from '@/components/formularios/paciente/FormAsignarActividad.vue'
+import FormAgregarDiagnosticos from '@/components/formularios/paciente/FormAgregarDiagnosticos.vue'
 
 export default {
   name: 'DetallePaciente',
@@ -213,6 +241,8 @@ export default {
     //Formularios
     FormObservacion,
     FormContacto,
+    FormAsignarActividad,
+    FormAgregarDiagnosticos,
   },
   data() {
     return {
@@ -232,7 +262,7 @@ export default {
       })
   },
   methods: {
-    formatDiagnostico(diagnosticos) {
+    formatoDiagnosticos(diagnosticos) {
       return diagnosticos.join(', ')
     },
     abrirModal(componente, titulo) {
@@ -242,6 +272,12 @@ export default {
           break
         case 'FormContacto':
           this.currentComponent = FormContacto
+          break
+        case 'FormAsignarActividad':
+          this.currentComponent = FormAsignarActividad
+          break
+        case 'FormAgregarDiagnosticos':
+          this.currentComponent = FormAgregarDiagnosticos
           break
         default:
           this.currentComponent = ''

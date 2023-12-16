@@ -30,7 +30,7 @@
           <div class="row">
             <!--Primera columna - tipo de acción gestor-->
             <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
-              <label class="form-label" for="accion_gestor"
+              <label class="form-label required" for="accion_gestor"
                 >Tipo de contacto</label
               >
               <select
@@ -47,7 +47,7 @@
             </div>
             <!--Segunda columna - resultado-->
             <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
-              <label class="form-label" for="resultado_contacto"
+              <label class="form-label required" for="resultado_contacto"
                 >Resultado</label
               >
               <select
@@ -67,7 +67,7 @@
           <div class="row">
             <!--Primera columna - tipo de motivo-->
             <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
-              <label class="form-label" for="motivo">Motivo</label>
+              <label class="form-label required" for="motivo">Motivo</label>
               <select
                 class="form-select"
                 v-model="tipo_motivo"
@@ -83,7 +83,9 @@
             </div>
             <!--Segunda columna - motivo-->
             <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
-              <label class="form-label" for="motivo">Especificar</label>
+              <label class="form-label required" for="motivo"
+                >Especificar</label
+              >
               <select
                 class="form-select"
                 v-model="nuevoContacto.motivo"
@@ -156,7 +158,7 @@ export default {
     }
   },
   methods: {
-    //Limpia el formulario
+    //Limpiar formulario
     limpiarFormulario() {
       console.log('nuevo contacto:', this.nuevoContacto)
       console.log('accion id:', this.nuevoContacto.accion_gestor)
@@ -169,7 +171,7 @@ export default {
       this.mensajeAviso = ''
       this.mensajeError = ''
     },
-    //Valida que los campos del formulario no estén vacíos
+    //Validar formulario
     validarFormulario() {
       if (this.nuevoContacto.accion_gestor === '') {
         this.mensajeError = 'Debe seleccionar un tipo de contacto'
@@ -207,7 +209,7 @@ export default {
       axios
         .get(
           this.$axios.defaults.baseURL +
-            `asignacion_actividades/paciente/${this.datosFormulario.id}/`
+            `asignacion_actividades/paciente/${this.datosFormulario.id}/pendientes/`
         )
         .then((response) => {
           this.actividades_paciente = response.data
@@ -252,8 +254,8 @@ export default {
         case 'actividades':
           if (this.actividades_paciente.length === 0) {
             this.motivos = []
-            this.mensajeAviso = ''
-            this.mensajeError = 'El paciente no tiene actividades asignadas'
+            this.mensajeError = ''
+            this.mensajeAviso = 'El paciente no tiene actividades asignadas'
           } else {
             this.mensajeAviso = ''
             this.mensajeError = ''
@@ -264,8 +266,8 @@ export default {
         case 'medicamentos':
           if (this.medicamentos_paciente.length === 0) {
             this.motivos = []
-            this.mensajeAviso = ''
-            this.mensajeError = 'El paciente no tiene medicamentos asignados'
+            this.mensajeError = ''
+            this.mensajeAviso = 'El paciente no tiene medicamentos asignados'
           } else {
             this.mensajeAviso = ''
             this.mensajeError = ''
@@ -276,8 +278,8 @@ export default {
         case 'diagnosticos':
           if (this.diagnosticos_paciente.length === 0) {
             this.motivos = []
-            this.mensajeAviso = ''
-            this.mensajeError = 'El paciente no tiene diagnósticos'
+            this.mensajeError = ''
+            this.mensajeAviso = 'El paciente no tiene diagnósticos'
           } else {
             this.mensajeAviso = ''
             this.mensajeError = ''

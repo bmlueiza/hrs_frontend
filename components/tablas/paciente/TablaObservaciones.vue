@@ -30,7 +30,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.pacienteID)
     axios
       .get(
         this.$axios.defaults.baseURL +

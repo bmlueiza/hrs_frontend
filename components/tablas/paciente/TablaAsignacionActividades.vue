@@ -4,20 +4,22 @@
       <!--Cabecera de la tabla Actividades médicas-->
       <thead class="table-light">
         <tr>
-          <th class="header" scope="col">Fecha asignación</th>
+          <th class="header" scope="col">Fecha</th>
+          <th class="header" scope="col">Hora</th>
           <th class="header" scope="col">Actividad</th>
-          <th class="header" scope="col">Fecha actividad</th>
           <th class="header" scope="col">Estado</th>
           <th class="header" scope="col">Médico</th>
+          <th class="header" scope="col">Fecha asignación</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="actividad in actividades" :key="actividades.id">
-          <td>{{ actividad.fecha_asignacion }}</td>
-          <td>{{ actividad.actividad_medica }}</td>
           <td>{{ actividad.fecha_actividad }}</td>
+          <td>{{ formatoHora(actividad.hora_actividad) }}</td>
+          <td>{{ actividad.actividad_medica }}</td>
           <td>{{ actividad.estado }}</td>
           <td>{{ actividad.medico }}</td>
+          <td>{{ actividad.fecha_asignacion }}</td>
         </tr>
       </tbody>
     </table>
@@ -33,8 +35,13 @@ export default {
       actividades: [],
     }
   },
+  methods: {
+    //Mostrar solo hora y minutos de una hora, sin segundos
+    formatoHora(hora) {
+      return hora.slice(0, 5)
+    },
+  },
   mounted() {
-    console.log(this.pacienteID)
     axios
       .get(
         this.$axios.defaults.baseURL +

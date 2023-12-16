@@ -63,11 +63,19 @@ body {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-/*FORM CONTROL Y MULTISELECT*/
+/*FORMULARIO*/
 .form-control,
 .select,
 .multiselect {
   background-color: #fff;
+}
+.form-label {
+  font-weight: bold;
+}
+.required::before {
+  content: '*';
+  color: #ff0000;
+  margin-right: 4px;
 }
 
 /*DROPDOWN-MENU*/
@@ -117,4 +125,8 @@ body {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+}
+/*BOTONES*/
+.btn {
+  margin: 5px;
 }

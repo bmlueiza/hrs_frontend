@@ -33,8 +33,12 @@ export default {
 .content h4 {
   font-size: 30px;
   font-style: italic;
+  color: #dbe2ef;
 }
 .content {
   padding-top: 0;
+}
+.box {
+  background-color: #dbe2ef;
 }
 </style>

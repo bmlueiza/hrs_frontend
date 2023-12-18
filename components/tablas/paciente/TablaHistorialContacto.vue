@@ -5,6 +5,7 @@
       <thead class="table-light">
         <tr>
           <th class="header" scope="col">Fecha</th>
+          <th class="header" scope="col">Hora</th>
           <th class="header" scope="col">Acción</th>
           <th class="header" scope="col">Motivo</th>
           <th class="header" scope="col">Resultado</th>
@@ -13,6 +14,7 @@
       <tbody>
         <tr v-for="contacto in contactos" :key="contactos.id">
           <td>{{ contacto.fecha }}</td>
+          <td>{{ contacto.hora }}</td>
           <td>{{ contacto.accion_gestor }}</td>
           <td>{{ contacto.motivo }}</td>
           <td>{{ contacto.resultado_contacto }}</td>
@@ -36,10 +38,10 @@ export default {
     axios
       .get(
         this.$axios.defaults.baseURL +
-          `historiales_contacto/paciente/${this.pacienteID}/`
+          `historial_contactos/paciente/${this.pacienteID}/`
       )
       .then((response) => {
-        this.contactos = response.data
+        this.contactos = response.data.reverse()
       })
       .catch((error) => {
         console.log(error)

@@ -15,10 +15,10 @@
             data-bs-toggle="modal"
             :data-bs-target="`#${modalId}`"
             @click="
-              abrirModal('FormContacto', 'Añadir contacto con el paciente')
+              abrirModal('FormContacto', 'Registrar contacto con el paciente')
             "
           >
-            Añadir intento de contacto
+            Añadir contacto
           </button>
           <button
             type="button"
@@ -26,10 +26,13 @@
             data-bs-toggle="modal"
             :data-bs-target="`#${modalId}`"
             @click="
-              abrirModal('FormObservacion', 'Añadir observación al paciente')
+              abrirModal(
+                'FormAgregarDiagnosticos',
+                'Agregar diagnostico al paciente'
+              )
             "
           >
-            Añadir observación
+            Añadir diagnóstico
           </button>
           <button
             type="button"
@@ -52,24 +55,32 @@
             :data-bs-target="`#${modalId}`"
             @click="
               abrirModal(
-                'FormAgregarDiagnosticos',
-                'Agregar diagnosticos al paciente'
+                'FormAgregarMedicamento',
+                'Asignar medicamento al paciente'
               )
             "
           >
-            Añadir diagnóstico
-          </button>
-          <button type="button" class="btn btn-primary">
             Añadir medicamento
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            :data-bs-target="`#${modalId}`"
+            @click="
+              abrirModal('FormObservacion', 'Añadir observación al paciente')
+            "
+          >
+            Añadir observación
           </button>
         </div>
       </div>
       <!--Segunda fila-->
       <div class="row">
         <!--Primera columna -->
-        <div class="col col-md-4 col-lg-4">
+        <div class="col col1 col-md-4 col-lg-4">
           <!--Primera fila - Datos del paciente-->
-          <div class="row mb-1">
+          <div class="row">
             <div class="col">
               <div class="box">
                 <div class="box-header with-border">
@@ -101,17 +112,19 @@
             </div>
           </div>
           <!--Segunda fila - Diagnosticos-->
-          <div class="row mb-1">
-            <div class="col">
+          <div class="row">
+            <div class="col col-height">
               <div class="box">
                 <div class="box-header with-border">
                   <h5 class="box-title">Diágnosticos</h5>
                 </div>
                 <div class="box-body">
-                  <div class="diagnosticos">
+                  <div class="diagnosticos text-center">
                     <!-- Verificar si paciente.diagnosticos está definido antes de llamar a formatDiagnostico -->
                     <p v-if="paciente.diagnosticos">
-                      {{ formatoDiagnosticos(paciente.diagnosticos) }}
+                      <strong>{{
+                        formatoDiagnosticos(paciente.diagnosticos)
+                      }}</strong>
                     </p>
                     <!-- Mostrar un mensaje alternativo si paciente.diagnosticos no está definido -->
                     <p v-else>No hay diagnósticos disponibles.</p>
@@ -124,7 +137,7 @@
         <!--Segunda columna-->
         <div class="col">
           <!--Primera fila - Historial de contacto-->
-          <div class="row mb-1">
+          <div class="row">
             <div class="col">
               <div class="box">
                 <div class="box-header with-border">
@@ -169,23 +182,6 @@
             </div>
           </div>
         </div>
-        <!--Segunda columna-->
-        <div class="col">
-          <div class="box">
-            <div class="box-header with-border">
-              <h5 class="box-title">Historial de contacto</h5>
-            </div>
-            <div class="box-body">
-              <div class="historial-contacto">
-                <TablaHistorialContacto :pacienteID="pacienteID" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Tercera fila-->
-      <div class="row">
-        <!--Primera columna-->
       </div>
       <!--Tercera fila-->
       <div class="row">
@@ -227,9 +223,10 @@ import FormObservacion from '@/components/formularios/paciente/FormObservacion.v
 import FormContacto from '@/components/formularios/paciente/FormContacto.vue'
 import FormAsignarActividad from '@/components/formularios/paciente/FormAsignarActividad.vue'
 import FormAgregarDiagnosticos from '@/components/formularios/paciente/FormAgregarDiagnosticos.vue'
+import FormAgregarMedicamento from '@/components/formularios/paciente/FormAgregarMedicamento.vue'
 
 export default {
-  name: 'DetallePaciente',
+  name: 'Paciente',
   components: {
     Navbar,
     Modal,
@@ -243,6 +240,7 @@ export default {
     FormContacto,
     FormAsignarActividad,
     FormAgregarDiagnosticos,
+    FormAgregarMedicamento,
   },
   data() {
     return {
@@ -252,6 +250,8 @@ export default {
       modalTitle: '',
       currentComponent: {},
       modalId: 'modalId',
+      //Conf extra
+      col1Height: 0,
     }
   },
   mounted() {
@@ -260,6 +260,11 @@ export default {
       .then((response) => {
         this.paciente = response.data
       })
+      .catch((error) => {
+        console.log(error)
+      })
+    //Obtener altura de la columna 1
+    this.col1Height = document.querySelector('.col1').offsetHeight
   },
   methods: {
     formatoDiagnosticos(diagnosticos) {
@@ -279,6 +284,9 @@ export default {
         case 'FormAgregarDiagnosticos':
           this.currentComponent = FormAgregarDiagnosticos
           break
+        case 'FormAgregarMedicamento':
+          this.currentComponent = FormAgregarMedicamento
+          break
         default:
           this.currentComponent = ''
           return
@@ -297,18 +305,17 @@ export default {
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
-}*/
-.buttons-container {
-  background: none;
-  border: none;
-  padding: 10px;
 }
 .titulo {
   font-size: 30px;
   font-style: italic;
-}
+}*/
 .line {
   border-bottom: 1px solid #ccc;
+}
+.row {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .box {
   background-color: transparent !important;
@@ -328,5 +335,6 @@ export default {
   background-color: #f9f7f7;
   border-radius: 0 0 15px 15px;
   padding: 10px;
+  overflow: hidden;
 }
 </style>

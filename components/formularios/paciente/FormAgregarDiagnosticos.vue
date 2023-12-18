@@ -20,7 +20,7 @@
             {{ datosFormulario.apellido1 }} {{ datosFormulario.apellido2 }}
           </p>
           <p>
-            <strong>Diagnósticos actuales: </strong
+            <strong>Diagnósticos actuales del paciente: </strong
             >{{ formatoDiagnosticos(datosFormulario.diagnosticos) }}
           </p>
         </div>
@@ -31,29 +31,14 @@
           <label class="form-label required" for="posiblesDiagnosticos"
             >Agregar diagnósticos</label
           >
-          <multiselect
-            id="posiblesDiagnosticos"
+          <v-select
             name="posiblesDiagnosticos"
             v-model="nuevosDiagnosticos"
-            :options="posiblesDiagnosticos"
-            :multiple="true"
-            :close-on-select="true"
-            :searchable="true"
-            track-by="id"
+            :options="this.posiblesDiagnosticos"
             label="codigo"
-            placeholder="Seleccione uno o más diagnósticos"
-            :select-label="'Seleccionar'"
-            :deselect-label="'Eliminar selección'"
-            :selected-label="'Seleccionado'"
-            :no-result="'No se encontraron diagnósticos'"
-            :no-options="'No se encontraron diagnósticos'"
+            placeholder="Buscar diagnóstico"
             required
-          >
-            <template v-slot:noResult="{ search, count }">
-              <div>No hay diagnósticos disponibles</div>
-            </template>
-            ></multiselect
-          >
+          ></v-select>
         </div>
       </div>
       <!--Tercera fila-->
@@ -61,7 +46,7 @@
         <!--Primera columna - botones-->
         <div class="col text-center">
           <button
-            type="submit"
+            type="click"
             class="btn btn-primary"
             @click="agregarDiagnosticos"
           >
@@ -81,12 +66,12 @@
 </template>
 <script>
 import axios from 'axios'
-import Multiselect from 'vue-multiselect'
+import vSelect from 'vue-select'
 
 export default {
   name: 'FormAgregarDiagnosticos',
   components: {
-    Multiselect,
+    vSelect,
   },
   props: {
     datosFormulario: {
@@ -105,12 +90,11 @@ export default {
   },
   methods: {
     //Formato diagnósticos
-    formatoDiagnosticos(posiblesDiagnosticos) {
-      return posiblesDiagnosticos.join(', ')
+    formatoDiagnosticos(diagnosticos) {
+      return diagnosticos.join(', ')
     },
     //Limpiar formulario
     limpiarFormulario() {
-      console.log('Posibles diagnósticos:', this.posiblesDiagnosticos)
       this.nuevosDiagnosticos = []
       if (this.posiblesDiagnosticos.length > 0) {
         this.mensajeAviso = ''
@@ -131,9 +115,9 @@ export default {
         const response = await axios.get(
           this.$axios.defaults.baseURL + `diagnosticos/`
         )
-        this.posiblesDiagnosticos = response.data
+        const diagnosticos = response.data
         //Filtrar posiblesDiagnosticos ya asignados
-        this.posiblesDiagnosticos = this.posiblesDiagnosticos.filter(
+        this.posiblesDiagnosticos = diagnosticos.filter(
           (diagnostico) =>
             !this.datosFormulario.diagnosticos.includes(diagnostico.codigo)
         )
@@ -145,7 +129,7 @@ export default {
         console.log(error)
       }
     },
-    //Agregar posiblesDiagnosticos
+    //Agregar diagnostico al paciente
     async agregarDiagnosticos() {
       if (this.validarFormulario()) {
         this.nuevosDiagnosticos = this.nuevosDiagnosticos.map(

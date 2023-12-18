@@ -24,7 +24,7 @@
       <div class="row">
         <!--Primera columna - contenido-->
         <div class="col">
-          <label class="form-label" for="contenido"
+          <label class="form-label required" for="contenido"
             >Observación (Máx. 200 carácteres)</label
           >
           <textarea

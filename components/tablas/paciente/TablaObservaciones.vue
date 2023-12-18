@@ -30,17 +30,27 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get(
-        this.$axios.defaults.baseURL +
-          `pacientes/${this.pacienteID}/observaciones`
-      )
-      .then((response) => {
-        this.observaciones = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    this.getObservaciones()
+  },
+  methods: {
+    //Obtener observaciones
+    async getObservaciones() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL +
+            `pacientes/${this.pacienteID}/observaciones`
+        )
+        this.observaciones = response.data.reverse()
+      } catch (error) {
+        console.error('Error al obtener las observaciones: ', error)
+      }
+    },
   },
 }
 </script>
+<style scoped>
+.table-responsive {
+  max-height: 190px;
+  overflow-y: auto;
+}
+</style>

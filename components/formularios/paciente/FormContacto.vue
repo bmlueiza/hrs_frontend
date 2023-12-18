@@ -39,7 +39,6 @@
                 id="accion_gestor"
                 required
               >
-                <option disabled selected>Tipo de contacto</option>
                 <option v-for="accion in acciones" :value="accion.id">
                   {{ accion.nombre }}
                 </option>
@@ -56,7 +55,6 @@
                 id="resultado_contacto"
                 required
               >
-                <option disabled selected>Resultado</option>
                 <option v-for="resultado in resultados" :value="resultado.id">
                   {{ resultado.nombre }}
                 </option>
@@ -70,15 +68,14 @@
               <label class="form-label required" for="motivo">Motivo</label>
               <select
                 class="form-select"
-                v-model="tipo_motivo"
+                v-model="nuevoContacto.tipo_motivo"
                 @change="cambioTipoMotivo"
                 id="motivo"
                 required
               >
-                <option disabled selected>Motivo</option>
-                <option value="actividades">Actividad</option>
-                <option value="medicamentos">Medicamento</option>
-                <option value="diagnosticos">Diagnóstico</option>
+                <option :value="3">Asignación</option>
+                <option :value="2">Medicamento</option>
+                <option :value="1">Diagnóstico</option>
               </select>
             </div>
             <!--Segunda columna - motivo-->
@@ -90,7 +87,10 @@
                 class="form-select"
                 v-model="nuevoContacto.motivo"
                 id="secondSelect"
-                :disabled="tipo_motivo === '' || motivos.length === 0"
+                :disabled="
+                  this.nuevoContacto.tipo_motivo === '' ||
+                  this.motivos.length === 0
+                "
               >
                 <option v-for="motivo in motivos" :value="motivo">
                   {{ motivo }}
@@ -99,6 +99,32 @@
             </div>
           </div>
           <!--Cuarta fila-->
+          <div class="row">
+            <!--Primera columna - fecha-->
+            <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
+              <label class="form-label required" for="fecha">Fecha</label>
+              <input
+                class="form-control"
+                type="date"
+                v-model="nuevoContacto.fecha"
+                id="fecha"
+                :max="new Date().toISOString().slice(0, 10)"
+                required
+              />
+            </div>
+            <!--Segunda columna - hora-->
+            <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
+              <label class="form-label required" for="hora">Hora</label>
+              <input
+                class="form-control"
+                type="time"
+                v-model="nuevoContacto.hora"
+                id="hora"
+                required
+              />
+            </div>
+          </div>
+          <!--Quinta fila-->
           <div class="row">
             <!--Primera columna - botones-->
             <div class="col text-center">
@@ -138,19 +164,20 @@ export default {
     return {
       acciones: [],
       resultados: [],
-      tipo_motivo: '',
       //Motivos
       motivos: [],
       actividades_paciente: [],
-      medicamentos_paciente: [],
+      medicamentosPaciente: [],
       diagnosticos_paciente: this.datosFormulario.diagnosticos,
 
       nuevoContacto: {
         paciente: this.datosFormulario.id,
         gestor: this.datosFormulario.gestor,
-        fecha: new Date().toISOString().slice(0, 10),
-        accion_gestor: '',
+        fecha: '',
+        hora: '',
+        tipo_motivo: '',
         motivo: '',
+        accion_gestor: '',
         resultado_contacto: '',
       },
       mensajeAviso: '',
@@ -167,7 +194,7 @@ export default {
       this.nuevoContacto.accion_gestor = ''
       this.nuevoContacto.motivo = ''
       this.nuevoContacto.resultado_contacto = ''
-      this.tipo_motivo = ''
+      this.nuevoContacto.tipo_motivo = ''
       this.mensajeAviso = ''
       this.mensajeError = ''
     },
@@ -182,6 +209,25 @@ export default {
       } else if (this.nuevoContacto.resultado_contacto === '') {
         this.mensajeError = 'Debe seleccionar un resultado'
         return false
+      } else if (this.nuevoContacto.fecha === '') {
+        this.mensajeError = 'Debe seleccionar una fecha del contacto'
+        return false
+      } else if (
+        this.nuevoContacto.fecha > new Date().toISOString().slice(0, 10)
+      ) {
+        this.mensajeError =
+          'La fecha del contacto no puede ser después la fecha actual'
+        return false
+      } else if (this.nuevoContacto.hora === '') {
+        this.mensajeError = 'Debe seleccionar una hora del contacto'
+        return false
+      } else if (
+        this.nuevoContacto.hora < '08:00' ||
+        this.nuevoContacto.hora > '18:00'
+      ) {
+        this.mensajeError =
+          'La hora de la actividad debe estar entre las 8:00 y las 18:00'
+        return false
       } else {
         return true
       }
@@ -189,7 +235,26 @@ export default {
     //Agrega el contacto a la base de datos
     async agregarContacto() {
       if (this.validarFormulario()) {
-        return true
+        try {
+          const response = await axios.post(
+            this.$axios.defaults.baseURL + `historial_contactos/`,
+            this.nuevoContacto,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+          this.limpiarFormulario()
+          this.mensajeAviso = 'Contacto agregado correctamente'
+        } catch (error) {
+          console.error('Error al agregar contacto:', error.response.data)
+          this.mensajeAviso = ''
+          this.mensajeError = 'Error al agregar contacto'
+          setTimeout(() => {
+            this.mensajeError = ''
+          }, 4000)
+        }
       }
     },
     //Obtiene las acciones de gestor
@@ -224,11 +289,11 @@ export default {
       axios
         .get(
           this.$axios.defaults.baseURL +
-            `historial_medicamento/paciente/${this.datosFormulario.id}/`
+            `historial_medicamentos/paciente/${this.datosFormulario.id}/medicamentos/`
         )
         .then((response) => {
-          this.medicamentos_paciente = response.data
-          console.log('Medicamentos:', this.medicamentos_paciente)
+          this.medicamentosPaciente = response.data.nombres_medicamentos
+          console.log('Medicamentos:', this.medicamentosPaciente)
         })
         .catch((error) => {
           console.log(error)
@@ -250,8 +315,8 @@ export default {
     },
     //Cambia el tipo de motivo
     cambioTipoMotivo() {
-      switch (this.tipo_motivo) {
-        case 'actividades':
+      switch (this.nuevoContacto.tipo_motivo) {
+        case 3:
           if (this.actividades_paciente.length === 0) {
             this.motivos = []
             this.mensajeError = ''
@@ -263,8 +328,8 @@ export default {
             this.motivos = this.actividades_paciente
           }
           break
-        case 'medicamentos':
-          if (this.medicamentos_paciente.length === 0) {
+        case 2:
+          if (this.medicamentosPaciente.length === 0) {
             this.motivos = []
             this.mensajeError = ''
             this.mensajeAviso = 'El paciente no tiene medicamentos asignados'
@@ -272,10 +337,10 @@ export default {
             this.mensajeAviso = ''
             this.mensajeError = ''
             this.nuevoContacto.motivo = ''
-            this.motivos = this.medicamentos_paciente
+            this.motivos = this.medicamentosPaciente
           }
           break
-        case 'diagnosticos':
+        case 1:
           if (this.diagnosticos_paciente.length === 0) {
             this.motivos = []
             this.mensajeError = ''

@@ -90,22 +90,22 @@ nav {
 .navbar-brand {
   color: #f9f7f7;
 }
-
-.nav-link {
-  color: #f9f7f7;
-}
 .dropdown-menu {
-  background-color: #3f72af;
+  background: #112d4e;
 }
 .dropdown-item {
   color: #f9f7f7;
 }
 .custom-hover:hover {
-  background-color: rgba(17, 45, 78, 1) !important;
+  background-color: #3f72af !important;
+  color: #f9f7f7 !important;
 }
 .custom-hover2:hover {
-  background-color: rgba(17, 45, 78, 0.5) !important;
+  background-color: #3f72af !important;
   border-radius: 10px;
+}
+.navbar-nav {
+  --bs-nav-link-hover-color: #f9f7f7 !important;
 }
 @media (min-width: 991px) {
   nav {

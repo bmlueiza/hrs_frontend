@@ -12,7 +12,13 @@
 
 /*NAVBAR*/
 nav {
-  background-color: #3f72af;
+  background: #3f72af;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #112d4e, #3f72af);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #112d4e, #3f72af);
   color: #f9f7f7;
 }
 
@@ -26,8 +32,7 @@ nav {
 
 /*BODY-FONDO*/
 body {
-  /* fallback for old browsers */
-  background: #3f72af;
+  background: #112d4e;
 
   /* Chrome 10-25, Safari 5.1-6 */
   background: -webkit-linear-gradient(to right, #112d4e, #3f72af);
@@ -44,8 +49,9 @@ body {
 }
 .table-responsive {
   min-height: 0.01%;
+  overflow-y: auto;
 }
-.table .header {
+.table-responsive thead th {
   position: sticky;
   top: 0;
   background-color: #d2d6de;
@@ -55,12 +61,10 @@ body {
 .container {
   position: relative;
   border-radius: 3px;
-  background-color: #dbe2ef;
-  border-top: 3px solid #d2d6de;
-  margin: 10px auto;
+  background: transparent;
+  margin: auto;
   width: 100%;
   padding: 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 /*FORMULARIO*/
@@ -99,7 +103,6 @@ body {
   background-color: #f9f7f7;
   border-top: 3px solid #d2d6de;
   width: 100%;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box-header {
   color: #444;

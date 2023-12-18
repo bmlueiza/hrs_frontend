@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="container-fluid">
+    <div class="container">
       <section class="content-header">
         <div class="row">
           <div class="col-lg-6 col-md-12 d-flex">
@@ -46,7 +46,7 @@
               <button
                 @click="irIngresarPaciente"
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-dark"
               >
                 Ingresar paciente
               </button>
@@ -61,7 +61,27 @@
           <div class="col-12">
             <div class="box">
               <div class="box-header with-border">
-                <h4 class="box-title">Listado de Pacientes</h4>
+                <div class="row">
+                  <div class="col">
+                    <h4 class="box-title">Listado de Pacientes</h4>
+                  </div>
+                  <div class="col-2 ms-auto">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Filtrar por riesgo</option>
+                    </select>
+                  </div>
+                  <div class="col-2 ms-auto">
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>Filtrar por diagnóstico</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="box-body">
                 <TablaPacientes
@@ -127,18 +147,16 @@ export default {
 </script>
 <style scoped>
 .select,
-.form-control {
+.form-control,
+.form-select {
   height: fit-content !important;
-  align-self: center;
+  align-self: center !important;
 }
 .container-fluid {
   position: relative;
   border-radius: 3px;
-  background: #dbe2ef;
-  border-top: 3px solid #d2d6de;
   margin: 10px auto;
   width: 100%;
   padding: 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -25,6 +25,7 @@ export default {
     '@/assets/global.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
     '@/node_modules/bootstrap-icons/font/bootstrap-icons.css',
+    'vue-select/dist/vue-select.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

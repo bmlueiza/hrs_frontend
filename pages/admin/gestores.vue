@@ -82,23 +82,23 @@
 import Navbar from '@/components/Navbar.vue'
 import TablaGestores from '@/components/tablas/TablaGestores.vue'
 import Modal from '@/components/modales/Modal.vue'
-import FormCrearGestor from '@/components/formularios/FormCrearGestor.vue'
+import FormGestor from '@/components/formularios/FormGestor.vue'
 
 export default {
   components: {
     Navbar,
     TablaGestores,
     Modal,
-    FormCrearGestor,
+    FormGestor,
   },
   data() {
     return {
       terminoBusqueda: '',
       todosLosGestores: [],
       mostrarModal: false,
-      modalId: 'modalId',
+      modalId: 'modalAgregarGestor',
       modalTitle: 'Añadir nuevo gestor',
-      componenteFormulario: FormCrearGestor,
+      componenteFormulario: FormGestor,
     }
   },
   methods: {

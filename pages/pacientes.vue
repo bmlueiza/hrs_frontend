@@ -31,16 +31,42 @@
               Cancelar
             </button>
           </div>
+          <!--
           <div class="col ms-auto">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Filtrar por riesgo</option>
+            <label class="form-label" for="filtroRiesgo">Filtrar riesgo</label>
+            <select
+              id="filtroRiesgo"
+              class="form-select"
+              v-model="riesgoSeleccionado"
+              @change="filtrarPorRiesgo"
+            >
+              <option
+                v-for="riesgo in riesgos"
+                :key="riesgo[0]"
+                :value="riesgo[0]"
+              >
+                {{ riesgo[1] }}
+              </option>
             </select>
           </div>
           <div class="col ms-auto">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Filtrar por diagnóstico</option>
+            <label class="form-label" for="filtroDiagnostico"
+              >Filtrar diagnóstico</label
+            >
+            <select
+              id="filtroDiagnostico"
+              class="form-select"
+              v-model="diagnosticoSeleccionado"
+            >
+              <option
+                v-for="diagnostico in diagnosticos"
+                :key="diagnostico.id"
+                :value="diagnostico.id"
+              >
+                {{ diagnostico.codigo }}
+              </option>
             </select>
-          </div>
+          </div>-->
           <div class="col-auto ms-auto">
             <div class="btn-group pull-right">
               <button
@@ -65,22 +91,6 @@
                   <div class="col">
                     <h4 class="box-title">Listado de Pacientes</h4>
                   </div>
-                  <div class="col-2 ms-auto">
-                    <select
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option selected>Filtrar por riesgo</option>
-                    </select>
-                  </div>
-                  <div class="col-2 ms-auto">
-                    <select
-                      class="form-select"
-                      aria-label="Default select example"
-                    >
-                      <option selected>Filtrar por diagnóstico</option>
-                    </select>
-                  </div>
                 </div>
               </div>
               <div class="box-body">
@@ -99,6 +109,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Navbar from '@/components/Navbar.vue'
 import TablaPacientes from '@/components/tablas/TablaPacientes.vue'
 
@@ -110,6 +121,10 @@ export default {
   data() {
     return {
       terminoBusqueda: '',
+      riesgos: [],
+      diagnosticos: [],
+      riesgoSeleccionado: '',
+      diagnosticoSeleccionado: '',
       tablaActualizada: false,
     }
   },
@@ -142,6 +157,35 @@ export default {
         this.$refs.tablaPacientes.actualizarTabla()
       })
     },
+    getRiesgos() {
+      axios
+        .get(this.$axios.defaults.baseURL + 'pacientes/riesgos')
+        .then((response) => {
+          this.riesgos = response.data
+        })
+        .catch((error) => {
+          console.log('Error al obtener los datos de riesgos:', error)
+        })
+    },
+    getDiagnosticos() {
+      axios
+        .get(this.$axios.defaults.baseURL + 'diagnosticos')
+        .then((response) => {
+          this.diagnosticos = response.data
+        })
+        .catch((error) => {
+          console.log('Error al obtener los datos de diagnosticos:', error)
+        })
+    },
+    filtrarPorRiesgo() {
+      this.$nextTick(() => {
+        this.$refs.tablaPacientes.filtrarPorRiesgo(riesgoSeleccionado)
+      })
+    },
+  },
+  mounted() {
+    this.getRiesgos()
+    this.getDiagnosticos()
   },
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="table-responsive">
     <table class="table table-sm table-hover table-striped">
       <!--Cabecera de la tabla Gestores-->
-      <thead class="table-light">
+      <thead class="sticky-header">
         <tr>
           <th class="header" scope="col">RUT</th>
           <th class="header" scope="col">Nombre</th>
@@ -33,25 +33,32 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <a
+                  <button
+                    type="button"
                     class="dropdown-item"
-                    href="#"
                     data-bs-toggle="modal"
                     :data-bs-target="`#${modalId}`"
-                    @click.prevent="cargarDatos(gestor.id)"
                   >
                     Editar
-                  </a>
+                  </button>
                 </li>
-                <Modal
-                  ref="modal"
-                  :modalId="modalId"
-                  :modalTitle="modalTitle"
-                  :componenteFormulario="componenteFormulario"
-                  :mostrarModal="mostrarModal"
-                  :gestorId="gestorId"
-                />
-                <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                <li>
+                  <button
+                    type="button"
+                    class="dropdown-item"
+                    data-bs-toggle="modal"
+                    :data-bs-target="`#${modalId}`"
+                    @click="
+                      abrirModal(
+                        'FormEliminarGestor',
+                        'Eliminar gestor',
+                        gestor
+                      )
+                    "
+                  >
+                    Eliminar
+                  </button>
+                </li>
               </ul>
             </div>
           </td>
@@ -64,6 +71,12 @@
       </p>
       <p v-else>No hay gestores para mostrar.</p>
     </div>
+    <Modal
+      :modalId="modalId"
+      :modalTitle="modalTitle"
+      :componenteFormulario="currentComponent"
+      :datosFormulario="gestor"
+    />
   </div>
 </template>
 
@@ -71,23 +84,25 @@
 import axios from 'axios'
 import Modal from '@/components/modales/Modal.vue'
 import FormEditarGestor from '@/components/formularios/FormEditarGestor.vue'
+import FormEliminarGestor from '@/components/formularios/eliminar/FormEliminarGestor.vue'
 
 export default {
   name: 'TablaGestores',
   components: {
     Modal,
     FormEditarGestor,
+    FormEliminarGestor,
   },
   props: ['terminoBusqueda'],
   data() {
     return {
       gestores: [],
       totalGestores: 0,
-      mostrarModal: false,
-      modalId: 'modalId',
-      modalTitle: 'Editar información gestor',
-      componenteFormulario: FormEditarGestor,
-      gestorId: null,
+      //Modal
+      modalId: '',
+      modalTitle: '',
+      currentComponent: {},
+      gestor: {},
     }
   },
   mounted() {
@@ -103,8 +118,21 @@ export default {
     this.actualizarTabla()
   },
   methods: {
-    cargarDatos(id) {
-      gestorId = this.gestorId
+    abrirModal(componente, titulo, gestor) {
+      switch (componente) {
+        case 'FormEditarGestor':
+          this.modalId = 'modalId2'
+          this.currentComponent = FormEditarGestor
+          break
+        case 'FormEliminarGestor':
+          this.modalId = 'modalEliminarGestor'
+          this.currentComponent = FormEliminarGestor
+          break
+        default:
+          console.error('Error al abrir el modal: componente no encontrado')
+      }
+      this.modalTitle = titulo
+      this.gestor = gestor
     },
     actualizarTabla() {
       try {

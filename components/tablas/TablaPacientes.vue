@@ -44,7 +44,23 @@
                 </button>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Editar</a></li>
-                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                  <li>
+                    <button
+                      type="button"
+                      class="btn"
+                      data-bs-toggle="modal"
+                      :data-bs-target="`#${modalId}`"
+                      @click="
+                        abrirModal(
+                          'FormEliminarPaciente',
+                          'Eliminar paciente',
+                          paciente
+                        )
+                      "
+                    >
+                      Eliminar
+                    </button>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -58,17 +74,38 @@
       </p>
       <p v-else>No hay pacientes para mostrar.</p>
     </div>
+    <!--Modal-->
+    <Modal
+      :modalId="modalId"
+      :modalTitle="modalTitle"
+      :componenteFormulario="currentComponent"
+      :datosFormulario="paciente"
+    />
   </div>
 </template>
 <script>
 import axios from 'axios'
+import Modal from '@/components/modales/Modal.vue'
+import FormEliminarPaciente from '@/components/formularios/eliminar/FormEliminarPaciente.vue'
 
 export default {
+  name: 'TablaPacientes',
   props: ['terminoBusqueda'],
+  components: {
+    Modal,
+    FormEliminarPaciente,
+  },
   data() {
     return {
       pacientes: [],
       totalPacientes: 0,
+
+      //Modal
+      modalId: '',
+      modalTitle: '',
+      currentComponent: {},
+      paciente: {},
+      modalId: 'modalId',
     }
   },
   mounted() {
@@ -78,6 +115,18 @@ export default {
   methods: {
     formatDiagnostico(diagnosticos) {
       return diagnosticos.join(', ')
+    },
+    abrirModal(componente, titulo, paciente) {
+      switch (componente) {
+        case 'FormEliminarPaciente':
+          this.modalId = 'modalEliminarPaciente'
+          this.currentComponent = FormEliminarPaciente
+          break
+        default:
+          console.error('Error al abrir el modal: componente no encontrado')
+      }
+      this.modalTitle = titulo
+      this.paciente = paciente
     },
     seleccionarPaciente(pacienteID) {
       this.$router.push('/paciente/' + pacienteID)
@@ -110,6 +159,21 @@ export default {
         .catch((error) => {
           console.error('Error al obtener los pacientes: ', error)
         })
+    },
+    //Filtrar por riesgo
+    async filtrarPorRiesgo(riesgo) {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + `pacientes/riesgo/`,
+          riesgo
+        )
+        this.pacientes = response.data((a, b) =>
+          a.apellido1.localeCompare(b.apellido1)
+        )
+        this.$emit('actualizarTabla')
+      } catch (error) {
+        console.error('Error al filtrar por riesgo: ', error.response)
+      }
     },
   },
 }

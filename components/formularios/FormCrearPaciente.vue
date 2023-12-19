@@ -12,9 +12,9 @@
     </div>
     <form class="crear-paciente">
       <!-- Primera fila -->
-      <div class="row mb-4">
+      <div class="row mb-2">
         <!-- Primera columna - nombres-->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="nombres">Nombres</label>
             <input
@@ -31,7 +31,7 @@
           </div>
         </div>
         <!-- Segunda columna - primer apellido-->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="apellido1">Primer apellido</label>
             <input
@@ -48,7 +48,7 @@
           </div>
         </div>
         <!-- Tercera columna - segundo apellido-->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="apellido2">Segundo apellido</label>
             <input
@@ -66,9 +66,9 @@
         </div>
       </div>
       <!-- Segunda fila -->
-      <div class="row mb-4">
+      <div class="row mb-2">
         <!-- Primera columna - RUT -->
-        <div class="col">
+        <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
             <label class="form-label" for="rut">RUT</label>
             <input
@@ -88,7 +88,7 @@
         </div>
 
         <!-- Segunda columna - sexo -->
-        <div class="col">
+        <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
             <label class="form-label" for="sexo">Sexo</label>
             <select
@@ -108,7 +108,7 @@
         </div>
 
         <!-- Tercera columna - fecha de nacimiento -->
-        <div class="col">
+        <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-date">
             <label class="form-label" for="fechaNacimiento"
               >Fecha de nacimiento</label
@@ -125,7 +125,7 @@
         </div>
 
         <!-- Cuarta columna - riesgo -->
-        <div class="col">
+        <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
             <label class="form-label" for="riesgo">Riesgo</label>
             <select
@@ -149,9 +149,9 @@
         </div>
       </div>
       <!-- Tercera fila -->
-      <div class="row mb-4">
+      <div class="row mb-2">
         <!-- Primera columna - teléfono -->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="telefono">Teléfono</label>
             <input
@@ -170,7 +170,7 @@
         </div>
 
         <!-- Segunda columna - direccion -->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="direccion">Dirección</label>
             <input
@@ -187,7 +187,7 @@
         </div>
 
         <!-- Tercera columna -diagnostico -->
-        <div class="col">
+        <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
             <label class="form-label" for="diagnosticos">Diagnósticos</label>
             <multiselect
@@ -419,27 +419,3 @@ export default {
   },
 }
 </script>
-<style>
-.btn {
-  margin: 5px;
-}
-.form-label {
-  font-weight: bold;
-}
-
-@media (max-width: 540px) {
-  .form-outline {
-    margin-bottom: 20px; /* Ajusta según sea necesario */
-  }
-
-  label {
-    min-height: 40px; /* Establece una altura mínima para todas las etiquetas */
-    display: inline-block;
-    margin-bottom: 5px; /* Ajusta según sea necesario */
-  }
-
-  .form-control {
-    vertical-align: middle; /* Alinea verticalmente los elementos */
-  }
-}
-</style>

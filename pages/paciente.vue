@@ -202,6 +202,7 @@
     </div>
     <!--Modal-->
     <Modal
+      :modalId="modalId"
       :modalTitle="modalTitle"
       :componenteFormulario="currentComponent"
       :datosFormulario="this.paciente"
@@ -247,6 +248,7 @@ export default {
       pacienteID: this.$route.params.id,
       paciente: {},
       //Modal
+      modalId: '',
       modalTitle: '',
       currentComponent: {},
       modalId: 'modalId',
@@ -291,6 +293,7 @@ export default {
           this.currentComponent = ''
           return
       }
+      this.modalId = 'modalId'
       this.modalTitle = titulo
     },
   },

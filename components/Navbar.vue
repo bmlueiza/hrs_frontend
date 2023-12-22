@@ -56,13 +56,26 @@
           </li>
         </ul>
         <div class="d-flex">
-          <input
-            id="busquedaDirecta"
-            class="form-control"
-            type="search"
-            placeholder="Buscar paciente"
-          />
-          <button class="btn btn-outline-light" type="submit">
+          <b-typeahead
+            class="buscador"
+            :data="
+              pacientes.map(
+                (paciente) =>
+                  paciente.nombres +
+                  ' ' +
+                  paciente.apellido1 +
+                  ' ' +
+                  paciente.apellido2
+              )
+            "
+            placeholder="Buscar paciente..."
+            @hit="onHit"
+          ></b-typeahead>
+          <button
+            class="btn btn-outline-light"
+            type="submit"
+            @click="irPerfilPaciente"
+          >
             <i class="bi bi-search"></i>
           </button>
         </div>
@@ -77,10 +90,67 @@
     </div>
   </nav>
 </template>
+<script>
+import axios from 'axios'
+import vSelect from 'vue-select'
+import BTypeahead from 'vue-bootstrap-typeahead'
+
+export default {
+  name: 'Navbar',
+  components: {
+    vSelect,
+    BTypeahead,
+  },
+  data() {
+    return {
+      pacientes: [],
+      pacienteSeleccionado: '',
+      gestor: 1,
+    }
+  },
+  methods: {
+    async getPacientesGestor() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'pacientes/gestor/' + this.gestor
+        )
+        this.pacientes = response.data
+      } catch (error) {
+        console.log('Error al obtener los pacientes de este gestor', error)
+      }
+    },
+    onHit(item) {
+      // Se ejecuta cuando se selecciona un paciente
+      this.pacienteSeleccionado = this.pacientes.find(
+        (paciente) =>
+          paciente.nombres +
+            ' ' +
+            paciente.apellido1 +
+            ' ' +
+            paciente.apellido2 ===
+          item
+      )
+    },
+    irPerfilPaciente() {
+      if (this.pacienteSeleccionado === '') {
+        return
+      } else {
+        console.log('Paciente seleccionado: ', this.pacienteSeleccionado)
+        this.$router.push('/paciente/' + this.pacienteSeleccionado.id)
+      }
+    },
+  },
+  mounted() {
+    // Obtén la lista inicial de pacientes
+    this.getPacientesGestor()
+  },
+}
+</script>
 <style scoped>
-.form-control {
+.buscador {
   height: fit-content !important;
   align-self: center;
+  z-index: 2000;
 }
 nav {
   background-color: #3f72af;
@@ -107,6 +177,7 @@ nav {
 .navbar-nav {
   --bs-nav-link-hover-color: #f9f7f7 !important;
 }
+
 @media (min-width: 991px) {
   nav {
     height: 58px;

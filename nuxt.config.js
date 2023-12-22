@@ -1,5 +1,3 @@
-import manifest from './manifest'
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -26,6 +24,7 @@ export default {
     'vue-multiselect/dist/vue-multiselect.min.css',
     '@/node_modules/bootstrap-icons/font/bootstrap-icons.css',
     'vue-select/dist/vue-select.css',
+    'vue-bootstrap-typeahead/dist/VueBootstrapTypeahead.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -58,7 +57,19 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
-    manifest,
+    manifest: {
+      name: 'HRS para gestores de casos',
+      short_name: 'HRS',
+      description:
+        'Sitio web para que los gestores de caso puedan administrar la atención primaria de salud de pacientes adultos mayores y recibir recomendaciones sobre acciones a seguir en dicha atención.',
+      lang: 'es',
+      theme_color: '#112d4e',
+      background_color: '#3f72af',
+      start_url: '/',
+    },
+    //workbox: {
+    //  dev: true, // Modo de desarrollo, establecer a false en producción
+    //},
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

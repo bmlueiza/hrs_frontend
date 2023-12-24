@@ -98,6 +98,7 @@
                     <p><strong>RUT:</strong> {{ paciente.rut }}</p>
 
                     <p><strong>Sexo:</strong> {{ paciente.sexo }}</p>
+                    <p><strong>Edad:</strong> {{ edad }}</p>
                     <p>
                       <strong>Fecha de nacimiento:</strong>
                       {{ paciente.fecha_nacimiento }}
@@ -145,7 +146,10 @@
                 </div>
                 <div class="box-body">
                   <div class="historial-contacto">
-                    <TablaHistorialContacto :pacienteID="pacienteID" />
+                    <TablaHistorialContacto
+                      :pacienteID="pacienteID"
+                      class="max-table"
+                    />
                   </div>
                 </div>
               </div>
@@ -159,7 +163,10 @@
                 </div>
                 <div class="box-body">
                   <div class="observaciones">
-                    <TablaObservaciones :pacienteID="pacienteID" />
+                    <TablaObservaciones
+                      :pacienteID="pacienteID"
+                      class="max-table"
+                    />
                   </div>
                 </div>
               </div>
@@ -247,6 +254,7 @@ export default {
     return {
       pacienteID: this.$route.params.id,
       paciente: {},
+      edad: 0,
       //Modal
       modalId: '',
       modalTitle: '',
@@ -257,20 +265,22 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + `pacientes/${this.pacienteID}/`)
-      .then((response) => {
-        this.paciente = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    //Obtener altura de la columna 1
-    this.col1Height = document.querySelector('.col1').offsetHeight
+    this.getPaciente()
   },
   methods: {
     formatoDiagnosticos(diagnosticos) {
       return diagnosticos.join(', ')
+    },
+    async getPaciente() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + `pacientes/${this.pacienteID}/`
+        )
+        this.paciente = response.data
+        this.edad = this.calcularEdad(this.paciente.fecha_nacimiento)
+      } catch (error) {
+        console.log('Error al obtener el paciente', error)
+      }
     },
     abrirModal(componente, titulo) {
       switch (componente) {
@@ -295,6 +305,18 @@ export default {
       }
       this.modalId = 'modalId'
       this.modalTitle = titulo
+    },
+    calcularEdad(fechaNacimiento) {
+      let hoy = new Date()
+      let cumpleanos = new Date(fechaNacimiento)
+      let edad = hoy.getFullYear() - cumpleanos.getFullYear()
+      let m = hoy.getMonth() - cumpleanos.getMonth()
+
+      if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+        edad--
+      }
+
+      return edad
     },
   },
 }
@@ -339,5 +361,9 @@ export default {
   border-radius: 0 0 15px 15px;
   padding: 10px;
   overflow: hidden;
+}
+.max-table {
+  max-height: 180px;
+  overflow-y: scroll;
 }
 </style>

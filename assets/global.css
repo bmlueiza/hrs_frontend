@@ -55,6 +55,7 @@ body {
   position: sticky;
   top: 0;
   background-color: #d2d6de;
+  z-index: 1000;
 }
 
 /*CONTENEDOR*/

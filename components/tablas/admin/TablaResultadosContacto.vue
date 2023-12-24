@@ -2,12 +2,12 @@
   <div class="table-responsive">
     <table class="table table-sm table-striped table-bordered">
       <!--Cabecera de la tabla Resultados de contacto-->
-      <thead class="table-light">
+      <thead class="sticky-header">
         <tr>
-          <th class="header" scope="col">ID</th>
-          <th class="header" scope="col">Nombre</th>
-          <th class="header" scope="col">Descripción</th>
-          <th class="header" scope="col"></th>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>

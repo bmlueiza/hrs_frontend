@@ -48,7 +48,7 @@ export default {
           `asignacion_actividades/paciente/${this.pacienteID}/`
       )
       .then((response) => {
-        this.actividades = response.data
+        this.actividades = response.data.reverse()
       })
       .catch((error) => {
         console.log(error)

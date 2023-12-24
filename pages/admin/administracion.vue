@@ -9,7 +9,7 @@
         <!--Primera fila-->
         <div class="row">
           <!--Primera columna-->
-          <div class="col">
+          <div class="col mb-1">
             <div class="box">
               <div class="box-header with-border">
                 <div class="row">
@@ -41,7 +41,7 @@
           </div>
           <!--Fin primera columna-->
           <!--Segunda columna-->
-          <div class="col">
+          <div class="col mb-1">
             <div class="box">
               <div class="box-header with-border">
                 <div class="row">
@@ -111,6 +111,7 @@
       </section>
       <!--Modal-->
       <Modal
+        :modalId="modalId"
         :modalTitle="modalTitle"
         :componenteFormulario="currentComponent"
       />
@@ -178,6 +179,7 @@ export default {
 h1 {
   font-style: italic;
   border-bottom: 1px solid #ccc;
+  color: #d2d6de;
 }
 .max-table {
   max-height: 200px;

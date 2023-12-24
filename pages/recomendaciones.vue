@@ -10,7 +10,7 @@
                 <h4 class="box-title">Listado de Recomendaciones</h4>
               </div>
               <div class="box-body">
-                <TablaRecomendaciones />
+                <TablaRecomendaciones class="max-table-page" />
               </div>
             </div>
           </div>

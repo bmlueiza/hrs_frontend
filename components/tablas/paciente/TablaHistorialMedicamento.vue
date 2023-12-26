@@ -2,17 +2,18 @@
   <div class="table-responsive">
     <table class="table table-sm tabla-striped table-bordered">
       <!--Cabecera de la tabla Historial medicamento-->
-      <thead class="table-light">
+      <thead>
         <tr>
-          <th class="header" scope="col">Medicamento</th>
-          <th class="header" scope="col">Estado</th>
-          <th class="header" scope="col">Próximo despacho</th>
-          <th class="header" scope="col">Médico</th>
-          <th class="header" scope="col">Diágnostico</th>
-          <th class="header" scope="col">Indicaciones</th>
-          <th class="header" scope="col">Cantd. despacho</th>
-          <th class="header" scope="col">Fecha inicio</th>
-          <th class="header" scope="col">Fecha término</th>
+          <th>Medicamento</th>
+          <th>Estado</th>
+          <th>Próximo despacho</th>
+          <th>Médico</th>
+          <th>Diágnostico</th>
+          <th>Indicaciones</th>
+          <th>Cantd. despacho</th>
+          <th>Fecha inicio</th>
+          <th>Fecha término</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -26,34 +27,80 @@
           <td>{{ medicamento.cantd_otorgada }}</td>
           <td>{{ medicamento.fecha_inicio }}</td>
           <td>{{ medicamento.fecha_termino }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              :data-bs-target="`#${modalId}`"
+              @click="
+                abrirModal(
+                  'FormEditarMedicamento',
+                  'Editar estado y fecha del próximo despacho',
+                  medicamento
+                )
+              "
+            >
+              Editar
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <Modal
+      :modalId="modalId"
+      :modalTitle="modalTitle"
+      :componenteFormulario="currentComponent"
+      :datosFormulario="medicamento"
+    />
   </div>
 </template>
 <script>
 import axios from 'axios'
+import Modal from '@/components/modales/Modal.vue'
+import FormEditarMedicamento from '@/components/formularios/paciente/FormEditarMedicamento.vue'
 export default {
   name: 'TablaHistorialMedicamento',
   props: ['pacienteID'],
+  components: {
+    Modal,
+    FormEditarMedicamento,
+  },
   data() {
     return {
       medicamentos: [],
+      //Modal
+      currentComponent: FormEditarMedicamento,
+      modalId: '',
+      modalTitle: '',
+      medicamento: {},
     }
   },
   mounted() {
-    console.log(this.pacienteID)
-    axios
-      .get(
-        this.$axios.defaults.baseURL +
-          `historial_medicamentos/paciente/${this.pacienteID}/`
-      )
-      .then((response) => {
+    this.getMedicamentos()
+  },
+  methods: {
+    async getMedicamentos() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL +
+            `historial_medicamentos/paciente/${this.pacienteID}/`
+        )
         this.medicamentos = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      } catch (error) {
+        console.log('Error al obtener los medicamentos', error)
+      }
+    },
+    abrirModal(componente, titulo, medicamento) {
+      switch (componente) {
+        case 'FormEditarMedicamento':
+          this.modalId = 'modalId2'
+          this.currentComponente = FormEditarMedicamento
+          break
+      }
+      this.modalTitle = titulo
+      this.medicamento = medicamento
+    },
   },
 }
 </script>

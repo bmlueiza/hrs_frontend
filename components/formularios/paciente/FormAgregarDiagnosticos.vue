@@ -126,7 +126,7 @@ export default {
             'No hay diagnósticos disponibles para este paciente'
         }
       } catch (error) {
-        console.log(error)
+        console.log('Error al obtener los posiblesDiagnosticos', error)
       }
     },
     //Agregar diagnostico al paciente
@@ -135,7 +135,6 @@ export default {
         this.nuevosDiagnosticos = this.nuevosDiagnosticos.map(
           (diagnostico) => diagnostico.id
         )
-        console.log('Nuevo paciente:', this.nuevoPaciente)
         try {
           const response = await axios.put(
             this.$axios.defaults.baseURL +

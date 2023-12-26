@@ -2,13 +2,13 @@
   <div class="table-responsive">
     <table class="table table-sm tabla-striped table-bordered">
       <!--Cabecera de la tabla historial de contacto-->
-      <thead class="table-light">
+      <thead>
         <tr>
-          <th class="header" scope="col">Fecha</th>
-          <th class="header" scope="col">Hora</th>
-          <th class="header" scope="col">Acción</th>
-          <th class="header" scope="col">Motivo</th>
-          <th class="header" scope="col">Resultado</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Acción</th>
+          <th>Motivo</th>
+          <th>Resultado</th>
         </tr>
       </thead>
       <tbody>
@@ -34,18 +34,20 @@ export default {
     }
   },
   mounted() {
-    console.log(this.pacienteID)
-    axios
-      .get(
-        this.$axios.defaults.baseURL +
-          `historial_contactos/paciente/${this.pacienteID}/`
-      )
-      .then((response) => {
+    this.getContactos()
+  },
+  methods: {
+    async getContactos() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL +
+            `historial_contactos/paciente/${this.pacienteID}/`
+        )
         this.contactos = response.data.reverse()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+      } catch (error) {
+        console.log('Error al obtener los contactos', error)
+      }
+    },
   },
 }
 </script>

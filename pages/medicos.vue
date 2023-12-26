@@ -109,6 +109,9 @@ export default {
       componenteFormulario: FormMedico,
     }
   },
+  mounted() {
+    this.cargarUsuario()
+  },
   methods: {
     async cargarUsuario() {
       try {

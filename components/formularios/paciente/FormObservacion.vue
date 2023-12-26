@@ -113,7 +113,6 @@ export default {
               },
             }
           )
-          console.log('Nueva observación: ', this.nuevaObservacion)
           this.limpiarFormulario()
           this.mensajeAviso = 'Observación agregada correctamente'
           setTimeout(() => {

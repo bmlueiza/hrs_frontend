@@ -150,7 +150,6 @@ export default {
   methods: {
     //Limpiar formulario
     limpiarFormulario() {
-      console.log('Asignacion:', this.nuevaAsignacion)
       this.nuevaAsignacion = {
         actividad_medica: '',
         fecha_actividad: '',
@@ -197,7 +196,7 @@ export default {
         )
         this.actividades = response.data
       } catch (error) {
-        console.log(error)
+        console.log('Error al obtener las actividades:', error)
       }
     },
     //Obtener médicos
@@ -208,7 +207,7 @@ export default {
         )
         this.medicos = response.data
       } catch (error) {
-        console.log(error)
+        console.log('Error al obtener los médicos:', error)
       }
     },
     //Agregar asignación

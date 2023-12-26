@@ -38,7 +38,7 @@
             <div class="btn-group pull-right">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-dark"
                 data-bs-toggle="modal"
                 :data-bs-target="`#${modalId}`"
               >

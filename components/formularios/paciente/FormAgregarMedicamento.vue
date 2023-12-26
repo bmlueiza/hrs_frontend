@@ -347,12 +347,10 @@ export default {
     },
     //Agregar medicamento al paciente
     async agregarMedicamento() {
-      console.log('Medicamento:', this.nuevoMedicamento)
       if (this.validarFormulario()) {
         this.nuevoMedicamento.medicamento = this.nuevoMedicamento.medicamento.id
         this.nuevoMedicamento.medico = this.nuevoMedicamento.medico.id
         this.nuevoMedicamento.diagnostico = this.nuevoMedicamento.diagnostico.id
-        console.log('Medicamento:', this.nuevoMedicamento)
         try {
           const response = await axios.post(
             this.$axios.defaults.baseURL + `historial_medicamentos/`,

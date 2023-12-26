@@ -109,7 +109,6 @@
                 v-model="nuevoContacto.fecha"
                 id="fecha"
                 :max="new Date().toISOString().slice(0, 10)"
-                required
               />
             </div>
             <!--Segunda columna - hora-->
@@ -169,6 +168,7 @@ export default {
       actividades_paciente: [],
       medicamentosPaciente: [],
       diagnosticos_paciente: this.datosFormulario.diagnosticos,
+      all_actividades: [],
 
       nuevoContacto: {
         paciente: this.datosFormulario.id,
@@ -187,10 +187,6 @@ export default {
   methods: {
     //Limpiar formulario
     limpiarFormulario() {
-      console.log('nuevo contacto:', this.nuevoContacto)
-      console.log('accion id:', this.nuevoContacto.accion_gestor)
-      console.log('motivo:', this.nuevoContacto.motivo)
-      console.log('resultado:', this.nuevoContacto.resultado_contacto)
       this.nuevoContacto.accion_gestor = ''
       this.nuevoContacto.motivo = ''
       this.nuevoContacto.resultado_contacto = ''
@@ -263,10 +259,22 @@ export default {
         .get(this.$axios.defaults.baseURL + 'acciones_gestor')
         .then((response) => {
           this.acciones = response.data
-          console.log('Acciones:', this.acciones)
         })
         .catch((error) => {
-          console.log(error)
+          console.log('Error al obtener las acciones', error)
+        })
+    },
+    //Obtiene todas las actividades médicas
+    async getActividades() {
+      axios
+        .get(this.$axios.defaults.baseURL + 'actividades_medicas')
+        .then((response) => {
+          this.all_actividades = response.data.map(
+            (actividad) => actividad.nombre
+          )
+        })
+        .catch((error) => {
+          console.log('Error al obtener las actividades', error)
         })
     },
     //Obtiene las actividades asignadas al paciente
@@ -278,10 +286,10 @@ export default {
         )
         .then((response) => {
           this.actividades_paciente = response.data
-          console.log('Actividades:', this.actividades_paciente)
+          console.log('Actividades paciente', this.actividades_paciente)
         })
         .catch((error) => {
-          console.log(error)
+          console.log('Error al obtener las actividades del paciente', error)
         })
     },
     //Obtiene los medicamentos asignados al paciente
@@ -293,7 +301,6 @@ export default {
         )
         .then((response) => {
           this.medicamentosPaciente = response.data.nombres_medicamentos
-          console.log('Medicamentos:', this.medicamentosPaciente)
         })
         .catch((error) => {
           console.log(error)
@@ -307,10 +314,9 @@ export default {
         .get(this.$axios.defaults.baseURL + 'resultados_contacto/')
         .then((response) => {
           this.resultados = response.data
-          console.log('Resultados:', this.resultados)
         })
         .catch((error) => {
-          console.log(error)
+          console.log('Error al obtener los resultados', error)
         })
     },
     //Cambia el tipo de motivo
@@ -318,14 +324,24 @@ export default {
       switch (this.nuevoContacto.tipo_motivo) {
         case 3:
           if (this.actividades_paciente.length === 0) {
-            this.motivos = []
-            this.mensajeError = ''
+            if (this.nuevoContacto.accion_gestor != 5) {
+              this.motivos = this.all_actividades
+            } else {
+              this.motivos = []
+            }
             this.mensajeAviso = 'El paciente no tiene actividades asignadas'
-          } else {
-            this.mensajeAviso = ''
             this.mensajeError = ''
-            this.nuevoContacto.motivo = ''
-            this.motivos = this.actividades_paciente
+          } else {
+            if (this.nuevoContacto.accion_gestor === 5) {
+              this.motivos = this.all_actividades
+              this.mensajeAviso = ''
+              this.mensajeError = ''
+            } else {
+              this.mensajeAviso = ''
+              this.mensajeError = ''
+              this.nuevoContacto.motivo = ''
+              this.motivos = this.actividades_paciente
+            }
           }
           break
         case 2:
@@ -361,9 +377,9 @@ export default {
   mounted() {
     this.getAcciones()
     this.getResultados()
+    this.getActividades()
     this.getActividadesPaciente()
     this.getMedicamentosPaciente()
-    console.log('Diagnosticos listados:', this.diagnosticos_paciente)
   },
 }
 </script>

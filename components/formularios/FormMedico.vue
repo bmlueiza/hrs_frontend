@@ -14,9 +14,9 @@
       <!-- Primera fila -->
       <div class="row">
         <!-- Primera columna - rut -->
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="rut">Rut</label>
+            <label class="form-label required" for="rut">RUT</label>
             <input
               type="text"
               id="rut"
@@ -24,15 +24,18 @@
               class="form-control"
               autocomplete="off"
               v-model="nuevoMedico.rut"
+              @input="formatRut"
               maxlength="12"
               required
             />
           </div>
         </div>
         <!-- Segunda columna - especialidad -->
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="especialidad">Especialidad</label>
+            <label class="form-label required" for="especialidad"
+              >Especialidad</label
+            >
             <input
               type="text"
               id="especialidad"
@@ -49,9 +52,9 @@
       <!-- Segunda fila -->
       <div class="row">
         <!-- Primera columna - nombre -->
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="nombre">Nombre</label>
+            <label class="form-label required" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -65,9 +68,9 @@
           </div>
         </div>
         <!-- Segunda columna - apellido -->
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="apellido">Apellido</label>
+            <label class="form-label required" for="apellido">Apellido</label>
             <input
               type="text"
               id="apellido"
@@ -83,11 +86,11 @@
       </div>
     </form>
     <div class="botones text-center">
-      <button type="button" class="btn btn-primary" @click="agregarMedico">
+      <button type="submit" class="btn btn-primary" @click="agregarMedico">
         Agregar
       </button>
       <button type="button" class="btn btn-primary" @click="limpiarFormulario">
-        Limpiar
+        Cancelar
       </button>
     </div>
   </div>
@@ -97,7 +100,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'FormCrearMedico',
+  name: 'FormMedico',
   data() {
     return {
       nuevoMedico: {
@@ -122,6 +125,9 @@ export default {
           )
           this.limpiarFormulario()
           this.mensajeAviso = 'Medico agregado correctamente'
+          setTimeout(() => {
+            this.mensajeAviso = ''
+          }, 3000)
         } catch (error) {
           console.log(error)
           this.mensajeError = 'Error al agregar medico'
@@ -131,7 +137,7 @@ export default {
     },
     validarFormulario() {
       if (this.nuevoMedico.rut.trim() === '') {
-        this.mensajeError = 'Debe ingresar un rut'
+        this.mensajeError = 'Debe ingresar un RUT'
         return false
       }
       if (this.nuevoMedico.especialidad.trim() === '') {
@@ -155,6 +161,30 @@ export default {
       this.nuevoMedico.apellido = ''
       this.mensajeError = ''
       this.mensajeAviso = ''
+    },
+    formatRut() {
+      // Eliminar caracteres no numéricos en el cuerpo del RUT, excepto el último dígito después del guion
+      this.nuevoMedico.rut = this.nuevoMedico.rut.replace(/[^0-9kK]/g, '')
+      let rut = this.nuevoMedico.rut
+
+      // Aplicar formato al cuerpo del RUT permitiendo solo números
+      if (rut.length > 7) {
+        // Obtener parte numérica y dígito verificador
+        const parteNumerica = rut.slice(0, -1)
+        const digitoVerificador = rut.slice(-1).toLowerCase()
+
+        // Formatear la parte numérica
+        let rutFormateado = parteNumerica.replace(
+          /(\d)(?=(\d{3})+(?!\d))/g,
+          '$1.'
+        )
+
+        // Agregar el guión y el dígito verificador
+        rutFormateado = rutFormateado + '-' + digitoVerificador
+
+        // Actualizar el valor del RUT en el modelo
+        this.nuevoMedico.rut = rutFormateado
+      }
     },
   },
 }

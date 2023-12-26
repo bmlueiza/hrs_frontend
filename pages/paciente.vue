@@ -2,11 +2,6 @@
   <div>
     <Navbar />
     <div class="container">
-      <!--<h4 class="titulo text-center">
-        Paciente {{ paciente.nombres }} {{ paciente.apellido1 }}
-        {{ paciente.apellido2 }}
-      </h4>-->
-      <!--Primera fila - Botones-->
       <div class="row">
         <div class="col buttons-container text-center">
           <button
@@ -159,11 +154,13 @@
             <div class="col">
               <div class="box">
                 <div class="box-header with-border">
-                  <h5 class="box-title">Observaciones</h5>
+                  <h5 class="box-title">
+                    Recomendaciones basadas en pacientes similares
+                  </h5>
                 </div>
                 <div class="box-body">
-                  <div class="observaciones">
-                    <TablaObservaciones
+                  <div class="recomendaciones">
+                    <TablaRecomendacionesPerfil
                       :pacienteID="pacienteID"
                       class="max-table"
                     />
@@ -206,6 +203,25 @@
           </div>
         </div>
       </div>
+      <!--Cuarta fila-->
+      <div class="row">
+        <!--Primera columna-->
+        <div class="col">
+          <div class="box">
+            <div class="box-header with-border">
+              <h5 class="box-title">Observaciones</h5>
+            </div>
+            <div class="box-body">
+              <div class="observaciones">
+                <TablaObservaciones
+                  :pacienteID="pacienteID"
+                  class="max-table"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!--Modal-->
     <Modal
@@ -226,6 +242,7 @@ import TablaHistorialContacto from '@/components/tablas/paciente/TablaHistorialC
 import TablaAsignacionActividades from '@/components/tablas/paciente/TablaAsignacionActividades.vue'
 import TablaHistorialMedicamento from '@/components/tablas/paciente/TablaHistorialMedicamento.vue'
 import TablaObservaciones from '@/components/tablas/paciente/TablaObservaciones.vue'
+import TablaRecomendacionesPerfil from '@/components/tablas/paciente/TablaRecomendacionesPerfil.vue'
 //Formularios
 import FormObservacion from '@/components/formularios/paciente/FormObservacion.vue'
 import FormContacto from '@/components/formularios/paciente/FormContacto.vue'
@@ -243,6 +260,7 @@ export default {
     TablaAsignacionActividades,
     TablaObservaciones,
     TablaHistorialMedicamento,
+    TablaRecomendacionesPerfil,
     //Formularios
     FormObservacion,
     FormContacto,
@@ -252,6 +270,7 @@ export default {
   },
   data() {
     return {
+      //Paciente
       pacienteID: this.$route.params.id,
       paciente: {},
       edad: 0,
@@ -323,18 +342,6 @@ export default {
 </script>
 
 <style scoped>
-/*.col-sm-6,
-.col {
-  background: #f9f7f7;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
-}
-.titulo {
-  font-size: 30px;
-  font-style: italic;
-}*/
 .line {
   border-bottom: 1px solid #ccc;
 }

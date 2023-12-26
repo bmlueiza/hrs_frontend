@@ -48,9 +48,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.table-responsive {
-  max-height: 190px;
-  overflow-y: auto;
-}
-</style>

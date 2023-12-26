@@ -16,7 +16,7 @@
         <!--Primera columna - nombre-->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="nombre">Nombre</label>
+            <label class="form-label required" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -25,36 +25,15 @@
               autocomplete="off"
               v-model="nuevaAccion.nombre"
               maxlength="50"
-              required
             />
           </div>
         </div>
       </div>
       <!--Segunda fila-->
-      <div class="row">
-        <!--Primera columna - estado-->
-        <div class="col">
-          <div class="form-outline">
-            <label class="form-label" for="estado">Activo</label>
-            <!--Checkbox-->
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="estado"
-                name="estado"
-                v-model="nuevaAccion.estado"
-              />
-            </div>
-          </div>
-        </div>
-        <!--Fin primera columna-->
-      </div>
-      <!--Tercera fila-->
       <div class="row mt-3 text-center">
         <div class="col">
           <button
-            type="button"
+            type="submit"
             class="btn btn-primary"
             @click="agregarOActualizarAccion"
           >
@@ -65,7 +44,7 @@
             class="btn btn-primary"
             @click="limpiarFormulario"
           >
-            Limpiar
+            Cancelar
           </button>
         </div>
       </div>
@@ -132,7 +111,7 @@ export default {
     //Funcion para validar formulario
     validarFormulario() {
       if (this.nuevaAccion.nombre.trim() === '') {
-        this.mensajeError = 'Debe ingresar un nombre'
+        this.mensajeError = 'El campo Nombre es obligatorio'
         return false
       }
       return true

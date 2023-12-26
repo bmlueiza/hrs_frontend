@@ -16,7 +16,7 @@
         <!-- Primera columna - nombres-->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="nombres">Nombres</label>
+            <label class="form-label required" for="nombres">Nombres</label>
             <input
               type="text"
               id="nombres"
@@ -26,14 +26,15 @@
               v-model="nuevoPaciente.nombres"
               @input="formatoNombre('nombres')"
               maxlength="50"
-              required
             />
           </div>
         </div>
         <!-- Segunda columna - primer apellido-->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="apellido1">Primer apellido</label>
+            <label class="form-label required" for="apellido1"
+              >Primer apellido</label
+            >
             <input
               type="text"
               id="apellido1"
@@ -43,14 +44,15 @@
               v-model="nuevoPaciente.apellido1"
               maxlength="25"
               @input="formatoNombre('apellido1')"
-              required
             />
           </div>
         </div>
         <!-- Tercera columna - segundo apellido-->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="apellido2">Segundo apellido</label>
+            <label class="form-label required" for="apellido2"
+              >Segundo apellido</label
+            >
             <input
               type="text"
               id="apellido2"
@@ -60,7 +62,6 @@
               v-model="nuevoPaciente.apellido2"
               maxlength="25"
               @input="formatoNombre('apellido2')"
-              required
             />
           </div>
         </div>
@@ -70,7 +71,7 @@
         <!-- Primera columna - RUT -->
         <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="rut">RUT</label>
+            <label class="form-label required" for="rut">RUT</label>
             <input
               type="text"
               id="rut"
@@ -82,7 +83,6 @@
               maxlength="12"
               minlength="11"
               @input="formatoRut"
-              required
             />
           </div>
         </div>
@@ -90,16 +90,8 @@
         <!-- Segunda columna - sexo -->
         <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="sexo">Sexo</label>
-            <select
-              id="sexo"
-              v-model="nuevoPaciente.sexo"
-              class="form-select"
-              required
-            >
-              <option value="" disabled selected hidden>
-                Sexo del paciente
-              </option>
+            <label class="form-label required" for="sexo">Sexo</label>
+            <select id="sexo" v-model="nuevoPaciente.sexo" class="form-select">
               <option v-for="sexo in sexos" :key="sexo[0]" :value="sexo[0]">
                 {{ sexo[1] }}
               </option>
@@ -110,7 +102,7 @@
         <!-- Tercera columna - fecha de nacimiento -->
         <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-date">
-            <label class="form-label" for="fechaNacimiento"
+            <label class="form-label required" for="fechaNacimiento"
               >Fecha de nacimiento</label
             >
             <input
@@ -119,7 +111,6 @@
               name="fechaNacimiento"
               class="form-control"
               v-model="nuevoPaciente.fecha_nacimiento"
-              required
             />
           </div>
         </div>
@@ -127,16 +118,12 @@
         <!-- Cuarta columna - riesgo -->
         <div class="col-12 col-md-3 col-lg-3 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="riesgo">Riesgo</label>
+            <label class="form-label required" for="riesgo">Riesgo</label>
             <select
               id="riesgo"
               v-model="nuevoPaciente.riesgo"
               class="form-select"
-              required
             >
-              <option value="" disabled selected hidden>
-                Riesgo del paciente
-              </option>
               <option
                 v-for="riesgo in riesgos"
                 :key="riesgo[0]"
@@ -153,7 +140,7 @@
         <!-- Primera columna - teléfono -->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="telefono">Teléfono</label>
+            <label class="form-label required" for="telefono">Teléfono</label>
             <input
               type="text"
               id="telefono"
@@ -164,7 +151,6 @@
               v-model="nuevoPaciente.telefono"
               @input="filtrarLetras"
               maxlength="12"
-              required
             />
           </div>
         </div>
@@ -172,7 +158,7 @@
         <!-- Segunda columna - direccion -->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="direccion">Dirección</label>
+            <label class="form-label required" for="direccion">Dirección</label>
             <input
               type="text"
               id="direccion"
@@ -181,7 +167,6 @@
               autocomplete="off"
               v-model="nuevoPaciente.direccion"
               maxlength="50"
-              required
             />
           </div>
         </div>
@@ -189,7 +174,9 @@
         <!-- Tercera columna -diagnostico -->
         <div class="col-12 col-md-4 col-lg-4 mb-1">
           <div class="form-outline">
-            <label class="form-label" for="diagnosticos">Diagnósticos</label>
+            <label class="form-label required" for="diagnosticos"
+              >Diagnósticos</label
+            >
             <multiselect
               id="diagnosticos"
               v-model="nuevoPaciente.diagnosticos"
@@ -217,10 +204,14 @@
 
       <!-- Botón Ingresar paciente -->
       <div class="text-center">
-        <button type="submit" class="btn btn-primary" @submit="crearPaciente">
+        <button type="button" class="btn btn-primary" @click="crearPaciente">
           Ingresar paciente
         </button>
-        <button type="reset" class="btn btn-primary" @click="limpiarFormulario">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="limpiarFormulario"
+        >
           Cancelar
         </button>
       </div>
@@ -238,6 +229,8 @@ export default {
   },
   data() {
     return {
+      // Usuario logueado
+      usuario: '',
       listaDiagnosticos: [],
       sexos: [],
       riesgos: [],
@@ -254,7 +247,7 @@ export default {
         direccion: '',
         riesgo: '',
         diagnosticos: [],
-        gestor: 1,
+        gestor: '',
       },
       // Avisos
       mensajeError: '',
@@ -262,37 +255,26 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + 'diagnosticos/')
-      .then((response) => {
-        this.listaDiagnosticos = response.data
-        console.log('Diagnosticos:', this.listaDiagnosticos)
-      })
-      .catch((error) => {
-        console.log('Error al obtener los datos de diagnosticos:', error)
-      }),
-      axios
-        .get(this.$axios.defaults.baseURL + 'pacientes/riesgos')
-        .then((response) => {
-          this.riesgos = response.data
-          console.log('Riesgos:', this.riesgos)
-        })
-        .catch((error) => {
-          console.log('Error al obtener los datos de riesgos:', error)
-        }),
-      axios
-        .get(this.$axios.defaults.baseURL + 'pacientes/sexos')
-        .then((response) => {
-          this.sexos = response.data
-          console.log('Sexos:', this.sexos)
-        })
-        .catch((error) => {
-          console.log('Error al obtener los datos de sexos:', error)
-        })
+    this.cargarUsuario()
+    this.getDiagnosticos()
+    this.getRiesgos()
+    this.getSexos()
   },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     async crearPaciente() {
       if (this.validarFormulario()) {
+        this.nuevoPaciente.gestor = this.usuario.id
         this.nuevoPaciente.diagnosticos = this.nuevoPaciente.diagnosticos.map(
           (diagnostico) => diagnostico.id
         )
@@ -319,6 +301,36 @@ export default {
           })
       }
     },
+    async getDiagnosticos() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'diagnosticos/'
+        )
+        this.listaDiagnosticos = response.data
+      } catch (error) {
+        console.log('Error al obtener los datos de diagnosticos:', error)
+      }
+    },
+    async getRiesgos() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'pacientes/riesgos'
+        )
+        this.riesgos = response.data
+      } catch (error) {
+        console.log('Error al obtener los datos de riesgos:', error)
+      }
+    },
+    async getSexos() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'pacientes/sexos'
+        )
+        this.sexos = response.data
+      } catch (error) {
+        console.log('Error al obtener los datos de sexos:', error)
+      }
+    },
     validarFormulario() {
       if (this.nuevoPaciente.nombres.trim() === '') {
         this.mensajeError = 'El campo Nombres es obligatorio'
@@ -332,13 +344,13 @@ export default {
       } else if (this.nuevoPaciente.rut.trim() === '') {
         this.mensajeError = 'El campo RUT es obligatorio'
         return false
-      } else if (this.nuevoPaciente.rut.lenght < 11) {
+      } else if (this.nuevoPaciente.rut.length < 11) {
         this.mensajeError = 'El campo RUT debe tener al menos 11 caracteres'
         return false
       } else if (this.nuevoPaciente.sexo === '') {
         this.mensajeError = 'Debe seleccionar el sexo del paciente'
         return false
-      } else if (this.nuevoPaciente.fechaNacimiento === '') {
+      } else if (this.nuevoPaciente.fecha_nacimiento === '') {
         this.mensajeError = 'El campo Fecha de nacimiento es obligatorio'
         return false
       } else if (this.nuevoPaciente.telefono.trim() === '') {

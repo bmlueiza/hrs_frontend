@@ -74,11 +74,11 @@ export default {
   },
   data() {
     return {
+      usuario: '',
       nuevaObservacion: {
         contenido: '',
         paciente: parseInt(this.datosFormulario.id),
-        gestor: this.datosFormulario.gestor,
-        //fecha de hoy
+        gestor: '',
         fecha_generacion: new Date().toISOString().split('T')[0],
       },
       mensajeAviso: '',
@@ -86,16 +86,25 @@ export default {
     }
   },
   mounted() {
-    console.log(this.nuevaObservacion.fecha_generacion)
-    console.log('Datos:', this.datosFormulario)
-    console.log('Paciente:', this.nuevaObservacion.paciente)
-    console.log('Gestor:', this.nuevaObservacion.gestor)
+    this.cargarUsuario()
   },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     async agregarObservacion() {
+      this.nuevaObservacion.gestor = this.usuario.id
       if (this.validarFormulario()) {
-        axios
-          .post(
+        try {
+          const response = await axios.post(
             this.$axios.defaults.baseURL + `observaciones/`,
             this.nuevaObservacion,
             {
@@ -104,21 +113,19 @@ export default {
               },
             }
           )
-          .then((response) => {
-            this.limpiarFormulario()
-            this.mensajeAviso = 'Observación agregada correctamente'
-            setTimeout(() => {
-              this.mensajeAviso = ''
-            }, 4000)
-          })
-          .catch((error) => {
-            console.error('Error al agregar observación:', error.response.data)
+          console.log('Nueva observación: ', this.nuevaObservacion)
+          this.limpiarFormulario()
+          this.mensajeAviso = 'Observación agregada correctamente'
+          setTimeout(() => {
             this.mensajeAviso = ''
-            this.mensajeError = 'Error al agregar observación'
-            setTimeout(() => {
-              this.mensajeError = ''
-            }, 4000)
-          })
+          }, 4000)
+        } catch (error) {
+          this.mensajeAviso = ''
+          this.mensajeError = 'Error al agregar observación'
+          setTimeout(() => {
+            this.mensajeError = ''
+          }, 4000)
+        }
       }
     },
     validarFormulario() {

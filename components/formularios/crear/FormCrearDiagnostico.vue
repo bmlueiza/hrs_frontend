@@ -16,7 +16,7 @@
         <!-- Primera columna - nombre -->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="nombre">Nombre</label>
+            <label class="form-label required" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -32,7 +32,7 @@
         <!-- Segunda columna - código-->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="codigo">Código</label>
+            <label class="form-label required" for="codigo">Código</label>
             <input
               type="text"
               id="codigo"
@@ -67,7 +67,7 @@
       </div>
     </form>
     <div class="botones text-center">
-      <button type="button" class="btn btn-primary" @click="agregarDiagnostico">
+      <button type="submit" class="btn btn-primary" @click="agregarDiagnostico">
         Añadir diagnostico
       </button>
       <button type="button" class="btn btn-primary" @click="limpiarFormulario">
@@ -97,7 +97,6 @@ export default {
     async agregarDiagnostico() {
       if (this.validarFormulario()) {
         try {
-          console.log('Nuevo diagnostico:', this.nuevoDiagnostico)
           const response = await axios.post(
             this.$axios.defaults.baseURL + 'diagnosticos/',
             this.nuevoDiagnostico,
@@ -107,9 +106,11 @@ export default {
               },
             }
           )
-          console.log('Nuevo diagnostico agregado:', response.data)
           this.limpiarFormulario()
           this.mensajeAviso = 'Diagnostico agregado correctamente.'
+          setTimeout(() => {
+            this.mensajeAviso = ''
+          }, 6000)
         } catch (error) {
           console.log('Error:', error.response.data)
           this.mensajeError =

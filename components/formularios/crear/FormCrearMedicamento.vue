@@ -16,7 +16,7 @@
         <!-- Primera columna - nombre -->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="nombre">Nombre</label>
+            <label class="form-label required" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -29,23 +29,6 @@
             />
           </div>
         </div>
-        <!-- Segunda columna - código-->
-        <div class="col">
-          <div class="form-outline">
-            <label class="form-label" for="codigo">Código</label>
-            <input
-              type="text"
-              id="codigo"
-              name="codigo"
-              class="form-control"
-              autocomplete="off"
-              v-model="nuevoMedicamento.codigo"
-              maxlength="10"
-              required
-            />
-          </div>
-        </div>
-        <!-- Fin segunda columna -->
       </div>
       <!-- Fin primera fila -->
       <!-- Segunda fila -->
@@ -71,7 +54,7 @@
       <!-- Fin segunda fila -->
     </form>
     <div class="botones text-center">
-      <button @click="agregarMedicamento" class="btn btn-primary" type="button">
+      <button @click="agregarMedicamento" class="btn btn-primary" type="submit">
         Agregar medicamento
       </button>
       <button @click="limpiarFormulario" class="btn btn-primary" type="button">
@@ -90,7 +73,6 @@ export default {
     return {
       nuevoMedicamento: {
         nombre: '',
-        codigo: '',
         descripcion: '',
       },
       mensajeAviso: '',
@@ -99,15 +81,23 @@ export default {
   },
   methods: {
     async agregarMedicamento() {
-      if (!this.validarFormulario()) {
+      if (this.validarFormulario()) {
         try {
           const response = await axios.post(
-            this.$axios.defaults.baseURL + '/medicamentos',
-            this.nuevoMedicamento
+            this.$axios.defaults.baseURL + 'medicamentos/',
+            this.nuevoMedicamento,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
           )
           console.log('Nuevo medicamento:', this.nuevoMedicamento)
           this.limpiarFormulario()
           this.mensajeAviso = 'Medicamento agregado correctamente'
+          setTimeout(() => {
+            this.mensajeAviso = ''
+          }, 3000)
         } catch (error) {
           console.log(error)
           this.mensajeError =
@@ -121,16 +111,11 @@ export default {
         this.mensajeError = 'El nombre es obligatorio'
         return false
       }
-      if (this.nuevoMedicamento.codigo.trim() === '') {
-        this.mensajeError = 'El código es obligatorio'
-        return false
-      }
       return true
     },
     async limpiarFormulario() {
       this.nuevoMedicamento = {
         nombre: '',
-        codigo: '',
         descripcion: '',
       }
       this.mensajeError = ''

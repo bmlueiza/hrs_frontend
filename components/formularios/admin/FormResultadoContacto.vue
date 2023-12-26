@@ -16,7 +16,7 @@
         <!--Primera columna - nombre-->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="nombre">Nombre</label>
+            <label class="form-label required" for="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
@@ -25,7 +25,6 @@
               autocomplete="off"
               v-model="nuevoResultado.nombre"
               maxlength="50"
-              required
             />
           </div>
         </div>
@@ -52,7 +51,7 @@
       <div class="row mt-3 text-center">
         <div class="col">
           <button
-            type="button"
+            type="submit"
             class="btn btn-primary"
             @click="agregarOActualizarResultado"
           >
@@ -154,7 +153,7 @@ export default {
     //Función para validar formulario
     validarFormulario() {
       if (this.nuevoResultado.nombre === '') {
-        this.mensajeError = 'El nombre es obligatorio.'
+        this.mensajeError = 'El campo Nombre es obligatorio.'
         return false
       } else {
         this.mensajeError = ''

@@ -4,20 +4,22 @@
       <!--Cabecera de la tabla Gestores-->
       <thead class="sticky-header">
         <tr>
-          <th class="header" scope="col">RUT</th>
-          <th class="header" scope="col">Nombre</th>
-          <th class="header" scope="col">Apellido</th>
-          <th class="header" scope="col">Teléfono</th>
-          <th class="header" scope="col">Correo</th>
-          <th class="header" scope="col"></th>
+          <th>Usuario</th>
+          <th>RUT</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Gestores-->
       <tbody>
         <tr v-for="gestor in gestores" :key="gestor.id">
+          <td>{{ gestor.username }}</td>
           <td>{{ gestor.rut }}</td>
-          <td>{{ gestor.nombre }}</td>
-          <td>{{ gestor.apellido }}</td>
+          <td>{{ gestor.first_name }}</td>
+          <td>{{ gestor.last_name }}</td>
           <td>{{ gestor.telefono }}</td>
           <td>{{ gestor.email }}</td>
           <td>
@@ -103,21 +105,24 @@ export default {
       modalTitle: '',
       currentComponent: {},
       gestor: {},
+      gestorLocal: {},
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + 'gestores')
-      .then((response) => {
-        this.gestores = response.data
-        this.totalGestores = this.gestores.length
-      })
-      .catch((error) => {
-        console.log('Error al obtener los datos de gestores de casos:', error)
-      })
+    this.getCantidadGestores()
     this.actualizarTabla()
   },
   methods: {
+    async getCantidadGestores() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'gestores'
+        )
+        this.totalGestores = response.data.length
+      } catch (error) {
+        console.log('Error al obtener la cantidad de gestores de casos:', error)
+      }
+    },
     abrirModal(componente, titulo, gestor) {
       switch (componente) {
         case 'FormEditarGestor':

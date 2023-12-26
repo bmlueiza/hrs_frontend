@@ -2,14 +2,14 @@
   <div class="table-responsive">
     <table class="table table-sm table-hover table-striped">
       <!--Cabecera de la tabla Médicos-->
-      <thead class="table-light">
+      <thead>
         <tr>
-          <th class="header" scope="col">#</th>
-          <th class="header" scope="col">RUT</th>
-          <th class="header" scope="col">Nombre</th>
-          <th class="header" scope="col">Apellido</th>
-          <th class="header" scope="col">Especialidad</th>
-          <th class="header" scope="col"></th>
+          <th>#</th>
+          <th>RUT</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Especialidad</th>
+          <th v-if="usuario.admin"></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Médicos-->
@@ -20,7 +20,7 @@
           <td>{{ medico.nombre }}</td>
           <td>{{ medico.apellido }}</td>
           <td>{{ medico.especialidad }}</td>
-          <td>
+          <td v-if="usuario.admin">
             <div class="btn-group">
               <button
                 type="button"
@@ -51,21 +51,13 @@ export default {
   components: {
     Modal,
   },
-  props: ['terminoBusqueda'],
+  props: ['terminoBusqueda', 'usuario'],
   data() {
     return {
       medicos: [],
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + 'medicos/')
-      .then((response) => {
-        this.medicos = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
     this.actualizarTabla()
   },
   methods: {

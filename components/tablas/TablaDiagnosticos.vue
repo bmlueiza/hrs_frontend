@@ -2,13 +2,13 @@
   <div class="table-responsive">
     <table class="table table-sm table-hover table-striped">
       <!--Cabecera de la tabla Diagnósticos-->
-      <thead class="table-light">
+      <thead class="sticky-header">
         <tr>
-          <th class="header" scope="col">#</th>
-          <th class="header" scope="col">Código</th>
-          <th class="header" scope="col">Nombre</th>
-          <th class="header" scope="col">Descripción</th>
-          <th class="header" scope="col"></th>
+          <th>#</th>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th v-if="gestorInfo.admin"></th>
         </tr>
       </thead>
       <!--Contenido de la tabla Diagnósticos-->
@@ -18,7 +18,7 @@
           <td>{{ diagnostico.codigo }}</td>
           <td>{{ diagnostico.nombre }}</td>
           <td>{{ diagnostico.descripcion }}</td>
-          <td>
+          <td v-if="gestorInfo.admin">
             <div class="btn-group">
               <button
                 type="button"
@@ -50,24 +50,31 @@ export default {
   components: {
     Modal,
   },
-  props: ['terminoBusqueda'],
+  props: ['terminoBusqueda', 'gestorInfo'],
   data() {
     return {
+      //Gestores
+      gestorID: '',
+      //Diagnosticos
       diagnosticos: [],
     }
   },
   mounted() {
-    axios
-      .get(this.$axios.defaults.baseURL + 'diagnosticos/')
-      .then((response) => {
-        this.diagnosticos = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
     this.actualizarTabla()
   },
   methods: {
+    cargarGestor() {
+      try {
+        const gestorInfoString = localStorage.getItem('gestor')
+
+        if (gestorInfoString) {
+          this.gestorInfo = JSON.parse(gestorInfoString)
+          this.gestorID = JSON.parse(gestorInfoString).id
+        }
+      } catch (error) {
+        console.log('Error al cargar el gestor', error)
+      }
+    },
     actualizarTabla() {
       try {
         axios

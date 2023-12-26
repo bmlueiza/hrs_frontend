@@ -31,12 +31,13 @@
             </button>
           </div>
           <div
+            v-if="this.usuario.admin"
             class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
           >
             <div class="btn-group pull-right">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-dark"
                 data-bs-toggle="modal"
                 :data-bs-target="`#${modalId}`"
               >
@@ -67,6 +68,7 @@
                   ref="tablaMedicamentos"
                   @actualizarTabla="actualizarTabla"
                   :terminoBusqueda="terminoBusqueda"
+                  :usuario="usuario"
                 />
               </div>
             </div>
@@ -93,14 +95,32 @@ export default {
   },
   data() {
     return {
+      //Usuario
+      usuario: '',
+      //Buscador
       terminoBusqueda: '',
+      //Modal
       mostrarModal: false,
       modalId: 'modalId',
       modalTitle: 'Añadir nuevo medicamento',
       componenteFormulario: FormCrearMedicamento,
     }
   },
+  mounted() {
+    this.cargarUsuario()
+  },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     async buscarMedicamentos() {
       this.$nextTick(() => {
         this.$refs.tablaMedicamentos.actualizarTabla()

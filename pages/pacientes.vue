@@ -31,42 +31,6 @@
               Cancelar
             </button>
           </div>
-          <!--
-          <div class="col ms-auto">
-            <label class="form-label" for="filtroRiesgo">Filtrar riesgo</label>
-            <select
-              id="filtroRiesgo"
-              class="form-select"
-              v-model="riesgoSeleccionado"
-              @change="filtrarPorRiesgo"
-            >
-              <option
-                v-for="riesgo in riesgos"
-                :key="riesgo[0]"
-                :value="riesgo[0]"
-              >
-                {{ riesgo[1] }}
-              </option>
-            </select>
-          </div>
-          <div class="col ms-auto">
-            <label class="form-label" for="filtroDiagnostico"
-              >Filtrar diagnóstico</label
-            >
-            <select
-              id="filtroDiagnostico"
-              class="form-select"
-              v-model="diagnosticoSeleccionado"
-            >
-              <option
-                v-for="diagnostico in diagnosticos"
-                :key="diagnostico.id"
-                :value="diagnostico.id"
-              >
-                {{ diagnostico.codigo }}
-              </option>
-            </select>
-          </div>-->
           <div class="col-auto ms-auto">
             <div class="btn-group pull-right">
               <button
@@ -98,6 +62,7 @@
                   ref="tablaPacientes"
                   @actualizarTabla="actualizarTabla"
                   :terminoBusqueda="terminoBusqueda"
+                  :usuario="usuario"
                 />
               </div>
             </div>
@@ -120,6 +85,9 @@ export default {
   },
   data() {
     return {
+      //Usuario logueado
+      usuario: '',
+      //Termino de búsqueda
       terminoBusqueda: '',
       riesgos: [],
       diagnosticos: [],
@@ -128,7 +96,21 @@ export default {
       tablaActualizada: false,
     }
   },
+  mounted() {
+    this.cargarUsuario()
+  },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     irIngresarPaciente() {
       this.$router.push('/ingresarPaciente')
     },
@@ -182,10 +164,6 @@ export default {
         this.$refs.tablaPacientes.filtrarPorRiesgo(riesgoSeleccionado)
       })
     },
-  },
-  mounted() {
-    this.getRiesgos()
-    this.getDiagnosticos()
   },
 }
 </script>

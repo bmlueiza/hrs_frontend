@@ -11,6 +11,7 @@
               placeholder="Buscar por nombre o código"
               id="buscarDiagnostico"
               v-model="terminoBusqueda"
+              autocomplete="off"
               @input="manejarInput"
             />
             <button
@@ -31,6 +32,7 @@
             </button>
           </div>
           <div
+            v-if="this.gestorInfo.admin"
             class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
           >
             <div class="btn-group pull-right">
@@ -68,6 +70,7 @@
                   ref="tablaDiagnosticos"
                   @actualizarTabla="actualizarTabla"
                   :terminoBusqueda="terminoBusqueda"
+                  :gestorInfo="gestorInfo"
                 />
               </div>
             </div>
@@ -93,14 +96,35 @@ export default {
   },
   data() {
     return {
+      //Gestor
+      gestorInfo: '',
+      gestorID: '',
+      //Buscador
       terminoBusqueda: '',
+      //Modal
       mostrarModal: false,
       modalId: 'modalId',
       modalTitle: 'Añadir nuevo diagnóstico',
       componenteFormulario: FormCrearDiagnostico,
     }
   },
+  mounted() {
+    this.cargarGestor()
+  },
   methods: {
+    async cargarGestor() {
+      try {
+        const gestorInfoString = localStorage.getItem('gestor')
+
+        if (gestorInfoString) {
+          this.gestorInfo = JSON.parse(gestorInfoString)
+          this.gestorID = JSON.parse(gestorInfoString).id
+        }
+      } catch (error) {
+        console.log('Error al cargar el gestor', error)
+      }
+    },
+
     async buscarDiagnosticos() {
       this.$nextTick(() => {
         this.$refs.tablaDiagnosticos.actualizarTabla()

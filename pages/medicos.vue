@@ -11,6 +11,7 @@
               placeholder="Buscar por rut, nombre, apellido o especialidad"
               id="buscarMédico"
               v-model="terminoBusqueda"
+              autocomplete="off"
               @input="manejarInput"
             />
             <button
@@ -31,12 +32,13 @@
             </button>
           </div>
           <div
+            v-if="this.usuario.admin"
             class="col-lg-6 col-md-12 d-flex justify-content-lg-end justify-content-md-start mt-3 mt-md-0"
           >
             <div class="btn-group pull-right">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-dark"
                 data-bs-toggle="modal"
                 :data-bs-target="`#${modalId}`"
               >
@@ -69,6 +71,7 @@
                   ref="tablaMedicos"
                   @actualizarTabla="actualizarTabla"
                   :terminoBusqueda="terminoBusqueda"
+                  :usuario="usuario"
                 />
               </div>
             </div>
@@ -84,25 +87,40 @@
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/modales/Modal.vue'
 import TablaMedicos from '@/components/tablas/TablaMedicos.vue'
-import FormCrearMedico from '@/components/formularios/crear/FormCrearMedico.vue'
+import FormMedico from '@/components/formularios/FormMedico.vue'
 
 export default {
   components: {
     Navbar,
     Modal,
     TablaMedicos,
-    FormCrearMedico,
+    FormMedico,
   },
   data() {
     return {
+      //Usuario logueado
+      usuario: '',
+      //Buscador
       terminoBusqueda: '',
+      //Modal
       mostrarModal: false,
       modalId: 'modalId',
       modalTitle: 'Añadir nuevo médico',
-      componenteFormulario: FormCrearMedico,
+      componenteFormulario: FormMedico,
     }
   },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     async buscarMedicos() {
       this.$nextTick(() => {
         this.$refs.tablaMedicos.buscarMedicos(this.terminoBusqueda)

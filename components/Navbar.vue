@@ -33,7 +33,7 @@
           <li class="nav-item custom-hover2">
             <a class="nav-link" href="/medicos">Médicos</a>
           </li>
-          <li class="nav-item dropdown">
+          <li v-if="this.gestorInfo.admin" class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               id="adminDropdown"
@@ -57,6 +57,7 @@
         </ul>
         <div class="d-flex">
           <b-typeahead
+            id="buscadorPerfilPaciente"
             class="buscador"
             :data="
               pacientes.map(
@@ -69,6 +70,7 @@
               )
             "
             placeholder="Buscar paciente..."
+            autocomplete="off"
             @hit="onHit"
           ></b-typeahead>
           <button
@@ -81,7 +83,7 @@
         </div>
         <ul class="navbar-nav me-2">
           <a class="nav-link" href="/">
-            <button class="btn btn-outline-dark" type="submit">
+            <button class="btn btn-outline-light" type="submit" @click="logout">
               <i class="bi bi-box-arrow-right"></i>
             </button>
           </a>
@@ -92,27 +94,26 @@
 </template>
 <script>
 import axios from 'axios'
-import vSelect from 'vue-select'
 import BTypeahead from 'vue-bootstrap-typeahead'
 
 export default {
   name: 'Navbar',
   components: {
-    vSelect,
     BTypeahead,
   },
   data() {
     return {
+      gestorInfo: '',
+      gestorID: '',
       pacientes: [],
       pacienteSeleccionado: '',
-      gestor: 1,
     }
   },
   methods: {
     async getPacientesGestor() {
       try {
         const response = await axios.get(
-          this.$axios.defaults.baseURL + 'pacientes/gestor/' + this.gestor
+          this.$axios.defaults.baseURL + `pacientes/gestor/${this.gestorID}/`
         )
         this.pacientes = response.data
       } catch (error) {
@@ -139,9 +140,20 @@ export default {
         this.$router.push('/paciente/' + this.pacienteSeleccionado.id)
       }
     },
+    logout() {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('gestor')
+      this.$router.push('/')
+    },
   },
   mounted() {
-    // Obtén la lista inicial de pacientes
+    const gestorInfoString = localStorage.getItem('gestor')
+
+    if (gestorInfoString) {
+      this.gestorInfo = JSON.parse(gestorInfoString)
+      this.gestorID = JSON.parse(gestorInfoString).id
+    }
+
     this.getPacientesGestor()
   },
 }

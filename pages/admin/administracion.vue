@@ -92,7 +92,7 @@
                       :data-bs-target="`#${modalId}`"
                       @click="
                         abrirModal(
-                          'FormResultadoContacto',
+                          'FormActividadMedica',
                           'Añadir actividad médica'
                         )
                       "
@@ -129,6 +129,7 @@ import TablaActividadesMedicas from '@/components/tablas/admin/TablaActividadesM
 //Formularios
 import FormResultadoContacto from '@/components/formularios/admin/FormResultadoContacto.vue'
 import FormAccionGestor from '@/components/formularios/admin/FormAccionGestor.vue'
+import FormActividadMedica from '@/components/formularios/admin/FormActividadMedica.vue'
 
 export default {
   components: {
@@ -139,6 +140,7 @@ export default {
     TablaActividadesMedicas,
     FormResultadoContacto,
     FormAccionGestor,
+    FormActividadMedica,
   },
   data() {
     return {
@@ -155,6 +157,9 @@ export default {
           break
         case 'FormAccionGestor':
           this.currentComponent = FormAccionGestor
+          break
+        case 'FormActividadMedica':
+          this.currentComponent = FormActividadMedica
           break
         default:
           this.currentComponent = ''

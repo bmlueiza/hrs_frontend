@@ -35,14 +35,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <button
-                    type="button"
-                    class="dropdown-item"
-                    data-bs-toggle="modal"
-                    :data-bs-target="`#${modalId}`"
-                  >
-                    Editar
-                  </button>
+                  <button type="button" class="dropdown-item">Editar</button>
                 </li>
                 <li>
                   <button
@@ -85,14 +78,12 @@
 <script>
 import axios from 'axios'
 import Modal from '@/components/modales/Modal.vue'
-import FormEditarGestor from '@/components/formularios/FormEditarGestor.vue'
 import FormEliminarGestor from '@/components/formularios/eliminar/FormEliminarGestor.vue'
 
 export default {
   name: 'TablaGestores',
   components: {
     Modal,
-    FormEditarGestor,
     FormEliminarGestor,
   },
   props: ['terminoBusqueda'],
@@ -125,10 +116,6 @@ export default {
     },
     abrirModal(componente, titulo, gestor) {
       switch (componente) {
-        case 'FormEditarGestor':
-          this.modalId = 'modalId2'
-          this.currentComponent = FormEditarGestor
-          break
         case 'FormEliminarGestor':
           this.modalId = 'modalEliminarGestor'
           this.currentComponent = FormEliminarGestor

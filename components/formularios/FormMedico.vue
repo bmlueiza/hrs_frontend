@@ -36,16 +36,20 @@
             <label class="form-label required" for="especialidad"
               >Especialidad</label
             >
-            <input
-              type="text"
+            <select
+              class="form-select"
               id="especialidad"
               name="especialidad"
-              class="form-control"
-              autocomplete="off"
               v-model="nuevoMedico.especialidad"
-              maxlength="50"
-              required
-            />
+            >
+              <option
+                v-for="especialidad in especialidades"
+                :key="especialidad.id"
+                :value="especialidad.id"
+              >
+                {{ especialidad.nombre }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
@@ -103,6 +107,7 @@ export default {
   name: 'FormMedico',
   data() {
     return {
+      especialidades: [],
       nuevoMedico: {
         rut: '',
         especialidad: '',
@@ -112,6 +117,9 @@ export default {
       mensajeAviso: '',
       mensajeError: '',
     }
+  },
+  mounted() {
+    this.getEspecialidades()
   },
   methods: {
     async agregarMedico() {
@@ -133,6 +141,16 @@ export default {
           this.mensajeError = 'Error al agregar medico'
           this.mensajeAviso = ''
         }
+      }
+    },
+    async getEspecialidades() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + 'especialidades_medicas/'
+        )
+        this.especialidades = response.data
+      } catch (error) {
+        console.log(error)
       }
     },
     validarFormulario() {
@@ -192,11 +210,5 @@ export default {
 <style scoped>
 .row {
   margin-bottom: 10px;
-}
-.btn {
-  margin: 5px;
-}
-.form-label {
-  font-weight: bold;
 }
 </style>

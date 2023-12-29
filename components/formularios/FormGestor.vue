@@ -14,9 +14,9 @@
       <!-- Primera fila -->
       <div class="row">
         <!-- Primera columna - RUT -->
-        <div class="col-12 col-md-4 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="rut">RUT</label>
+            <label class="form-label required" for="rut">RUT</label>
             <input
               type="text"
               id="rut"
@@ -27,14 +27,32 @@
               v-model="nuevoGestor.rut"
               @input="formatRut"
               maxlength="12"
-              required
             />
           </div>
         </div>
+        <!-- Segunda columna - admin? -->
+        <div class="col-12 col-md-6 col-lg-6 mt-4">
+          <!--checkbox-->
+          <div class="form-check">
+            <label class="form-label required" for="admin">
+              ¿Es administrador?
+            </label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="admin"
+              name="admin"
+              v-model="nuevoGestor.admin"
+            />
+          </div>
+        </div>
+      </div>
+      <!--Segunda fila-->
+      <div class="row">
         <!-- Segunda columna - first_name-->
-        <div class="col-12 col-md-4 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="first_name">Nombre</label>
+            <label class="form-label required" for="first_name">Nombre</label>
             <input
               type="text"
               id="first_name"
@@ -44,14 +62,13 @@
               v-model="nuevoGestor.first_name"
               @input="formatoFirstName('first_name')"
               maxlength="25"
-              required
             />
           </div>
         </div>
         <!-- Tercera columna - last_name-->
-        <div class="col-12 col-md-4 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="last_name">Apellido</label>
+            <label class="form-label required" for="last_name">Apellido</label>
             <input
               type="text"
               id="last_name"
@@ -61,17 +78,18 @@
               v-model="nuevoGestor.last_name"
               @input="formatoFirstName('last_name')"
               maxlength="25"
-              required
             />
           </div>
         </div>
       </div>
-      <!-- Segunda fila -->
+      <!-- Tercera fila -->
       <div class="row">
         <!-- Primera columna - username -->
         <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="username">Nombre de usuario</label>
+            <label class="form-label required" for="username"
+              >Nombre de usuario</label
+            >
             <input
               type="text"
               id="username"
@@ -80,14 +98,13 @@
               autocomplete="off"
               v-model="nuevoGestor.username"
               maxlength="12"
-              required
             />
           </div>
         </div>
         <!-- Segunda columna - contraseña -->
         <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="password">Contraseña</label>
+            <label class="form-label required" for="password">Contraseña</label>
             <input
               type="password"
               id="password"
@@ -96,17 +113,16 @@
               autocomplete="off"
               v-model="nuevoGestor.password"
               maxlength="12"
-              required
             />
           </div>
         </div>
       </div>
-      <!-- Tercera fila -->
+      <!-- Cuarta fila -->
       <div class="row">
         <!-- Primera columna - teléfono -->
         <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="telefono">Teléfono</label>
+            <label class="form-label required" for="telefono">Teléfono</label>
             <input
               type="text"
               id="telefono"
@@ -118,14 +134,13 @@
               @input="filtrarLetras"
               maxlength="12"
               minlength="11"
-              required
             />
           </div>
         </div>
         <!-- Segunda columna - correo -->
         <div class="col-12 col-md-6 col-lg-6">
           <div class="form-outline">
-            <label class="form-label" for="email">Correo</label>
+            <label class="form-label required" for="email">Correo</label>
             <input
               type="email"
               id="email"
@@ -134,7 +149,6 @@
               autocomplete="off"
               v-model="nuevoGestor.email"
               maxlength="50"
-              required
             />
           </div>
         </div>
@@ -168,6 +182,7 @@ export default {
         email: '',
         username: '',
         password: '',
+        admin: false,
       },
       mensajeError: '',
       mensajeAviso: '',
@@ -243,6 +258,10 @@ export default {
             console.log('Nuevo gestor agregado:', response.data)
             this.limpiarFormulario()
             this.mensajeAviso = 'Gestor agregado correctamente.'
+            setTimeout(() => {
+              this.mensajeAviso = ''
+              window.location.reload()
+            }, 2100)
           })
           .catch((error) => {
             console.log('Error:', error.response.data)
@@ -259,28 +278,41 @@ export default {
         this.mensajeError = 'Debe ingresar un RUT.'
         return false
       }
+      //validar formato rut
+      if (!this.nuevoGestor.rut.includes('-')) {
+        this.mensajeError = 'Debe ingresar un RUT válido.'
+        return false
+      }
       if (this.nuevoGestor.first_name.trim() === '') {
-        this.mensajeError = 'Debe ingresar un first_name.'
+        this.mensajeError = 'Debe ingresar un Nombre.'
         return false
       }
       if (this.nuevoGestor.last_name.trim() === '') {
-        this.mensajeError = 'Debe ingresar un last_name.'
+        this.mensajeError = 'Debe ingresar un Apellido'
         return false
       }
       if (this.nuevoGestor.username.trim() === '') {
-        this.mensajeError = 'Debe ingresar un nombre de usuario.'
+        this.mensajeError = 'Debe ingresar un Nombre de usuario.'
         return false
       }
       if (this.nuevoGestor.password.trim() === '') {
-        this.mensajeError = 'Debe ingresar una contraseña.'
+        this.mensajeError = 'Debe ingresar una Contraseña.'
         return false
       }
       if (this.nuevoGestor.telefono.trim() === '') {
-        this.mensajeError = 'Debe ingresar un teléfono.'
+        this.mensajeError = 'Debe ingresar un Teléfono.'
         return false
       }
       if (this.nuevoGestor.email.trim() === '') {
-        this.mensajeError = 'Debe ingresar un correo.'
+        this.mensajeError = 'Debe ingresar un Correo.'
+        return false
+      }
+      //validar formato email
+      if (
+        !this.nuevoGestor.email.includes('@') ||
+        !this.nuevoGestor.email.includes('.')
+      ) {
+        this.mensajeError = 'Debe ingresar un Correo válido.'
         return false
       }
       return true
@@ -300,15 +332,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.row {
-  margin-bottom: 10px;
-}
-.btn {
-  margin: 5px;
-}
-.form-label {
-  font-weight: bold;
-}
-</style>

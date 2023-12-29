@@ -1,6 +1,8 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-sm tabla-striped table-bordered">
+    <table
+      class="table table-light table-sm table-striped table-bordered table-hover"
+    >
       <!--Cabecera de la tabla Historial medicamento-->
       <thead>
         <tr>
@@ -60,7 +62,7 @@ import axios from 'axios'
 import Modal from '@/components/modales/Modal.vue'
 import FormEditarMedicamento from '@/components/formularios/paciente/FormEditarMedicamento.vue'
 export default {
-  name: 'TablaHistorialMedicamento',
+  name: 'TablaSeguimientoMedicamento',
   props: ['pacienteID'],
   components: {
     Modal,
@@ -84,7 +86,7 @@ export default {
       try {
         const response = await axios.get(
           this.$axios.defaults.baseURL +
-            `historial_medicamentos/paciente/${this.pacienteID}/`
+            `seguimiento_medicamentos/paciente/${this.pacienteID}/`
         )
         this.medicamentos = response.data
       } catch (error) {

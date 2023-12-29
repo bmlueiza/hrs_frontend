@@ -197,7 +197,7 @@
             </div>
             <div class="box-body">
               <div class="seguimiento-medicamentos">
-                <TablaHistorialMedicamento :pacienteID="pacienteID" />
+                <TablaSeguimientoMedicamento :pacienteID="pacienteID" />
               </div>
             </div>
           </div>
@@ -240,7 +240,7 @@ import Modal from '@/components/modales/Modal.vue'
 //Tablas
 import TablaHistorialContacto from '@/components/tablas/paciente/TablaHistorialContacto.vue'
 import TablaAsignacionActividades from '@/components/tablas/paciente/TablaAsignacionActividades.vue'
-import TablaHistorialMedicamento from '@/components/tablas/paciente/TablaHistorialMedicamento.vue'
+import TablaSeguimientoMedicamento from '@/components/tablas/paciente/TablaSeguimientoMedicamento.vue'
 import TablaObservaciones from '@/components/tablas/paciente/TablaObservaciones.vue'
 import TablaRecomendacionesPerfil from '@/components/tablas/paciente/TablaRecomendacionesPerfil.vue'
 //Formularios
@@ -259,7 +259,7 @@ export default {
     TablaHistorialContacto,
     TablaAsignacionActividades,
     TablaObservaciones,
-    TablaHistorialMedicamento,
+    TablaSeguimientoMedicamento,
     TablaRecomendacionesPerfil,
     //Formularios
     FormObservacion,

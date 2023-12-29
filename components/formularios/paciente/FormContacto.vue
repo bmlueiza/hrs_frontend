@@ -18,10 +18,10 @@
             <!--Primera columna - paciente-->
             <div class="col">
               <p>
-                <span
+                <strong
                   >Paciente: {{ datosFormulario.nombres }}
                   {{ datosFormulario.apellido1 }}
-                  {{ datosFormulario.apellido2 }}</span
+                  {{ datosFormulario.apellido2 }}</strong
                 >
               </p>
             </div>
@@ -128,7 +128,7 @@
             <!--Primera columna - botones-->
             <div class="col text-center">
               <button
-                type="submit"
+                type="button"
                 class="btn btn-primary"
                 @click="agregarContacto"
               >
@@ -172,7 +172,7 @@ export default {
 
       nuevoContacto: {
         paciente: this.datosFormulario.id,
-        gestor: this.datosFormulario.gestor,
+        gestor: '',
         fecha: '',
         hora: '',
         tipo_motivo: '',
@@ -185,6 +185,17 @@ export default {
     }
   },
   methods: {
+    async cargarUsuario() {
+      try {
+        const usuarioInfoString = localStorage.getItem('gestor')
+
+        if (usuarioInfoString) {
+          this.usuario = JSON.parse(usuarioInfoString)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario', error)
+      }
+    },
     //Limpiar formulario
     limpiarFormulario() {
       this.nuevoContacto.accion_gestor = ''
@@ -231,6 +242,7 @@ export default {
     //Agrega el contacto a la base de datos
     async agregarContacto() {
       if (this.validarFormulario()) {
+        this.nuevoContacto.gestor = this.usuario.id
         try {
           const response = await axios.post(
             this.$axios.defaults.baseURL + `historial_contactos/`,
@@ -243,13 +255,17 @@ export default {
           )
           this.limpiarFormulario()
           this.mensajeAviso = 'Contacto agregado correctamente'
+          setTimeout(() => {
+            this.mensajeAviso = ''
+            window.location.reload()
+          }, 2100)
         } catch (error) {
           console.error('Error al agregar contacto:', error.response.data)
           this.mensajeAviso = ''
           this.mensajeError = 'Error al agregar contacto'
           setTimeout(() => {
             this.mensajeError = ''
-          }, 4000)
+          }, 2100)
         }
       }
     },
@@ -297,7 +313,7 @@ export default {
       axios
         .get(
           this.$axios.defaults.baseURL +
-            `historial_medicamentos/paciente/${this.datosFormulario.id}/medicamentos/`
+            `seguimiento_medicamentos/paciente/${this.datosFormulario.id}/medicamentos/`
         )
         .then((response) => {
           this.medicamentosPaciente = response.data.nombres_medicamentos
@@ -380,13 +396,11 @@ export default {
     this.getActividades()
     this.getActividadesPaciente()
     this.getMedicamentosPaciente()
+    this.cargarUsuario()
   },
 }
 </script>
 <style scoped>
-.col span {
-  font-weight: bold;
-}
 @media (max-width: 540px) {
   label {
     margin-bottom: 0px !important;

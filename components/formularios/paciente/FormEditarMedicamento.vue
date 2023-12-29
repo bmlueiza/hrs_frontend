@@ -31,10 +31,20 @@
       </div>
       <!--Tercera fila-->
       <div class="row">
+        <!--Primera columna - nombre medicamento-->
+        <div class="col">
+          <p>
+            <strong>INFO: </strong>Si solo quieres actualizar el estado, no es
+            necesario que selecciones una fecha de próximo despacho.
+          </p>
+        </div>
+      </div>
+      <!--Cuarta fila-->
+      <div class="row">
         <!--Primera columna - estado-->
         <div class="col">
           <div class="form-outline">
-            <label class="form-label" for="estado">Estado</label>
+            <label class="form-label required" for="estado">Estado</label>
             <select
               id="estado"
               name="estado"
@@ -52,7 +62,7 @@
           </div>
         </div>
       </div>
-      <!--Cuarta fila-->
+      <!--Quinta fila-->
       <div class="row">
         <!--Primera columna - próximo despacho-->
         <div class="col mt-1">
@@ -69,7 +79,7 @@
           />
         </div>
       </div>
-      <!--Quinta fila-->
+      <!--Sexta fila-->
       <div class="row">
         <!--Primera columna - botón guardar-->
         <div class="col mt-3 text-center">
@@ -112,7 +122,7 @@ export default {
         try {
           const response = await axios.patch(
             this.$axios.defaults.baseURL +
-              `historial_medicamentos/${this.datosFormulario.id}/`,
+              `seguimiento_medicamentos/${this.datosFormulario.id}/`,
             {
               estado: this.medicamento.estado,
               proximo_despacho: this.medicamento.proximo_despacho,
@@ -121,8 +131,9 @@ export default {
           this.mensajeAviso = 'Medicamento editado correctamente'
           this.mensajeError = ''
           setTimeout(() => {
-            this.$router.push('/medicamentos')
-          }, 4000)
+            this.mensaje = ''
+            window.location.reload()
+          }, 2100)
         } catch (error) {
           this.mensajeAviso = ''
           this.mensajeError = 'Error al editar el medicamento'
@@ -132,7 +143,7 @@ export default {
     async getEstados() {
       try {
         const response = await axios.get(
-          this.$axios.defaults.baseURL + 'historial_medicamentos/estados'
+          this.$axios.defaults.baseURL + 'seguimiento_medicamentos/estados'
         )
         this.estados = response.data
       } catch (error) {

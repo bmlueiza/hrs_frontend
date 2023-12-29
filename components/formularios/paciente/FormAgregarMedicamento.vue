@@ -18,17 +18,19 @@
         <!--Primera columna - medicamentos actuales del paciente-->
         <div class="col">
           <p>
-            <strong>Medicamentos actuales del paciente: </strong
-            >{{ formatoMedicamentos(this.medicamentosPaciente) }}
+            <strong
+              >Medicamentos actuales del paciente:
+              {{ formatoMedicamentos(this.medicamentosPaciente) }}</strong
+            >
           </p>
         </div>
       </div>
       <!--Tercera fila-->
       <div class="row">
         <!--Primera columna - medicamento-->
-        <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
+        <div class="form-group col-12 col-md-4 col-lg-4 mb-2">
           <label class="form-label required" for="medicamento"
-            >Agregar medicamento</label
+            >Medicamento</label
           >
           <multiselect
             id="medicamento"
@@ -45,23 +47,44 @@
           >
           </multiselect>
         </div>
-        <!--Segunda columna - medico-->
-        <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
+        <!--Segunda columna - especialidad-->
+        <div class="form-group col-12 col-md-4 col-lg-4 mb-2">
+          <label class="form-label required" for="especialidad"
+            >Especialidad</label
+          >
+          <select
+            class="form-select"
+            id="especialidad"
+            name="especialidad"
+            v-model="especialidadSeleccionada"
+            @change="cambioEspecialidad"
+          >
+            <option
+              v-for="especialidad in especialidades"
+              :key="especialidad.id"
+              :value="especialidad.id"
+            >
+              {{ especialidad.nombre }}
+            </option>
+          </select>
+        </div>
+        <!--Tercera columna - medico-->
+        <div class="form-group col-12 col-md-4 col-lg-4 mb-2">
           <label class="form-label required" for="medico">Médico</label>
-          <multiselect
+          <select
+            class="form-select"
             id="medico"
+            name="medico"
             v-model="nuevoMedicamento.medico"
-            :options="medicos"
-            track-by="id"
-            label="nombre"
-            :custom-label="formatoMedicosLabel"
-            placeholder="Buscar médico"
-            :searchable="true"
-            :multiple="false"
-            :select-label="'Seleccionar'"
-            :deselect-label="'Eliminar selección'"
-            :selected-label="'Seleccionado'"
-          ></multiselect>
+          >
+            <option
+              v-for="medico in medicos"
+              :key="medico.id"
+              :value="medico.id"
+            >
+              {{ medico.nombre }} {{ medico.apellido }}
+            </option>
+          </select>
         </div>
       </div>
       <!--Cuarta fila-->
@@ -71,20 +94,20 @@
           <label class="form-label required" for="diagnostico"
             >Diagnóstico</label
           >
-          <multiselect
+          <select
+            class="form-select"
             id="diagnostico"
+            name="diagnostico"
             v-model="nuevoMedicamento.diagnostico"
-            :options="diagnosticos"
-            track-by="id"
-            label="codigo"
-            placeholder="Buscar diagnóstico"
-            :searchable="true"
-            :multiple="false"
-            :select-label="'Seleccionar'"
-            :deselect-label="'Eliminar selección'"
-            :selected-label="'Seleccionado'"
           >
-          </multiselect>
+            <option
+              v-for="diagnostico in diagnosticos"
+              :key="diagnostico"
+              :value="diagnostico"
+            >
+              {{ diagnostico }}
+            </option>
+          </select>
         </div>
         <!--Segunda columna - fecha inicio-->
         <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
@@ -97,6 +120,7 @@
             id="fecha_inicio"
             name="fecha_inicio"
             v-model="nuevoMedicamento.fecha_inicio"
+            :max="fechaActual"
           />
         </div>
       </div>
@@ -113,6 +137,7 @@
             id="fecha_termino"
             name="fecha_termino"
             v-model="nuevoMedicamento.fecha_termino"
+            :min="fechaActual"
           />
         </div>
         <!--Segunda columna - proximo despacho-->
@@ -126,6 +151,7 @@
             id="proximo_despacho"
             name="proximo_despacho"
             v-model="nuevoMedicamento.proximo_despacho"
+            :min="fechaActual"
           />
         </div>
       </div>
@@ -143,6 +169,7 @@
             name="cantd_otorgada"
             v-model="nuevoMedicamento.cantd_otorgada"
             placeholder="Ej: 30 comprimidos"
+            autocomplete="off"
           />
         </div>
         <!--Segunda columna - indicación de uso-->
@@ -158,6 +185,7 @@
             v-model="nuevoMedicamento.indicacion_uso"
             placeholder="Ej: 1 comprimido cada 8 hrs"
             maxlength="100"
+            autocomplete="off"
           />
         </div>
       </div>
@@ -196,6 +224,7 @@
 <script>
 import axios from 'axios'
 import Multiselect from 'vue-multiselect'
+import vSelect from 'vue-select'
 export default {
   name: 'FormAgregarMedicamento',
   props: {
@@ -206,12 +235,17 @@ export default {
   },
   components: {
     Multiselect,
+    vSelect,
   },
   data() {
     return {
+      fechaActual: new Date().toISOString().slice(0, 10),
       medicamentosPaciente: [],
       posiblesMedicamentos: [],
-      diagnosticos: [],
+      diagnosticos: this.datosFormulario.diagnosticos,
+      todosLosDiagnosticos: [],
+      especialidades: [],
+      especialidadSeleccionada: '',
       medicos: [],
       nuevoMedicamento: {
         medicamento: '',
@@ -245,6 +279,9 @@ export default {
 
     //Limpiar formulario
     limpiarFormulario() {
+      console.log('Diagnostico: ', this.nuevoMedicamento.diagnostico)
+      console.log('Medico: ', this.nuevoMedicamento.medico)
+      console.log('Medicamento: ', this.nuevoMedicamento.medicamento)
       this.nuevoMedicamento = {
         medicamento: '',
         fecha_inicio: '',
@@ -252,6 +289,7 @@ export default {
         cantd_otorgada: '',
         indicacion_uso: '',
         proximo_despacho: '',
+        especialidad: '',
         medico: '',
         diagnostico: '',
       }
@@ -272,11 +310,23 @@ export default {
       } else if (this.nuevoMedicamento.fecha_inicio === '') {
         this.mensajeError = 'Debe seleccionar una fecha de inicio'
         return false
+      } else if (this.nuevoMedicamento.fecha_inicio > this.fechaActual) {
+        this.mensajeError =
+          'La fecha de inicio no puede ser posterior a la fecha actual'
+        return false
       } else if (this.nuevoMedicamento.fecha_termino === '') {
         this.mensajeError = 'Debe seleccionar una fecha de término'
         return false
+      } else if (this.nuevoMedicamento.fecha_termino < this.fechaActual) {
+        this.mensajeError =
+          'La fecha de término no puede ser anterior a la fecha actual'
+        return false
       } else if (this.nuevoMedicamento.proximo_despacho === '') {
         this.mensajeError = 'Debe seleccionar una fecha de próximo despacho'
+        return false
+      } else if (this.nuevoMedicamento.proximo_despacho < this.fechaActual) {
+        this.mensajeError =
+          'La fecha de próximo despacho no puede ser anterior a la fecha actual'
         return false
       } else {
         return true
@@ -287,7 +337,7 @@ export default {
       try {
         const response = await axios.get(
           this.$axios.defaults.baseURL +
-            `historial_medicamentos/paciente/${this.datosFormulario.id}/medicamentos`
+            `seguimiento_medicamentos/paciente/${this.datosFormulario.id}/medicamentos`
         )
         this.medicamentosPaciente = response.data.nombres_medicamentos
       } catch (error) {
@@ -317,43 +367,57 @@ export default {
         console.log('Error al obtener los medicamentos', error.response)
       }
     },
-    //Obtener diagnosticos
-    async getDiagnosticos() {
+    //Obtener todos los diagnosticos
+    async getTodosLosDiagnosticos() {
       try {
         const response = await axios.get(
           this.$axios.defaults.baseURL + `diagnosticos/`
         )
-        this.diagnosticos = response.data
-        if (this.diagnosticos.length === 0) {
-          this.mensajeAviso = 'No se encontraron diagnosticos'
-        }
+        this.todosLosDiagnosticos = response.data
       } catch (error) {
         console.log('Error al obtener los diagnosticos', error.response)
       }
     },
-    //Obtener medicos
-    async getMedicos() {
+    //Obtener id del diagnostico
+    getIdDiagnostico() {
+      const diagnostico = this.todosLosDiagnosticos.find(
+        (diagnostico) =>
+          diagnostico.codigo === this.nuevoMedicamento.diagnostico
+      )
+      return diagnostico.id
+    },
+    //Obtener especialidades
+    async getEspecialidades() {
       try {
         const response = await axios.get(
-          this.$axios.defaults.baseURL + `medicos/`
+          this.$axios.defaults.baseURL + 'especialidades_medicas/'
+        )
+        this.especialidades = response.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    //Cambio de especialidad
+    async cambioEspecialidad() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL +
+            'medicos/especialidad/' +
+            this.especialidadSeleccionada
         )
         this.medicos = response.data
-        if (this.medicos.length === 0) {
-          this.mensajeAviso = 'No se encontraron medicos'
-        }
       } catch (error) {
-        console.log('Error al obtener los medicos', error.response)
+        console.log(error)
       }
     },
     //Agregar medicamento al paciente
     async agregarMedicamento() {
       if (this.validarFormulario()) {
         this.nuevoMedicamento.medicamento = this.nuevoMedicamento.medicamento.id
-        this.nuevoMedicamento.medico = this.nuevoMedicamento.medico.id
-        this.nuevoMedicamento.diagnostico = this.nuevoMedicamento.diagnostico.id
+        this.nuevoMedicamento.diagnostico = this.getIdDiagnostico()
         try {
           const response = await axios.post(
-            this.$axios.defaults.baseURL + `historial_medicamentos/`,
+            this.$axios.defaults.baseURL + `seguimiento_medicamentos/`,
             this.nuevoMedicamento,
             {
               headers: {
@@ -364,24 +428,25 @@ export default {
           this.limpiarFormulario()
           this.mensajeAviso = 'Medicamento agregado correctamente'
           setTimeout(() => {
-            this.$router.push('/paciente/' + this.datosFormulario.id)
-          }, 3000)
+            this.mensajeAviso = ''
+            window.location.reload()
+          }, 2000)
         } catch (error) {
           console.log('Error al agregar medicamento:', error.response.data)
           this.mensajeAviso = ''
           this.mensajeError = 'Error al agregar medicamento'
           setTimeout(() => {
             this.mensajeError = ''
-          }, 3000)
+          }, 2000)
         }
       }
     },
   },
   mounted() {
-    this.getDiagnosticos()
-    this.getMedicos()
+    this.getTodosLosDiagnosticos()
     this.getMedicamentosPaciente()
     this.getPosiblesMedicamentos()
+    this.getEspecialidades()
   },
 }
 </script>

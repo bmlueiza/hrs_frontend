@@ -16,8 +16,11 @@
         <!--Primera columna - nombre paciente-->
         <div class="col">
           <p>
-            <strong>Paciente:</strong> {{ datosFormulario.nombres }}
-            {{ datosFormulario.apellido1 }} {{ datosFormulario.apellido2 }}
+            <strong
+              >Paciente: {{ datosFormulario.nombres }}
+              {{ datosFormulario.apellido1 }}
+              {{ datosFormulario.apellido2 }}</strong
+            >
           </p>
         </div>
       </div>
@@ -73,10 +76,31 @@
             id="hora_actividad"
             name="hora_actividad"
             v-model="nuevaAsignacion.hora_actividad"
-            required
           />
         </div>
-        <!--Segunda columna - médico-->
+        <!--Segunda columna - especialidad-->
+        <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
+          <label class="form-label" for="especialidad">Especialidad</label>
+          <select
+            class="form-select"
+            id="especialidad"
+            name="especialidad"
+            v-model="especialidadSeleccionada"
+            @change="cambioEspecialidad"
+          >
+            <option
+              v-for="especialidad in especialidades"
+              :key="especialidad.id"
+              :value="especialidad.id"
+            >
+              {{ especialidad.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- Cuarta fila -->
+      <div class="row">
+        <!--Primera columna - médico-->
         <div class="form-group col-12 col-md-6 col-lg-6 mb-2">
           <label class="form-label" for="medico">Médico</label>
           <select
@@ -95,7 +119,7 @@
           </select>
         </div>
       </div>
-      <!-- Cuarta fila -->
+      <!--Quinta fila -->
       <div class="row">
         <!--Primera columna - botones-->
         <div class="col text-center">
@@ -133,6 +157,8 @@ export default {
   data() {
     return {
       actividades: [],
+      especialidades: [],
+      especialidadSeleccionada: '',
       medicos: [],
       nuevaAsignacion: {
         paciente: this.datosFormulario.id,
@@ -199,15 +225,28 @@ export default {
         console.log('Error al obtener las actividades:', error)
       }
     },
-    //Obtener médicos
-    async getMedicos() {
+    //Obtener especialidades
+    async getEspecialidades() {
       try {
         const response = await axios.get(
-          this.$axios.defaults.baseURL + 'medicos/'
+          this.$axios.defaults.baseURL + 'especialidades_medicas/'
+        )
+        this.especialidades = response.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    //Cambio de especialidad
+    async cambioEspecialidad() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL +
+            'medicos/especialidad/' +
+            this.especialidadSeleccionada
         )
         this.medicos = response.data
       } catch (error) {
-        console.log('Error al obtener los médicos:', error)
+        console.log(error)
       }
     },
     //Agregar asignación
@@ -227,7 +266,8 @@ export default {
           this.mensajeAviso = 'Asignación agregada correctamente'
           setTimeout(() => {
             this.mensajeAviso = ''
-          }, 4000)
+            window.location.reload()
+          }, 2000)
         } catch (error) {
           console.error('Error al agregar asignación:', error.response.data)
           this.mensajeAviso = ''
@@ -240,10 +280,8 @@ export default {
     },
   },
   mounted() {
-    //Obtener actividades
     this.getActividades()
-    //Obtener médicos
-    this.getMedicos()
+    this.getEspecialidades()
   },
 }
 </script>

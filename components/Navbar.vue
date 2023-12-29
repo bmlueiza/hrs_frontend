@@ -164,14 +164,6 @@ export default {
   align-self: center;
   z-index: 2000;
 }
-nav {
-  background-color: #3f72af;
-  color: #f9f7f7;
-}
-
-.navbar-brand {
-  color: #f9f7f7;
-}
 .dropdown-menu {
   background: #112d4e;
 }

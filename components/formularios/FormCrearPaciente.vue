@@ -293,6 +293,9 @@ export default {
             console.log(response)
             this.limpiarFormulario()
             this.mensajeAviso = 'Paciente creado exitosamente'
+            setTimeout(() => {
+              this.push('/pacientes')
+            }, 3000)
           })
           .catch((error) => {
             console.log('Error:', error.response.data)

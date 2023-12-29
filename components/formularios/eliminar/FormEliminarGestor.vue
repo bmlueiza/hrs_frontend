@@ -45,9 +45,9 @@ export default {
         )
         this.mensajeAviso = 'Gestor eliminado correctamente'
         this.mensajeError = ''
-        this.setTimeout(() => {
-          this.$router.push('/gestores')
-        }, 4000)
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
       } catch (error) {
         this.mensajeAviso = ''
         this.mensajeError = 'Error al eliminar el gestor'

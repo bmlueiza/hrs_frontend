@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="table-responsive">
-      <table class="table table-sm table-hover table-striped">
+      <table
+        class="table table-light table-sm table-striped table-bordered table-hover"
+      >
         <thead>
           <tr>
             <th>Recomendación</th>

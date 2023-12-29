@@ -15,8 +15,11 @@
         <!--Primera columna - paciente-->
         <div class="col">
           <p>
-            <span>Paciente:</span> {{ datosFormulario.nombres }}
-            {{ datosFormulario.apellido1 }} {{ datosFormulario.apellido2 }}
+            <strong
+              >Paciente: {{ datosFormulario.nombres }}
+              {{ datosFormulario.apellido1 }}
+              {{ datosFormulario.apellido2 }}</strong
+            >
           </p>
         </div>
       </div>
@@ -35,7 +38,6 @@
             autocomplete="off"
             v-model="nuevaObservacion.contenido"
             maxlength="200"
-            required
           ></textarea>
         </div>
       </div>
@@ -44,7 +46,7 @@
         <!--Primera columna - botones-->
         <div class="col text-center">
           <button
-            type="submit"
+            type="button"
             class="btn btn-primary"
             @click="agregarObservacion"
           >
@@ -106,24 +108,20 @@ export default {
         try {
           const response = await axios.post(
             this.$axios.defaults.baseURL + `observaciones/`,
-            this.nuevaObservacion,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            }
+            this.nuevaObservacion
           )
           this.limpiarFormulario()
           this.mensajeAviso = 'Observación agregada correctamente'
           setTimeout(() => {
             this.mensajeAviso = ''
-          }, 4000)
+            window.location.reload()
+          }, 2100)
         } catch (error) {
           this.mensajeAviso = ''
           this.mensajeError = 'Error al agregar observación'
           setTimeout(() => {
             this.mensajeError = ''
-          }, 4000)
+          }, 3000)
         }
       }
     },
@@ -131,9 +129,6 @@ export default {
       if (this.nuevaObservacion.contenido.trim() === '') {
         this.mensajeError = 'El campo Observación es obligatorio'
         this.mensajeAviso = ''
-        setTimeout(() => {
-          this.mensajeError = ''
-        }, 3000)
         return false
       }
       return true
@@ -146,8 +141,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.col span {
-  font-weight: bold;
-}
-</style>

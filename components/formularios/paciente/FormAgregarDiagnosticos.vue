@@ -16,12 +16,17 @@
         <!--Primera columna - nombre paciente-->
         <div class="col">
           <p>
-            <strong>Paciente:</strong> {{ datosFormulario.nombres }}
-            {{ datosFormulario.apellido1 }} {{ datosFormulario.apellido2 }}
+            <strong
+              >Paciente: {{ datosFormulario.nombres }}
+              {{ datosFormulario.apellido1 }}
+              {{ datosFormulario.apellido2 }}</strong
+            >
           </p>
           <p>
-            <strong>Diagnósticos actuales del paciente: </strong
-            >{{ formatoDiagnosticos(datosFormulario.diagnosticos) }}
+            <strong
+              >Diagnósticos actuales del paciente:
+              {{ formatoDiagnosticos(datosFormulario.diagnosticos) }}</strong
+            >
           </p>
         </div>
       </div>
@@ -46,7 +51,7 @@
         <!--Primera columna - botones-->
         <div class="col text-center">
           <button
-            type="click"
+            type="button"
             class="btn btn-primary"
             @click="agregarDiagnosticos"
           >
@@ -150,14 +155,15 @@ export default {
           this.mensajeAviso = 'Diagnósticos agregados correctamente'
           setTimeout(() => {
             this.mensajeAviso = ''
-          }, 6000)
+            window.location.reload()
+          }, 2100)
         } catch (error) {
           console.log('Error al agregar diagnósticos:', error.response.data)
           this.mensajeAviso = ''
           this.mensajeError = 'Error al agregar diagnósticos'
           setTimeout(() => {
             this.mensajeError = ''
-          }, 6000)
+          }, 2100)
         }
       }
     },

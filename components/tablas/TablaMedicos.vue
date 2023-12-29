@@ -1,6 +1,8 @@
 <template>
   <div class="table-responsive">
-    <table class="table table-sm table-hover table-striped">
+    <table
+      class="table table-light table-sm table-striped table-bordered table-hover"
+    >
       <!--Cabecera de la tabla Médicos-->
       <thead>
         <tr>

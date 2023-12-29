@@ -65,8 +65,6 @@ export default {
   },
   methods: {
     async login() {
-      console.log('Usuario:', this.username)
-      console.log('Contraseña:', this.password)
       try {
         const response = await axios.post(
           this.$axios.defaults.baseURL + 'token/',
@@ -81,7 +79,6 @@ export default {
           )
           // Almacenar el objeto completo del gestor en localStorage
           localStorage.setItem('gestor', JSON.stringify(response2.data))
-          console.log('response2', response2)
         } catch (error) {
           // Terminar
           return

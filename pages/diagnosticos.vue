@@ -85,14 +85,14 @@
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/modales/Modal.vue'
 import TablaDiagnosticos from '@/components/tablas/TablaDiagnosticos.vue'
-import FormCrearDiagnostico from '@/components/formularios/crear/FormCrearDiagnostico.vue'
+import FormDiagnostico from '@/components/formularios/FormDiagnostico.vue'
 
 export default {
   components: {
     Navbar,
     Modal,
     TablaDiagnosticos,
-    FormCrearDiagnostico,
+    FormDiagnostico,
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
       mostrarModal: false,
       modalId: 'modalId',
       modalTitle: 'Añadir nuevo diagnóstico',
-      componenteFormulario: FormCrearDiagnostico,
+      componenteFormulario: FormDiagnostico,
     }
   },
   mounted() {

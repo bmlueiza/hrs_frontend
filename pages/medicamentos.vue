@@ -84,14 +84,14 @@
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/modales/Modal.vue'
 import TablaMedicamentos from '@/components/tablas/TablaMedicamentos.vue'
-import FormCrearMedicamento from '@/components/formularios/crear/FormCrearMedicamento.vue'
+import FormMedicamento from '@/components/formularios/FormMedicamento.vue'
 
 export default {
   components: {
     Navbar,
     Modal,
     TablaMedicamentos,
-    FormCrearMedicamento,
+    FormMedicamento,
   },
   data() {
     return {
@@ -103,7 +103,7 @@ export default {
       mostrarModal: false,
       modalId: 'modalId',
       modalTitle: 'Añadir nuevo medicamento',
-      componenteFormulario: FormCrearMedicamento,
+      componenteFormulario: FormMedicamento,
     }
   },
   mounted() {

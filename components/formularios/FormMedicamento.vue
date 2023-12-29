@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- Aviso de diagnostico agregado correctamente-->
+    <!-- Aviso de medicamento agregado correctamente-->
     <div class="avisos text-center">
       <div v-if="mensajeAviso" class="alert alert-success" role="alert">
         {{ mensajeAviso }}
       </div>
-      <!-- Aviso de error al agregar gestor -->
+      <!-- Aviso de error al agregar medicamento -->
       <div v-if="mensajeError" class="alert alert-danger" role="alert">
         {{ mensajeError }}
       </div>
     </div>
-    <form class="diagnostico">
+    <form class="formMedicamento">
       <!-- Primera fila -->
       <div class="row">
         <!-- Primera columna - nombre -->
@@ -23,29 +23,14 @@
               name="nombre"
               class="form-control"
               autocomplete="off"
-              v-model="nuevoDiagnostico.nombre"
+              v-model="nuevoMedicamento.nombre"
               maxlength="50"
               required
             />
           </div>
         </div>
-        <!-- Segunda columna - código-->
-        <div class="col">
-          <div class="form-outline">
-            <label class="form-label required" for="codigo">Código</label>
-            <input
-              type="text"
-              id="codigo"
-              name="codigo"
-              class="form-control"
-              autocomplete="off"
-              v-model="nuevoDiagnostico.codigo"
-              maxlength="10"
-              required
-            />
-          </div>
-        </div>
       </div>
+      <!-- Fin primera fila -->
       <!-- Segunda fila -->
       <div class="row">
         <!-- Primera columna - descripción -->
@@ -59,18 +44,20 @@
               class="form-control"
               placeholder="No obligatorio. Máximo 200 caracteres."
               autocomplete="off"
-              v-model="nuevoDiagnostico.descripcion"
+              v-model="nuevoMedicamento.descripcion"
               maxlength="200"
             ></textarea>
           </div>
         </div>
+        <!-- Fin primera columna -->
       </div>
+      <!-- Fin segunda fila -->
     </form>
     <div class="botones text-center">
-      <button type="submit" class="btn btn-primary" @click="agregarDiagnostico">
-        Añadir diagnostico
+      <button @click="agregarMedicamento" class="btn btn-primary" type="submit">
+        Agregar medicamento
       </button>
-      <button type="button" class="btn btn-primary" @click="limpiarFormulario">
+      <button @click="limpiarFormulario" class="btn btn-primary" type="button">
         Cancelar
       </button>
     </div>
@@ -81,61 +68,56 @@
 import axios from 'axios'
 
 export default {
-  name: 'FormCrearDiagnostico',
+  name: 'FormMedicamento',
   data() {
     return {
-      nuevoDiagnostico: {
+      nuevoMedicamento: {
         nombre: '',
-        codigo: '',
         descripcion: '',
       },
-      mensajeError: '',
       mensajeAviso: '',
+      mensajeError: '',
     }
   },
   methods: {
-    async agregarDiagnostico() {
+    async agregarMedicamento() {
       if (this.validarFormulario()) {
         try {
           const response = await axios.post(
-            this.$axios.defaults.baseURL + 'diagnosticos/',
-            this.nuevoDiagnostico,
+            this.$axios.defaults.baseURL + 'medicamentos/',
+            this.nuevoMedicamento,
             {
               headers: {
                 'Content-Type': 'application/json',
               },
             }
           )
+          console.log('Nuevo medicamento:', this.nuevoMedicamento)
           this.limpiarFormulario()
-          this.mensajeAviso = 'Diagnostico agregado correctamente.'
+          this.mensajeAviso = 'Medicamento agregado correctamente'
           setTimeout(() => {
             this.mensajeAviso = ''
-          }, 6000)
+          }, 3000)
         } catch (error) {
-          console.log('Error:', error.response.data)
+          console.log(error)
           this.mensajeError =
-            error.response.data.codigo[0] || 'Error al agregar diagnostico.'
+            error.response.data.codigo[0] || error.response.data.nombre[0]
           this.mensajeAviso = ''
         }
       }
     },
     validarFormulario() {
-      if (this.nuevoDiagnostico.nombre.trim() === '') {
-        this.mensajeError = 'Debe ingresar un nombre.'
-        return false
-      }
-      if (this.nuevoDiagnostico.codigo.trim() === '') {
-        this.mensajeError = 'Debe ingresar un código.'
+      if (this.nuevoMedicamento.nombre.trim() === '') {
+        this.mensajeError = 'El nombre es obligatorio'
         return false
       }
       return true
     },
-
     async limpiarFormulario() {
-      this.nuevoDiagnostico.nombre = ''
-      this.nuevoDiagnostico.codigo = ''
-      this.nuevoDiagnostico.descripcion = ''
-
+      this.nuevoMedicamento = {
+        nombre: '',
+        descripcion: '',
+      }
       this.mensajeError = ''
       this.mensajeAviso = ''
     },
@@ -145,11 +127,5 @@ export default {
 <style scoped>
 .row {
   margin-bottom: 10px;
-}
-.btn {
-  margin: 5px;
-}
-.form-label {
-  font-weight: bold;
 }
 </style>

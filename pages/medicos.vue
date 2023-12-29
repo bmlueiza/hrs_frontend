@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar por rut, nombre, apellido o especialidad"
+              placeholder="Buscar por rut, nombre o apellido"
               id="buscarMédico"
               v-model="terminoBusqueda"
               autocomplete="off"
@@ -126,7 +126,7 @@ export default {
     },
     async buscarMedicos() {
       this.$nextTick(() => {
-        this.$refs.tablaMedicos.buscarMedicos(this.terminoBusqueda)
+        this.$refs.tablaMedicos.actualizarTabla()
       })
     },
     actualizarTabla() {
@@ -138,7 +138,7 @@ export default {
     async limpiarBusqueda() {
       this.terminoBusqueda = ''
       this.$nextTick(() => {
-        this.$refs.tablaMedicos.actualizarTabla(this.terminoBusqueda)
+        this.$refs.tablaMedicos.actualizarTabla()
       })
     },
     async manejarInput() {

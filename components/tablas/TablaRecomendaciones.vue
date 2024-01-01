@@ -6,6 +6,7 @@
           <tr>
             <th>Recomendación</th>
             <th>Paciente</th>
+            <th>Tipo</th>
             <th>Motivo</th>
             <th>Fecha de la asignación</th>
           </tr>
@@ -14,6 +15,7 @@
           <tr v-for="recomendacion in recomendaciones" :key="recomendacion.id">
             <td>{{ recomendacion.accion_gestor }}</td>
             <td>{{ recomendacion.paciente }}</td>
+            <td>{{ recomendacion.tipo_motivo }}</td>
             <td>{{ recomendacion.motivo }}</td>
             <td>{{ recomendacion.fecha_asignacion }}</td>
           </tr>

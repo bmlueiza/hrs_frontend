@@ -132,13 +132,14 @@ export default {
             { headers: { 'Content-Type': 'application/json' } }
           )
           this.limpiarFormulario()
-          this.mensajeAviso = 'Medico agregado correctamente'
+          this.mensajeAviso = 'Médico agregado correctamente.'
           setTimeout(() => {
             this.mensajeAviso = ''
+            window.location.reload()
           }, 3000)
         } catch (error) {
           console.log(error)
-          this.mensajeError = 'Error al agregar medico'
+          this.mensajeError = 'Error al agregar médico.'
           this.mensajeAviso = ''
         }
       }
@@ -155,19 +156,19 @@ export default {
     },
     validarFormulario() {
       if (this.nuevoMedico.rut.trim() === '') {
-        this.mensajeError = 'Debe ingresar un RUT'
+        this.mensajeError = 'Debe ingresar un RUT.'
         return false
       }
-      if (this.nuevoMedico.especialidad.trim() === '') {
-        this.mensajeError = 'Debe ingresar una especialidad'
+      if (this.nuevoMedico.especialidad === '') {
+        this.mensajeError = 'Debe seleccionar una especialidad.'
         return false
       }
       if (this.nuevoMedico.nombre.trim() === '') {
-        this.mensajeError = 'Debe ingresar un nombre'
+        this.mensajeError = 'Debe ingresar un nombre.'
         return false
       }
       if (this.nuevoMedico.apellido.trim() === '') {
-        this.mensajeError = 'Debe ingresar un apellido'
+        this.mensajeError = 'Debe ingresar un apellido.'
         return false
       }
       return true

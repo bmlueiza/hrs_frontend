@@ -55,8 +55,8 @@
                 id="resultado_contacto"
                 required
               >
-                <option v-for="resultado in resultados" :value="resultado.id">
-                  {{ resultado.nombre }}
+                <option v-for="resultado in resultados" :value="resultado[0]">
+                  {{ resultado[1] }}
                 </option>
               </select>
             </div>
@@ -73,9 +73,12 @@
                 id="motivo"
                 required
               >
-                <option :value="3">Asignación</option>
-                <option :value="2">Medicamento</option>
-                <option :value="1">Diagnóstico</option>
+                <option
+                  v-for="tipoMotivo in tiposMotivos"
+                  :value="tipoMotivo[0]"
+                >
+                  {{ tipoMotivo[1] }}
+                </option>
               </select>
             </div>
             <!--Segunda columna - motivo-->
@@ -163,7 +166,7 @@ export default {
     return {
       acciones: [],
       resultados: [],
-      //Motivos
+      tiposMotivos: [],
       motivos: [],
       actividades_paciente: [],
       medicamentosPaciente: [],
@@ -280,6 +283,17 @@ export default {
           console.log('Error al obtener las acciones', error)
         })
     },
+    //Obtiene tipos de motivos
+    async getTiposMotivo() {
+      try {
+        const response = await axios.get(
+          this.$axios.defaults.baseURL + `historial_contactos/tipo_motivo/`
+        )
+        this.tiposMotivos = response.data
+      } catch (error) {
+        console.log('Error al obtener los tipos de motivos', error)
+      }
+    },
     //Obtiene todas las actividades médicas
     async getActividades() {
       axios
@@ -327,7 +341,10 @@ export default {
     //Obtiene los resultados de contacto
     async getResultados() {
       axios
-        .get(this.$axios.defaults.baseURL + 'resultados_contacto/')
+        .get(
+          this.$axios.defaults.baseURL +
+            'historial_contactos/resultado_contacto/'
+        )
         .then((response) => {
           this.resultados = response.data
         })
@@ -338,7 +355,7 @@ export default {
     //Cambia el tipo de motivo
     cambioTipoMotivo() {
       switch (this.nuevoContacto.tipo_motivo) {
-        case 3:
+        case 1:
           if (this.actividades_paciente.length === 0) {
             if (this.nuevoContacto.accion_gestor != 5) {
               this.motivos = this.all_actividades
@@ -372,7 +389,7 @@ export default {
             this.motivos = this.medicamentosPaciente
           }
           break
-        case 1:
+        case 3:
           if (this.diagnosticos_paciente.length === 0) {
             this.motivos = []
             this.mensajeError = ''
@@ -394,6 +411,7 @@ export default {
     this.getAcciones()
     this.getResultados()
     this.getActividades()
+    this.getTiposMotivo()
     this.getActividadesPaciente()
     this.getMedicamentosPaciente()
     this.cargarUsuario()

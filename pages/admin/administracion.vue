@@ -14,7 +14,7 @@
               <div class="box-header with-border">
                 <div class="row">
                   <div class="col-auto">
-                    <h4 class="box-title">Resultados de contacto</h4>
+                    <h4 class="box-title">Especialidades</h4>
                   </div>
                   <div class="col-auto ms-auto">
                     <button
@@ -24,18 +24,18 @@
                       :data-bs-target="`#${modalId}`"
                       @click="
                         abrirModal(
-                          'FormResultadoContacto',
-                          'Añadir resultado de contacto'
+                          'FormEspecialidad',
+                          'Añadir una especialidad'
                         )
                       "
                     >
-                      Añadir resultado
+                      Añadir una especialidad
                     </button>
                   </div>
                 </div>
               </div>
               <div class="box-body">
-                <TablaResultadosContacto class="max-table" />
+                <TablaEspecialidades class="max-table" />
               </div>
             </div>
           </div>
@@ -123,11 +123,11 @@
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/modales/Modal.vue'
 //Tablas
-import TablaResultadosContacto from '@/components/tablas/admin/TablaResultadosContacto.vue'
+import TablaEspecialidades from '@/components/tablas/admin/TablaEspecialidades.vue'
 import TablaAccionesGestor from '@/components/tablas/admin/TablaAccionesGestor.vue'
 import TablaActividadesMedicas from '@/components/tablas/admin/TablaActividadesMedicas.vue'
 //Formularios
-import FormResultadoContacto from '@/components/formularios/admin/FormResultadoContacto.vue'
+import FormEspecialidad from '@/components/formularios/admin/FormEspecialidad.vue'
 import FormAccionGestor from '@/components/formularios/admin/FormAccionGestor.vue'
 import FormActividadMedica from '@/components/formularios/admin/FormActividadMedica.vue'
 
@@ -135,10 +135,10 @@ export default {
   components: {
     Navbar,
     Modal,
-    TablaResultadosContacto,
+    TablaEspecialidades,
     TablaAccionesGestor,
     TablaActividadesMedicas,
-    FormResultadoContacto,
+    FormEspecialidad,
     FormAccionGestor,
     FormActividadMedica,
   },
@@ -146,14 +146,14 @@ export default {
     return {
       modalId: 'modalId',
       modalTitle: '',
-      currentComponent: null,
+      currentComponent: {},
     }
   },
   methods: {
     abrirModal(componente, titulo) {
       switch (componente) {
-        case 'FormResultadoContacto':
-          this.currentComponent = FormResultadoContacto
+        case 'FormEspecialidad':
+          this.currentComponent = FormEspecialidad
           break
         case 'FormAccionGestor':
           this.currentComponent = FormAccionGestor
@@ -171,16 +171,6 @@ export default {
 }
 </script>
 <style scoped>
-.container-fluid {
-  position: relative;
-  border-radius: 3px;
-  background: #dbe2ef;
-  border-top: 3px solid #d2d6de;
-  margin: 10px auto;
-  width: 100%;
-  padding: 20px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-}
 h1 {
   font-style: italic;
   border-bottom: 1px solid #ccc;

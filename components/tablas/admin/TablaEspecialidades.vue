@@ -3,19 +3,17 @@
     <table
       class="table table-light table-sm table-striped table-bordered table-hover"
     >
-      <!--Cabecera de la tabla Resultados de contacto-->
+      <!--Cabecera de la tabla Especialidadess médicas-->
       <thead>
         <tr>
           <th>ID</th>
           <th>Nombre</th>
-          <th>Descripción</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="resultado in resultados" :key="resultados.id">
-          <td>{{ resultado.id }}</td>
-          <td>{{ resultado.nombre }}</td>
-          <td>{{ resultado.descripcion }}</td>
+        <tr v-for="especialidad in especialidades" :key="especialidad.id">
+          <td>{{ especialidad.id }}</td>
+          <td>{{ especialidad.nombre }}</td>
         </tr>
       </tbody>
     </table>
@@ -24,17 +22,17 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'TablaResultadosContacto',
+  name: 'TablaEspecialidades',
   data() {
     return {
-      resultados: [],
+      especialidades: [],
     }
   },
   mounted() {
     axios
-      .get(this.$axios.defaults.baseURL + `resultados_contacto/`)
+      .get(this.$axios.defaults.baseURL + `especialidades_medicas/`)
       .then((response) => {
-        this.resultados = response.data
+        this.especialidades = response.data
       })
       .catch((error) => {
         console.log(error)

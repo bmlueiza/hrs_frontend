@@ -80,7 +80,8 @@ export default {
           // Almacenar el objeto completo del gestor en localStorage
           localStorage.setItem('gestor', JSON.stringify(response2.data))
         } catch (error) {
-          // Terminar
+          this.mensajeError =
+            'Error al verificar tus credenciales. Por favor, inténtalo de nuevo más tarde.'
           return
         }
         // Almacenar el token JWT en localStorage
@@ -89,16 +90,28 @@ export default {
         // Redireccionar a la página de recomendaciones si el inicio de sesión es exitoso
         this.$router.push('/recomendaciones')
       } catch (error) {
-        if (error.response.status === 401) {
-          // El servidor respondió con Unauthorized (401)
-          // Puedes mostrar un mensaje de error al usuario
+        if (error.response) {
+          // El servidor respondió con un código de estado
+          if (error.response.status === 401) {
+            // Credenciales incorrectas
+            this.mensajeError =
+              'Credenciales incorrectas. Por favor, inténtalo de nuevo.'
+          } else {
+            // Otros errores que pueden ser manejados según sea necesario
+            console.error('Error al iniciar sesión:', error)
+            this.mensajeError =
+              'Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.'
+          }
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió respuesta (puede ser un problema de red)
+          console.error('Error de red:', error.request)
           this.mensajeError =
-            'Credenciales incorrectas. Por favor, inténtalo de nuevo.'
+            'Error de conexión con el servidor. Por favor, verifica tu conexión a Internet e inténtalo de nuevo.'
         } else {
-          // Otros errores que pueden ser manejados según sea necesario
-          console.error('Error al iniciar sesión:', error)
+          // Otros errores
+          console.error('Error desconocido:', error.message)
           this.mensajeError =
-            'Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.'
+            'Error desconocido. Por favor, inténtalo de nuevo más tarde.'
         }
       }
     },

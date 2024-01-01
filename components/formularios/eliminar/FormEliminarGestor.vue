@@ -46,6 +46,7 @@ export default {
         this.mensajeAviso = 'Gestor eliminado correctamente'
         this.mensajeError = ''
         setTimeout(() => {
+          this.mensajeAviso = ''
           window.location.reload()
         }, 2000)
       } catch (error) {
@@ -53,9 +54,6 @@ export default {
         this.mensajeError = 'Error al eliminar el gestor'
       }
     },
-  },
-  mounted() {
-    console.log(this.datosFormulario)
   },
 }
 </script>

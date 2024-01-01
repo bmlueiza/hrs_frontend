@@ -1,5 +1,14 @@
 <template>
   <div class="FormAgregarMedicamento">
+    <div class="avisos text-center">
+      <div v-if="mensajeAviso" class="alert alert-success" role="alert">
+        {{ mensajeAviso }}
+      </div>
+      <!-- Aviso de error al agregar paciente -->
+      <div v-if="mensajeError" class="alert alert-danger" role="alert">
+        {{ mensajeError }}
+      </div>
+    </div>
     <form class="agregar-medicamento">
       <!--Primera fila-->
       <div class="row">
@@ -207,15 +216,6 @@
           >
             Cancelar
           </button>
-        </div>
-      </div>
-      <div class="avisos text-center">
-        <div v-if="mensajeAviso" class="alert alert-success" role="alert">
-          {{ mensajeAviso }}
-        </div>
-        <!-- Aviso de error al agregar paciente -->
-        <div v-if="mensajeError" class="alert alert-danger" role="alert">
-          {{ mensajeError }}
         </div>
       </div>
     </form>

@@ -174,11 +174,4 @@ export default {
   height: fit-content !important;
   align-self: center !important;
 }
-.container-fluid {
-  position: relative;
-  border-radius: 3px;
-  margin: 10px auto;
-  width: 100%;
-  padding: 20px;
-}
 </style>

@@ -34,8 +34,8 @@
         <!--Primera columna - nombre medicamento-->
         <div class="col">
           <p>
-            <strong>INFO: </strong>Si solo quieres actualizar el estado, no es
-            necesario que selecciones una fecha de próximo despacho.
+            <strong>INFO: </strong>Si solo quiere actualizar el estado, no es
+            necesario que seleccione una fecha de próximo despacho.
           </p>
         </div>
       </div>

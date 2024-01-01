@@ -38,7 +38,7 @@
           >
           <v-select
             name="posiblesDiagnosticos"
-            v-model="nuevosDiagnosticos"
+            v-model="nuevoDiagnostico"
             :options="this.posiblesDiagnosticos"
             label="codigo"
             placeholder="Buscar diagnóstico"
@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       posiblesDiagnosticos: [],
-      nuevosDiagnosticos: [],
+      nuevoDiagnostico: [],
 
       mensajeAviso: '',
       mensajeError: '',
@@ -100,7 +100,8 @@ export default {
     },
     //Limpiar formulario
     limpiarFormulario() {
-      this.nuevosDiagnosticos = []
+      console.log('Diagnostico cancelado', this.nuevoDiagnostico)
+      this.nuevoDiagnostico = []
       if (this.posiblesDiagnosticos.length > 0) {
         this.mensajeAviso = ''
       }
@@ -108,7 +109,7 @@ export default {
     },
     //Validar formulario
     validarFormulario() {
-      if (this.nuevosDiagnosticos.length === 0) {
+      if (this.nuevoDiagnostico.length === 0) {
         this.mensajeError = 'Debe seleccionar al menos un diagnóstico'
         return false
       }
@@ -136,23 +137,21 @@ export default {
     },
     //Agregar diagnostico al paciente
     async agregarDiagnosticos() {
+      console.log('Diagnósticos a agregar:', this.nuevoDiagnostico.id)
       if (this.validarFormulario()) {
-        this.nuevosDiagnosticos = this.nuevosDiagnosticos.map(
-          (diagnostico) => diagnostico.id
-        )
         try {
           const response = await axios.put(
             this.$axios.defaults.baseURL +
-              `pacientes/${this.datosFormulario.id}/agregar-diagnosticos/`,
+              `pacientes/${this.datosFormulario.id}/agregar_diagnostico/`,
             {
               headers: {
                 'Content-Type': 'application/json',
               },
-              diagnosticos: this.nuevosDiagnosticos,
+              diagnostico: this.nuevoDiagnostico.id,
             }
           )
           this.limpiarFormulario()
-          this.mensajeAviso = 'Diagnósticos agregados correctamente'
+          this.mensajeAviso = 'Diagnóstico agregado correctamente'
           setTimeout(() => {
             this.mensajeAviso = ''
             window.location.reload()
@@ -160,7 +159,7 @@ export default {
         } catch (error) {
           console.log('Error al agregar diagnósticos:', error.response.data)
           this.mensajeAviso = ''
-          this.mensajeError = 'Error al agregar diagnósticos'
+          this.mensajeError = 'Error al agregar diagnóstico'
           setTimeout(() => {
             this.mensajeError = ''
           }, 2100)

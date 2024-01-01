@@ -8,7 +8,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el rut, nombre o apellido"
+              placeholder="Ingrese el RUT, username, nombre o apellido"
               id="buscarGestor"
               autocomplete="off"
               v-model="terminoBusqueda"

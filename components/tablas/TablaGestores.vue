@@ -6,7 +6,7 @@
       <!--Cabecera de la tabla Gestores-->
       <thead>
         <tr>
-          <th>Usuario</th>
+          <th>Username</th>
           <th>RUT</th>
           <th>Nombre</th>
           <th>Apellido</th>

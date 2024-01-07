@@ -44,7 +44,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: ['@nuxtjs/pwa'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -72,9 +72,21 @@ export default {
       background_color: '#3f72af',
       start_url: '/',
     },
-    //workbox: {
-    //  dev: true, // Modo de desarrollo, establecer a false en producción
-    //},
+    workbox: {
+      offline: true,
+      dev: false, // Modo de desarrollo, establecer a false en producción
+      runtimeCaching: [
+        {
+          urlPattern: 'assets/global.css',
+          handler: 'StaleWhileRevalidate',
+          method: 'GET',
+        },
+        {
+          urlPattern: 'http://localhost:8000/hrsapp/api/*',
+          handler: 'StaleWhileRevalidate',
+        },
+      ],
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
